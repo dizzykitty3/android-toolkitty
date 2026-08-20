@@ -3,6 +3,7 @@ package me.dizzykitty3.androidtoolkitty.utils
 import android.Manifest
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.Activity
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.pm.PackageManager
@@ -16,7 +17,8 @@ object NotificationUtil {
     private const val CHANNEL_ID = "test_channel"
     private var count = 1
 
-    fun createNotificationChannel(context: Context) {
+    fun createNotificationChannel(activity: Activity) {
+        val context = activity.applicationContext
         if (OSVersion.android8()) {
             val name = "channel_name"
             val descriptionText = "channel_description"
@@ -30,7 +32,7 @@ object NotificationUtil {
         }
 
         if (context.noNotificationPermission()) {
-            context.requestNotificationPermission()
+            activity.requestNotificationPermission()
         }
     }
 

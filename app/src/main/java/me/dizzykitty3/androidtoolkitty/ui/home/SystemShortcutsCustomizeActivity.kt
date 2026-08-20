@@ -171,8 +171,9 @@ private fun SystemShortcutsPinOptionsComposable() {
             }
 
             if (show) {
+                val settingText = settingTextMap[setting] ?: return@forEach
                 CustomHideCardSettingSwitch(
-                    text = settingTextMap[setting]!!,
+                    text = settingText,
                     isChecked = state.cardShownStates[setting] ?: true
                 ) { newState ->
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

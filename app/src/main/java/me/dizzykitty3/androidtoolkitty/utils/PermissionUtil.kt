@@ -18,12 +18,8 @@ object PermissionUtil {
     private fun Context.check(permission: String): Boolean =
         ActivityCompat.checkSelfPermission(this, permission) != GRANTED
 
-    /**
-     * Remember to use Activity Context to check/request permissions.
-     * DO NOT use AppContext.request(_) which will cause a ClassCastException.
-     */
-    private fun Context.request(permission: Array<String>) =
-        ActivityCompat.requestPermissions(this as Activity, permission, 1)
+    private fun Activity.request(permission: Array<String>) =
+        ActivityCompat.requestPermissions(this, permission, 1)
 
     /**
      * @return true if the app does NOT have Bluetooth permissions, false otherwise.
@@ -36,7 +32,7 @@ object PermissionUtil {
             this.check(BT) || this.check(BT_ADMIN)
         }
 
-    fun Context.requestBluetoothPermission() =
+    fun Activity.requestBluetoothPermission() =
         this.request(
             if (OSVersion.android12()) {
                 arrayOf(BT_CONNECT)
@@ -52,6 +48,6 @@ object PermissionUtil {
     fun Context.noNotificationPermission(): Boolean =
         this.check(POST_NOTIFICATIONS)
 
-    fun Context.requestNotificationPermission() =
+    fun Activity.requestNotificationPermission() =
         this.request(arrayOf(POST_NOTIFICATIONS))
 }

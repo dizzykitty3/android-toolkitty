@@ -62,15 +62,16 @@ fun BluetoothDevice() {
         if ((OSVersion.android12() && btPermissionState.status.isGranted) || (!OSVersion.android12() && legacyBTPermissionState.allPermissionsGranted)) {
             OutlinedButton(onClick = {
                 // Get system service
-                bluetoothAdapter = view.context.bluetoothAdapter()
-                if (bluetoothAdapter == null) {
+                val adapter = view.context.bluetoothAdapter()
+                if (adapter == null) {
                     view.showSnackbar(R.string.no_bluetooth_adapter_available)
                     return@OutlinedButton
                 }
+                bluetoothAdapter = adapter
 
                 // Show current device name, paired devices' name and MAC address
-                if (bluetoothAdapter!!.isEnabled) {
-                    pairedDevices = bluetoothAdapter!!.bondedDevices.sortedBy { it.name }
+                if (adapter.isEnabled) {
+                    pairedDevices = adapter.bondedDevices.sortedBy { it.name }
                     size = pairedDevices.size
                     showResult = true
                     return@OutlinedButton

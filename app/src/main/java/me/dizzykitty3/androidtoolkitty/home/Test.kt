@@ -17,7 +17,7 @@ fun Test() {
         val view = LocalView.current
         val activity = LocalActivity.current
         Button(
-            onClick = { NotificationUtil.createNotificationChannel(view.context) }
+            onClick = { activity?.let(NotificationUtil::createNotificationChannel) }
         ) {
             Text("create notification channel")
         }
