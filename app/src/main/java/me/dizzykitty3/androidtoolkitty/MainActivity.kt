@@ -65,29 +65,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.window.core.layout.WindowSizeClass
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
-import me.dizzykitty3.androidtoolkitty.home.Clipboard
-import me.dizzykitty3.androidtoolkitty.home.CodesOfCharacters
-import me.dizzykitty3.androidtoolkitty.home.ComposeCatalog
-import me.dizzykitty3.androidtoolkitty.home.FontWeight
 import me.dizzykitty3.androidtoolkitty.home.Greeting
-import me.dizzykitty3.androidtoolkitty.home.HapticFeedback
-import me.dizzykitty3.androidtoolkitty.home.Maps
-import me.dizzykitty3.androidtoolkitty.home.Search
-import me.dizzykitty3.androidtoolkitty.home.SysSettings
 import me.dizzykitty3.androidtoolkitty.home.Test
-import me.dizzykitty3.androidtoolkitty.home.Volume
-import me.dizzykitty3.androidtoolkitty.home.WheelOfFortune
-import me.dizzykitty3.androidtoolkitty.home.YearProgress
+import me.dizzykitty3.androidtoolkitty.home.visibleHomeCards
 import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsActivity
@@ -113,6 +102,7 @@ import kotlin.coroutines.resume
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var continuation: Continuation<Unit>? = null
+    private var clipboardClearJob: Job? = null
     private var continuationNotResumed = AtomicBoolean(true)
     private var isAutoClearClipboard = false
 
@@ -164,7 +154,8 @@ class MainActivity : ComponentActivity() {
         super.onStart()
         Timber.d("onStart")
         continuationNotResumed.set(true)
-        CoroutineScope(Dispatchers.Main).launch {
+        clipboardClearJob?.cancel()
+        clipboardClearJob = lifecycleScope.launch {
             suspendCancellableCoroutine { cont ->
                 continuation = cont
             }
@@ -206,6 +197,9 @@ class MainActivity : ComponentActivity() {
     override fun onStop() {
         super.onStop()
         Timber.d("onStop")
+        clipboardClearJob?.cancel()
+        clipboardClearJob = null
+        continuation = null
     }
 
     override fun onDestroy() {
@@ -467,9 +461,9 @@ private fun NetworkStateIcon(imageVector: ImageVector, @StringRes text: Int) {
 
 @Composable
 private fun HomeCards(viewModel: SettingsViewModel) {
-    val cardMap = getCardMap(viewModel)
-    cardMap.forEach { cardName ->
-        CardContent(cardName)
+    val state by viewModel.settingsState.collectAsStateWithLifecycle()
+    state.visibleHomeCards().forEach { card ->
+        card.content()
     }
 }
 
@@ -477,52 +471,16 @@ private fun HomeCards(viewModel: SettingsViewModel) {
 private fun TwoColumnHomeCards(viewModel: SettingsViewModel) {
     val cardPadding = dimensionResource(R.dimen.padding_card_space)
     val largeCardPadding = dimensionResource(R.dimen.padding_card_space_large)
-    val cardMap = getCardMap(viewModel)
+    val state by viewModel.settingsState.collectAsStateWithLifecycle()
+    val cards = state.visibleHomeCards()
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         modifier = Modifier.padding(bottom = SettingsSharedPref.bottomPaddingDp.dp),
         verticalItemSpacing = cardPadding,
         horizontalArrangement = Arrangement.spacedBy(largeCardPadding),
     ) {
-        items(cardMap) { cardName ->
-            CardContent(cardName)
+        items(cards, key = { it.id }) { card ->
+            card.content()
         }
-    }
-}
-
-@Composable
-private fun getCardMap(viewModel: SettingsViewModel): List<String> {
-    val state by viewModel.settingsState.collectAsStateWithLifecycle()
-    return listOf(
-        CARD_1,
-        CARD_2,
-        CARD_3,
-        CARD_4,
-        CARD_5,
-        CARD_6,
-        CARD_7,
-        CARD_8,
-        CARD_9,
-        CARD_10,
-        CARD_11,
-        CARD_12
-    ).filter { card -> state.cardShownStates[card] ?: true }
-}
-
-@Composable
-private fun CardContent(cardName: String) {
-    when (cardName) {
-        CARD_1 -> YearProgress()
-        CARD_2 -> Volume()
-        CARD_3 -> Clipboard()
-        CARD_4 -> Search()
-        CARD_5 -> SysSettings()
-        CARD_6 -> WheelOfFortune()
-        CARD_7 -> BluetoothDevice()
-        CARD_8 -> CodesOfCharacters()
-        CARD_9 -> Maps()
-        CARD_10 -> FontWeight()
-        CARD_11 -> ComposeCatalog()
-        CARD_12 -> HapticFeedback()
     }
 }

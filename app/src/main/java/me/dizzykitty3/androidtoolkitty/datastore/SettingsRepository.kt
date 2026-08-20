@@ -32,10 +32,17 @@ class SettingsRepository @Inject constructor(
     }
 
     val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
-        val allPrefs = preferences.asMap()
-        val cardShownStates = allPrefs.filterKeys {
-            it.name.startsWith("card_") || it.name.startsWith("setting_")
-        }.mapKeys { it.key.name }.mapValues { it.value as Boolean }
+        val cardShownStates = preferences.asMap()
+            .mapNotNull { (key, value) ->
+                if ((key.name.startsWith("card_") || key.name.startsWith("setting_")) &&
+                    value is Boolean
+                ) {
+                    key.name to value
+                } else {
+                    null
+                }
+            }
+            .toMap()
 
         UserSettings(
             dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: true,
