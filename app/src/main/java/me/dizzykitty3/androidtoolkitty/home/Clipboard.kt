@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.ClipboardUtil
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import timber.log.Timber
 
@@ -43,7 +43,7 @@ fun Clipboard() {
 }
 
 private fun View.onClearClipboardButton() {
-    val cleared = ClipboardUtil.clear()
+    val cleared = context.clearClipboard()
     Timber.i("Clipboard cleared")
     this.showSnackbar(if (cleared) R.string.clipboard_cleared else R.string.clipboard_is_empty)
 }

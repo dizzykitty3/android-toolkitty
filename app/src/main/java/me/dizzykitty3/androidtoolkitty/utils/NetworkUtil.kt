@@ -6,35 +6,36 @@ import android.net.ConnectivityManager.TYPE_MOBILE
 import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
 import androidx.annotation.CheckResult
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
-
 object NetworkUtil {
-    private const val STATE_CODE_UNKNOWN = 0
+    const val STATE_CODE_UNKNOWN = 0
     const val STATE_CODE_WIFI = 1
     const val STATE_CODE_MOBILE = 2
     const val STATE_CODE_OFFLINE = 3
-    private var connectivityManager =
-        appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+}
 
-    @CheckResult
-    fun networkState(): Int {
-        if (!OSVersion.android6()) {
-            val activeNetwork = connectivityManager.activeNetworkInfo ?: return STATE_CODE_OFFLINE
-            return when (activeNetwork.type) {
-                TYPE_WIFI -> STATE_CODE_WIFI
-                TYPE_MOBILE -> STATE_CODE_MOBILE
-                else -> STATE_CODE_UNKNOWN
-            }
+@CheckResult
+fun Context.networkState(): Int {
+    val connectivityManager =
+        getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    if (!OSVersion.android6()) {
+        val activeNetwork = connectivityManager.activeNetworkInfo
+            ?: return NetworkUtil.STATE_CODE_OFFLINE
+        return when (activeNetwork.type) {
+                TYPE_WIFI -> NetworkUtil.STATE_CODE_WIFI
+                TYPE_MOBILE -> NetworkUtil.STATE_CODE_MOBILE
+            else -> NetworkUtil.STATE_CODE_UNKNOWN
         }
+    }
 
-        val activeNetwork = connectivityManager.activeNetwork ?: return STATE_CODE_OFFLINE
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(activeNetwork) ?: return STATE_CODE_UNKNOWN
+    val activeNetwork = connectivityManager.activeNetwork
+        ?: return NetworkUtil.STATE_CODE_OFFLINE
+    val capabilities =
+        connectivityManager.getNetworkCapabilities(activeNetwork)
+            ?: return NetworkUtil.STATE_CODE_UNKNOWN
 
-        return when {
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> STATE_CODE_WIFI
-            capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> STATE_CODE_MOBILE
-            else -> STATE_CODE_UNKNOWN
-        }
+    return when {
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> NetworkUtil.STATE_CODE_WIFI
+        capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> NetworkUtil.STATE_CODE_MOBILE
+        else -> NetworkUtil.STATE_CODE_UNKNOWN
     }
 }

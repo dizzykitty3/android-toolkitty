@@ -10,7 +10,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import me.dizzykitty3.androidtoolkitty.ui.home.HomeScreen
-import me.dizzykitty3.androidtoolkitty.utils.ClipboardUtil
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
@@ -42,7 +42,7 @@ class MainActivity : ComponentActivity() {
             suspendCancellableCoroutine { cont ->
                 continuation = cont
             }
-            if (isAutoClearClipboard && ClipboardUtil.clear()) {
+            if (isAutoClearClipboard && clearClipboard()) {
                 window.decorView.showSnackbar(R.string.clipboard_cleared_automatically)
                 Timber.i("Clipboard cleared automatically")
             }

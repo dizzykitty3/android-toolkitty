@@ -44,23 +44,24 @@ import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.BatteryUtil
+import me.dizzykitty3.androidtoolkitty.utils.batteryLevel
 import me.dizzykitty3.androidtoolkitty.utils.BluetoothUtil.headsetNotConnected
 import me.dizzykitty3.androidtoolkitty.utils.BluetoothUtil.isHeadsetConnected
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
+import me.dizzykitty3.androidtoolkitty.utils.networkState
 import timber.log.Timber
 
 @Composable
 fun HomeStatusBar(isTablet: Boolean = false) {
     val context = LocalContext.current
-    var batteryLevel by remember { mutableIntStateOf(BatteryUtil.batteryLevel()) }
+    var batteryLevel by remember { mutableIntStateOf(context.batteryLevel()) }
 
     LaunchedEffect(Unit) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                batteryLevel = BatteryUtil.batteryLevel()
+                batteryLevel = context.batteryLevel()
             }
         }
         context.registerReceiver(receiver, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
@@ -134,7 +135,7 @@ fun HomeStatusBar(isTablet: Boolean = false) {
 @Composable
 private fun NetworkState() {
     val context = LocalContext.current
-    var networkState by remember { mutableIntStateOf(NetworkUtil.networkState()) }
+    var networkState by remember { mutableIntStateOf(context.networkState()) }
 
     LaunchedEffect(Unit) {
         if (OSVersion.android7()) {
@@ -143,7 +144,7 @@ private fun NetworkState() {
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     Timber.d("Network onAvailable: $network")
-                    networkState = NetworkUtil.networkState()
+                    networkState = context.networkState()
                 }
 
                 override fun onLost(network: Network) {
@@ -156,7 +157,7 @@ private fun NetworkState() {
                     networkCapabilities: NetworkCapabilities
                 ) {
                     Timber.d("Network onCapabilitiesChanged: $network")
-                    networkState = NetworkUtil.networkState()
+                    networkState = context.networkState()
                 }
             }
             connectivityManager.registerDefaultNetworkCallback(callback)
@@ -168,7 +169,7 @@ private fun NetworkState() {
         } else {
             val receiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
-                    networkState = NetworkUtil.networkState()
+                    networkState = context.networkState()
                 }
             }
             context.registerReceiver(

@@ -28,7 +28,7 @@ import me.dizzykitty3.androidtoolkitty.ui.home.CodesOfCharactersActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.utils.ClipboardUtil
+import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil
@@ -143,7 +143,7 @@ private fun View.onClickConvertButton(
         else StringUtil.characterToUnicode(input)
 
         updateResult(result)
-        ClipboardUtil.copy(result)
+        context.copyToClipboard(result)
         this.showSnackbar("$result ${context.getString(R.string.copied)}")
     } catch (e: Exception) {
         e.message?.let { this.showSnackbar(it) }

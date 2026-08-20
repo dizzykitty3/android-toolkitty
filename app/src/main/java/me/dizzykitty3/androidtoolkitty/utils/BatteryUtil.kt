@@ -2,12 +2,11 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.Context
 import android.os.BatteryManager
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 
-object BatteryUtil {
-    fun batteryLevel(): Int {
-        val batteryIntent = appContext.registerReceiver(
+fun Context.batteryLevel(): Int {
+        val batteryIntent = registerReceiver(
             null,
             IntentFilter(Intent.ACTION_BATTERY_CHANGED)
         )
@@ -17,5 +16,4 @@ object BatteryUtil {
         if (level == -1 || scale == -1) return -1
 
         return (level.toFloat() / scale.toFloat() * 100).toInt()
-    }
 }

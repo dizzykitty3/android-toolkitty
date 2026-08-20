@@ -4,7 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.ClipboardUtil
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import timber.log.Timber
 
 class ClearClipboardActivity : Activity() {
@@ -18,7 +18,7 @@ class ClearClipboardActivity : Activity() {
         Timber.d("onWindowFocusChanged")
         if (hasFocus) {
             Timber.d("hasFocus")
-            if (ClipboardUtil.clear()) {
+            if (clearClipboard()) {
                 Timber.i("clipboard cleared")
                 toast(getString(R.string.clipboard_cleared))
             } else {
