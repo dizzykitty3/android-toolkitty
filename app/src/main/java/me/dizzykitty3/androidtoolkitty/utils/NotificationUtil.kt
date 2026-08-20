@@ -9,7 +9,6 @@ import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.noNotificationPermission
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.requestNotificationPermission
 
@@ -26,7 +25,7 @@ object NotificationUtil {
                 description = descriptionText
             }
             val notificationManager: NotificationManager =
-                appContext.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
 
@@ -35,14 +34,14 @@ object NotificationUtil {
         }
     }
 
-    fun sendNotification() {
-        val builder = NotificationCompat.Builder(appContext, CHANNEL_ID)
+    fun sendNotification(context: Context) {
+        val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle("text_title_$count")
             .setContentText("text_content_$count").setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
-        with(NotificationManagerCompat.from(appContext)) {
+        with(NotificationManagerCompat.from(context)) {
             if (ActivityCompat.checkSelfPermission(
-                    appContext, Manifest.permission.POST_NOTIFICATIONS
+                    context, Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
                 return@with
