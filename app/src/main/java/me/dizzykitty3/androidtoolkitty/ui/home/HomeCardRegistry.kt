@@ -1,9 +1,21 @@
-package me.dizzykitty3.androidtoolkitty.home
+package me.dizzykitty3.androidtoolkitty.ui.home
 
-import androidx.compose.runtime.Composable
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
+import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
+import me.dizzykitty3.androidtoolkitty.home.Clipboard
+import me.dizzykitty3.androidtoolkitty.home.CodesOfCharacters
+import me.dizzykitty3.androidtoolkitty.home.ComposeCatalog
+import me.dizzykitty3.androidtoolkitty.home.FontWeight
+import me.dizzykitty3.androidtoolkitty.home.HapticFeedback
+import me.dizzykitty3.androidtoolkitty.home.Maps
+import me.dizzykitty3.androidtoolkitty.home.Search
+import me.dizzykitty3.androidtoolkitty.home.SysSettings
+import me.dizzykitty3.androidtoolkitty.home.Volume
+import me.dizzykitty3.androidtoolkitty.home.WheelOfFortune
+import me.dizzykitty3.androidtoolkitty.home.YearProgress
 
 /**
  * The single source of truth for the cards shown on the home screen.

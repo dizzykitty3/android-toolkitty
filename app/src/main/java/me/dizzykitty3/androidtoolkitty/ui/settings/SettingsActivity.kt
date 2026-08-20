@@ -57,7 +57,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.SOURCE_CODE_URL
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.HomeCardId
+import me.dizzykitty3.androidtoolkitty.ui.home.HomeCardId
 import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard

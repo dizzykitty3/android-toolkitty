@@ -10,7 +10,6 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.visibleHomeCards
 
 @Composable
 fun HomeCards(viewModel: SettingsViewModel) {

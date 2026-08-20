@@ -32,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.homeCardDefinitions
+import me.dizzykitty3.androidtoolkitty.ui.home.homeCardDefinitions
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
