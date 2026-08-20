@@ -62,7 +62,6 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -77,7 +76,6 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Greeting
 import me.dizzykitty3.androidtoolkitty.home.Test
 import me.dizzykitty3.androidtoolkitty.home.visibleHomeCards
-import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BottomPadding
@@ -124,9 +122,6 @@ class MainActivity : ComponentActivity() {
                         containerColor = MaterialTheme.colorScheme.surfaceContainer,
                         contentColor = MaterialTheme.colorScheme.surfaceContainer,
                     ) { innerPadding ->
-                        SettingsSharedPref.topPaddingDp = innerPadding.calculateTopPadding().value
-                        SettingsSharedPref.bottomPaddingDp =
-                            innerPadding.calculateBottomPadding().value
                         Box(
                             Modifier
                                 .fillMaxSize()
@@ -475,7 +470,6 @@ private fun TwoColumnHomeCards(viewModel: SettingsViewModel) {
     val cards = state.visibleHomeCards()
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
-        modifier = Modifier.padding(bottom = SettingsSharedPref.bottomPaddingDp.dp),
         verticalItemSpacing = cardPadding,
         horizontalArrangement = Arrangement.spacedBy(largeCardPadding),
     ) {

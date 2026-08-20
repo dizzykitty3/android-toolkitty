@@ -24,10 +24,8 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
 
 @Composable
 fun Screen(
@@ -97,8 +95,9 @@ fun LicenseScreen(
         ) {
             TopPadding()
             TopBar(screenTitle)
-            Column(Modifier.padding(bottom = SettingsSharedPref.bottomPaddingDp.dp)) {
+            Column {
                 content()
+                BottomPadding()
             }
         }
     }

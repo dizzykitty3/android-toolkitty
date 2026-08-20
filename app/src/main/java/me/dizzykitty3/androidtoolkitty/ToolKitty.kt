@@ -3,7 +3,7 @@ package me.dizzykitty3.androidtoolkitty
 import android.app.Application
 import android.content.Context
 import dagger.hilt.android.HiltAndroidApp
-import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
+import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import timber.log.Timber
 
 @HiltAndroidApp
@@ -15,7 +15,7 @@ class ToolKitty : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
-        if (BuildConfig.DEBUG || SettingsSharedPref.isLoggingEnabled) {
+        if (BuildConfig.DEBUG || LoggingPreferences.isEnabled) {
             Timber.plant(Timber.DebugTree())
         }
         Timber.d("onCreate")

@@ -58,7 +58,7 @@ import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.HomeCardId
-import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
+import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
@@ -234,8 +234,7 @@ private fun General() {
 private fun OtherSettings() {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
-    val settingsSharedPref = remember { SettingsSharedPref }
-    var isLoggingEnabled by remember { mutableStateOf(settingsSharedPref.isLoggingEnabled) }
+    var isLoggingEnabled by remember { mutableStateOf(LoggingPreferences.isEnabled) }
 
     Surface(
         shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
@@ -275,7 +274,7 @@ private fun OtherSettings() {
         ) {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             isLoggingEnabled = it
-            settingsSharedPref.isLoggingEnabled = it
+            LoggingPreferences.isEnabled = it
             if (it) {
                 Timber.plant(Timber.DebugTree())
             } else {
