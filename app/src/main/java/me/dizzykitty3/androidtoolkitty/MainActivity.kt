@@ -15,7 +15,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,9 +24,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -75,9 +71,10 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Greeting
 import me.dizzykitty3.androidtoolkitty.home.Test
-import me.dizzykitty3.androidtoolkitty.home.visibleHomeCards
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsActivity
+import me.dizzykitty3.androidtoolkitty.ui.home.HomeCards
+import me.dizzykitty3.androidtoolkitty.ui.home.TwoColumnHomeCards
 import me.dizzykitty3.androidtoolkitty.uicomponents.BottomPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.DevBuildTip
@@ -450,31 +447,6 @@ private fun NetworkStateIcon(imageVector: ImageVector, @StringRes text: Int) {
             Text(
                 stringResource(text), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
             )
-        }
-    }
-}
-
-@Composable
-private fun HomeCards(viewModel: SettingsViewModel) {
-    val state by viewModel.settingsState.collectAsStateWithLifecycle()
-    state.visibleHomeCards().forEach { card ->
-        card.content()
-    }
-}
-
-@Composable
-private fun TwoColumnHomeCards(viewModel: SettingsViewModel) {
-    val cardPadding = dimensionResource(R.dimen.padding_card_space)
-    val largeCardPadding = dimensionResource(R.dimen.padding_card_space_large)
-    val state by viewModel.settingsState.collectAsStateWithLifecycle()
-    val cards = state.visibleHomeCards()
-    LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
-        verticalItemSpacing = cardPadding,
-        horizontalArrangement = Arrangement.spacedBy(largeCardPadding),
-    ) {
-        items(cards, key = { it.id }) { card ->
-            card.content()
         }
     }
 }
