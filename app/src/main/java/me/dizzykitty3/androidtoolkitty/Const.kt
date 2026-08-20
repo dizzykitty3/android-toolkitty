@@ -3,20 +3,6 @@ package me.dizzykitty3.androidtoolkitty
 import android.Manifest
 import android.content.pm.PackageManager
 
-// App cards
-const val CARD_1 = "card_year_progress"
-const val CARD_2 = "card_volume"
-const val CARD_3 = "card_clipboard"
-const val CARD_4 = "card_webpage"
-const val CARD_5 = "card_sys_setting"
-const val CARD_6 = "card_wheel_of_fortune"
-const val CARD_7 = "card_bluetooth_device"
-const val CARD_8 = "card_unicode"
-const val CARD_9 = "card_google_maps"
-const val CARD_10 = "card_font_weight"
-const val CARD_11 = "card_compose_catalog"
-const val CARD_12 = "card_haptic_feedback"
-
 // Android intents
 const val S_DISPLAY = "setting_display"
 const val S_AUTO_ROTATE = "setting_auto_rotate"

@@ -52,12 +52,12 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.BuildConfig
-import me.dizzykitty3.androidtoolkitty.CARD_4
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.SOURCE_CODE_URL
 import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.home.HomeCardId
 import me.dizzykitty3.androidtoolkitty.sharedpreferences.SettingsSharedPref
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
@@ -172,7 +172,7 @@ private fun General() {
     val viewModel = LocalSettingsViewModel.current
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
-    val showSearchCard = state.cardShownStates[CARD_4] ?: true
+    val showSearchCard = state.cardShownStates[HomeCardId.SEARCH.key] ?: true
 
     CustomSwitchRow(
         icon = Icons.Outlined.ClearAll,

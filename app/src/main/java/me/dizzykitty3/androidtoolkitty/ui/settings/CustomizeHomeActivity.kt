@@ -29,21 +29,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import me.dizzykitty3.androidtoolkitty.CARD_1
-import me.dizzykitty3.androidtoolkitty.CARD_10
-import me.dizzykitty3.androidtoolkitty.CARD_11
-import me.dizzykitty3.androidtoolkitty.CARD_12
-import me.dizzykitty3.androidtoolkitty.CARD_2
-import me.dizzykitty3.androidtoolkitty.CARD_3
-import me.dizzykitty3.androidtoolkitty.CARD_4
-import me.dizzykitty3.androidtoolkitty.CARD_5
-import me.dizzykitty3.androidtoolkitty.CARD_6
-import me.dizzykitty3.androidtoolkitty.CARD_7
-import me.dizzykitty3.androidtoolkitty.CARD_8
-import me.dizzykitty3.androidtoolkitty.CARD_9
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.home.homeCardDefinitions
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
@@ -93,33 +82,13 @@ private fun CustomizeHomeComposable() {
     BaseCard(R.string.customize_home) {
         val haptic = LocalHapticFeedback.current
 
-        val cardList = listOf(
-            CARD_1, CARD_2, CARD_3, CARD_4, CARD_5, CARD_6,
-            CARD_7, CARD_8, CARD_9, CARD_10, CARD_11, CARD_12
-        )
-
-        val cardTextMap = mapOf(
-            CARD_1 to R.string.year_progress,
-            CARD_2 to R.string.volume,
-            CARD_3 to R.string.clipboard,
-            CARD_4 to R.string.search,
-            CARD_5 to R.string.system_shortcuts,
-            CARD_6 to R.string.wheel_of_fortune,
-            CARD_7 to R.string.bluetooth_devices,
-            CARD_8 to R.string.codes_of_characters,
-            CARD_9 to R.string.maps,
-            CARD_10 to R.string.font_weight_test,
-            CARD_11 to R.string.compose,
-            CARD_12 to R.string.haptic_test
-        )
-
-        cardList.forEach { card ->
+        homeCardDefinitions.forEach { card ->
             CustomHideCardSettingSwitch(
-                text = cardTextMap[card]!!,
-                isChecked = state.cardShownStates[card] ?: true
+                text = card.id.title,
+                isChecked = state.cardShownStates[card.id.key] ?: true
             ) { newState ->
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                vm.saveShownState(card, newState)
+                vm.saveShownState(card.id.key, newState)
             }
         }
 
@@ -128,7 +97,7 @@ private fun CustomizeHomeComposable() {
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                cardList.forEach { card -> vm.saveShownState(card, false) }
+                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.key, false) }
             }
         ) {
             Icon(
@@ -143,7 +112,7 @@ private fun CustomizeHomeComposable() {
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                cardList.forEach { card -> vm.saveShownState(card, true) }
+                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.key, true) }
             }
         ) {
             Icon(
