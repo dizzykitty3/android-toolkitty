@@ -43,7 +43,6 @@ import me.dizzykitty3.androidtoolkitty.S_UNKNOWN_APPS
 import me.dizzykitty3.androidtoolkitty.S_USAGE_ACCESS
 import me.dizzykitty3.androidtoolkitty.S_VPN
 import me.dizzykitty3.androidtoolkitty.S_WIFI
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil.dropSpaces
 import me.dizzykitty3.androidtoolkitty.utils.ToastUtil.showToast
 import me.dizzykitty3.androidtoolkitty.utils.URLUtil.addURLScheme
@@ -92,15 +91,6 @@ object IntentUtil {
 
     fun Context.openScreen(screen: Class<*>) {
         launch(Intent(this, screen))
-    }
-
-    /**
-     * Temporary compatibility entry point for screens that have not migrated
-     * to a Context receiver yet.
-     */
-    @Deprecated("Use Context.openScreen(screen) so the caller owns its Context")
-    fun openScreen(screen: Class<*>) {
-        appContext.openScreen(screen)
     }
 
     fun Context.openSearch(query: String, bingSearch: Boolean = false) {

@@ -24,6 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
@@ -108,6 +109,7 @@ class SystemShortcutsActivity : ComponentActivity() {
 
 @Composable
 private fun SystemShortcutsComposable() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val settings = mutableListOf(
         Setting(S_SEARCH_SETTINGS, R.string.search_settings),
@@ -183,7 +185,7 @@ private fun SystemShortcutsComposable() {
                         Text(
                             text = StringUtil.osVer, modifier = Modifier.clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                openScreen(AndroidVersionsActivity::class.java)
+                                context.openScreen(AndroidVersionsActivity::class.java)
                             }, color = MaterialTheme.colorScheme.primary
                         )
                     }
@@ -219,7 +221,7 @@ private fun SystemShortcutsComposable() {
     // edit
     Button(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        openScreen(SystemShortcutsCustomizeActivity::class.java)
+        context.openScreen(SystemShortcutsCustomizeActivity::class.java)
     }) { Text(stringResource(R.string.customize_system_settings_card)) }
 
     SpacerPadding()

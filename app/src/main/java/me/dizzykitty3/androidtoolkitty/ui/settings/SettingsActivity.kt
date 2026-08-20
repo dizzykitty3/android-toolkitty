@@ -43,6 +43,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalView
@@ -169,6 +170,7 @@ private fun Appearance() {
 
 @Composable
 private fun General() {
+    val context = LocalContext.current
     val viewModel = LocalSettingsViewModel.current
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
@@ -206,7 +208,7 @@ private fun General() {
                 .fillMaxWidth()
                 .clickable {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    openScreen(CustomizeHomeActivity::class.java)
+                    context.openScreen(CustomizeHomeActivity::class.java)
                 }, verticalArrangement = Arrangement.Center
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -325,7 +327,7 @@ private fun OtherSettings() {
                 .fillMaxWidth()
                 .clickable {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    openScreen(LicensesActivity::class.java)
+                    view.context.openScreen(LicensesActivity::class.java)
                 }, verticalArrangement = Arrangement.Center
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {

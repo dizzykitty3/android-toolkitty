@@ -57,6 +57,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
@@ -80,6 +81,7 @@ import kotlin.random.Random
 
 @Composable
 fun WheelOfFortune() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
         title = R.string.wheel_of_fortune,
@@ -87,7 +89,7 @@ fun WheelOfFortune() {
         hasShowMore = true,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(WheelOfFortuneActivity::class.java)
+            context.openScreen(WheelOfFortuneActivity::class.java)
         }) {
         TheWheel()
     }

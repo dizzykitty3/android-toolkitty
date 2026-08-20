@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
@@ -43,12 +44,13 @@ import timber.log.Timber
 
 @Composable
 fun Search() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
 
     BaseCard(
         title = R.string.search, icon = Icons.Outlined.Search, hasShowMore = true, onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(SearchActivity::class.java)
+            context.openScreen(SearchActivity::class.java)
         }) { SearchComposable() }
 }
 

@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
@@ -42,11 +43,12 @@ import kotlin.math.roundToInt
 
 @Composable
 fun Volume() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
         R.string.volume, Icons.AutoMirrored.Outlined.VolumeUp, true, {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(VolumeActivity::class.java)
+            context.openScreen(VolumeActivity::class.java)
         }) {
         MediaVolume(isHome = true)
     }
@@ -123,7 +125,7 @@ fun MediaVolume(isHome: Boolean) {
                                 view.setVolume(mCustomVolume * 0.01 * maxVolume)
                                 vm.increaseHaveTappedVolumeButton()
                             } else {
-                                openScreen(VolumeCustomizeActivity::class.java)
+                                view.context.openScreen(VolumeCustomizeActivity::class.java)
                             }
                         }
                     }
@@ -156,7 +158,7 @@ fun MediaVolume(isHome: Boolean) {
         ) {
             TextButton({
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                openScreen(VolumeCustomizeActivity::class.java)
+                view.context.openScreen(VolumeCustomizeActivity::class.java)
             }) {
                 Icon(
                     imageVector = Icons.Outlined.Edit,

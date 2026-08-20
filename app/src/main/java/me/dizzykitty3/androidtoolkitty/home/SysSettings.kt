@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -53,6 +54,7 @@ import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 
 @Composable
 fun SysSettings() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val vm = LocalSettingsViewModel.current
     val state by vm.settingsState.collectAsStateWithLifecycle()
@@ -63,7 +65,7 @@ fun SysSettings() {
         hasShowMore = true,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(SystemShortcutsActivity::class.java)
+            context.openScreen(SystemShortcutsActivity::class.java)
         }) {
         val settings = mutableListOf(
             Setting(S_ABOUT_PHONE, R.string.about_phone),

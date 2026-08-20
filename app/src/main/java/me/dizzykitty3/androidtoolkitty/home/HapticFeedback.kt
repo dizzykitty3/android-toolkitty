@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Vibration
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.ui.home.HapticTestActivity
@@ -12,6 +13,7 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
 
 @Composable
 fun HapticFeedback() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
         title = R.string.haptic_test,
@@ -19,6 +21,6 @@ fun HapticFeedback() {
         hasShowMore = true,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(HapticTestActivity::class.java)
+            context.openScreen(HapticTestActivity::class.java)
         }) { }
 }

@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
@@ -36,6 +37,7 @@ import timber.log.Timber
 
 @Composable
 fun CodesOfCharacters() {
+    val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
 
     BaseCard(
@@ -44,7 +46,7 @@ fun CodesOfCharacters() {
         hasShowMore = true,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            openScreen(CodesOfCharactersActivity::class.java)
+            context.openScreen(CodesOfCharactersActivity::class.java)
         }) { Unicode() }
 }
 
