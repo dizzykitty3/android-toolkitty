@@ -39,7 +39,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CustomIconPopup
 import me.dizzykitty3.androidtoolkitty.uicomponents.RowDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.BluetoothUtil
+import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
@@ -62,7 +62,7 @@ fun BluetoothDevice() {
         if ((OSVersion.android12() && btPermissionState.status.isGranted) || (!OSVersion.android12() && legacyBTPermissionState.allPermissionsGranted)) {
             OutlinedButton(onClick = {
                 // Get system service
-                bluetoothAdapter = BluetoothUtil.bluetoothAdapter
+                bluetoothAdapter = view.context.bluetoothAdapter()
                 if (bluetoothAdapter == null) {
                     view.showSnackbar(R.string.no_bluetooth_adapter_available)
                     return@OutlinedButton
