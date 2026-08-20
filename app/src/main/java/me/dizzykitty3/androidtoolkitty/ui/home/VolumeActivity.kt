@@ -31,7 +31,9 @@ import me.dizzykitty3.androidtoolkitty.home.MediaVolume
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.Screen
-import me.dizzykitty3.androidtoolkitty.utils.AudioUtil
+import me.dizzykitty3.androidtoolkitty.utils.maxVoiceCallVolumeIndex
+import me.dizzykitty3.androidtoolkitty.utils.setVoiceCallVolume
+import me.dizzykitty3.androidtoolkitty.utils.voiceCallVolume
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 
 @AndroidEntryPoint
@@ -66,9 +68,9 @@ class VolumeActivity : ComponentActivity() {
                                 BaseCard(R.string.voice_call_volume) {
                                     OutlinedButton({
                                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                        val index = AudioUtil.maxVoiceCallVolumeIndex
-                                        AudioUtil.setVoiceCallVolume(index)
-                                        if (AudioUtil.voiceCallVolume == index) {
+                                        val index = view.context.maxVoiceCallVolumeIndex
+                                        view.context.setVoiceCallVolume(index)
+                                        if (view.context.voiceCallVolume == index) {
                                             view.showSnackbar(R.string.volume_changed)
                                         }
                                     }) { Text(stringResource(R.string.max_out_voice_call_volume)) }

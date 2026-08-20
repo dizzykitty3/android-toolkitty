@@ -35,8 +35,9 @@ import me.dizzykitty3.androidtoolkitty.ui.home.VolumeCustomizeActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.GradientSmall
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.AudioUtil
-import me.dizzykitty3.androidtoolkitty.utils.AudioUtil.setVolume
+import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
+import me.dizzykitty3.androidtoolkitty.utils.mediaVolume
+import me.dizzykitty3.androidtoolkitty.utils.setVolume
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
 import timber.log.Timber
 import kotlin.math.roundToInt
@@ -60,7 +61,7 @@ fun MediaVolume(isHome: Boolean) {
     val state by vm.settingsState.collectAsStateWithLifecycle()
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
-    val maxVolume = AudioUtil.maxMediaVolumeIndex
+    val maxVolume = view.context.maxMediaVolumeIndex
     var mCustomVolume by remember { mutableIntStateOf(Int.MIN_VALUE) }
     val offAllCap = stringResource(R.string.off_all_cap)
     val addLabel = stringResource(R.string.add)
@@ -86,7 +87,7 @@ fun MediaVolume(isHome: Boolean) {
             options[3] = addLabel
         }
 
-        selectedIndex = when (AudioUtil.mediaVolume) {
+        selectedIndex = when (view.context.mediaVolume) {
             0 -> 0
             (0.4 * maxVolume).roundToInt() -> 1
             (0.6 * maxVolume).roundToInt() -> 2

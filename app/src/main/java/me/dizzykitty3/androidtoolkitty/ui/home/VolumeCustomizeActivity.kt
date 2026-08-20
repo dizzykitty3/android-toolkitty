@@ -41,7 +41,7 @@ import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.Screen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.AudioUtil
+import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import kotlin.math.roundToInt
 
@@ -87,7 +87,7 @@ private fun VolumeCustomizeComposable() {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
     val activity = LocalActivity.current
-    val maxVolume = AudioUtil.maxMediaVolumeIndex
+    val maxVolume = view.context.maxMediaVolumeIndex
     var morePreciseSlider by remember { mutableStateOf(false) }
 
     var newCustomVolume by remember {
