@@ -90,10 +90,17 @@ object IntentUtil {
         this.showToast(msg)
     }
 
+    fun Context.openScreen(screen: Class<*>) {
+        launch(Intent(this, screen))
+    }
+
+    /**
+     * Temporary compatibility entry point for screens that have not migrated
+     * to a Context receiver yet.
+     */
+    @Deprecated("Use Context.openScreen(screen) so the caller owns its Context")
     fun openScreen(screen: Class<*>) {
-        val intent = Intent(appContext, screen)
-        intent.flags = FLAG_ACTIVITY_NEW_TASK
-        appContext.startActivity(intent)
+        appContext.openScreen(screen)
     }
 
     fun Context.openSearch(query: String, bingSearch: Boolean = false) {
@@ -217,7 +224,7 @@ object IntentUtil {
     fun Context.openAppDetailSettings() {
         Timber.d("openAppDetailSettings")
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-            data = "package:${appContext.packageName}".toUri()
+            data = "package:$packageName".toUri()
         }
         this.launch(intent)
     }
