@@ -1,8 +1,5 @@
 package me.dizzykitty3.androidtoolkitty
 
-import android.Manifest
-import android.content.pm.PackageManager
-
 // Android intents
 const val S_DISPLAY = "setting_display"
 const val S_AUTO_ROTATE = "setting_auto_rotate"
@@ -33,42 +30,3 @@ const val S_SOUND = "setting_sound"
 const val S_ABOUT_PHONE = "setting_about_phone"
 const val S_KEYBOARD = "setting_keyboard"
 const val S_NFC = "setting_nfc"
-
-// Android permissions
-const val BT_CONNECT = Manifest.permission.BLUETOOTH_CONNECT
-const val BT = Manifest.permission.BLUETOOTH
-const val BT_ADMIN = Manifest.permission.BLUETOOTH_ADMIN
-
-const val POST_NOTIFICATIONS = Manifest.permission.POST_NOTIFICATIONS
-const val GRANTED = PackageManager.PERMISSION_GRANTED
-
-// Android package names
-const val PACKAGE = "package"
-const val GOOGLE_MAPS = "com.google.android.apps.maps"
-const val GOOGLE_PLAY = "com.android.vending"
-
-// URL
-const val HTTPS = "https://"
-const val BG = ".bg"
-const val CN = ".cn"
-const val CO_AR = ".co.ar"
-const val CO_JP = ".co.jp"
-const val CO_UK = ".co.uk"
-const val COM = ".com"
-const val COM_CN = ".com.cn"
-const val EE = ".ee"
-const val IR = ".ir"
-const val JP = ".jp"
-const val LA = ".la"
-const val NET = ".net"
-const val ME = ".me"
-const val MX = ".mx"
-const val NZ = ".nz"
-const val ORG = ".org"
-const val RU = ".ru"
-const val SO = ".so"
-const val TO = ".to"
-const val TV = ".tv"
-const val US = ".us"
-const val WIKI = ".wiki"
-const val SOURCE_CODE_URL = "https://github.com/dizzykitty3/AndroidToolKitty"
