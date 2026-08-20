@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.home
 
 import android.content.ContentResolver
+import android.content.Context
 import android.provider.Settings
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
@@ -42,7 +43,6 @@ import me.dizzykitty3.androidtoolkitty.S_UNKNOWN_APPS
 import me.dizzykitty3.androidtoolkitty.S_USAGE_ACCESS
 import me.dizzykitty3.androidtoolkitty.S_VPN
 import me.dizzykitty3.androidtoolkitty.S_WIFI
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
@@ -127,7 +127,7 @@ fun SysSettings() {
             state.cardShownStates[setting.settingType] ?: true
         }
 
-        if (!checkIsAutoTime()) Tip(R.string.auto_set_time_is_off_tip)
+        if (!context.checkIsAutoTime()) Tip(R.string.auto_set_time_is_off_tip)
 
         val count = shownSettings.count()
         if (count == 0) {
@@ -153,9 +153,9 @@ fun SysSettings() {
     }
 }
 
-private fun checkIsAutoTime(): Boolean {
-    val contentResolver: ContentResolver = appContext.contentResolver
-    val isAutoTime = Settings.Global.getInt(contentResolver, Settings.Global.AUTO_TIME, 0)
+private fun Context.checkIsAutoTime(): Boolean {
+    val resolver: ContentResolver = this.contentResolver
+    val isAutoTime = Settings.Global.getInt(resolver, Settings.Global.AUTO_TIME, 0)
     return isAutoTime == 1
 }
 

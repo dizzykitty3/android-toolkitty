@@ -55,7 +55,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.BuildConfig
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.SOURCE_CODE_URL
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.HomeCardId
@@ -253,7 +252,7 @@ private fun OtherSettings() {
                         imageVector = Icons.Outlined.Info, contentDescription = null
                     )
                     IconAndTextPadding()
-                    Text(appContext.versionName)
+                    Text(view.context.versionName)
                 }
             }
         }

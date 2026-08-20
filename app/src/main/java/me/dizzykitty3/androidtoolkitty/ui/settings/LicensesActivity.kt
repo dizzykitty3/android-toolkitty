@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -24,7 +25,6 @@ import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.util.withContext
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.LicenseScreen
@@ -52,10 +52,11 @@ class LicensesActivity : ComponentActivity() {
                                 end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
                             )
                     ) {
+                        val context = LocalContext.current
                         LicenseScreen(screenTitle = R.string.licenses) {
                             Surface(shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape))) {
                                 LibrariesContainer(
-                                    libraries = Libs.Builder().withContext(appContext).build(),
+                                    libraries = Libs.Builder().withContext(context).build(),
                                 )
                             }
                         }

@@ -51,7 +51,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.HTTPS
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
@@ -216,7 +215,7 @@ private fun SocialMediaProfile() {
         if (lastSelectedPlatformIndex != state.lastSelectedPlatformIndex) {
             Timber.d("state.lastSelectedPlatformIndex = ${state.lastSelectedPlatformIndex}")
             lastSelectedPlatformIndex = state.lastSelectedPlatformIndex
-            Timber.d("platform = ${appContext.getString(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)}")
+            Timber.d("platform = ${view.context.getString(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)}")
             isLoading = false
         }
     }

@@ -24,7 +24,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.ToolKitty.Companion.appContext
 import me.dizzykitty3.androidtoolkitty.ui.home.CodesOfCharactersActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
@@ -145,7 +144,7 @@ private fun View.onClickConvertButton(
 
         updateResult(result)
         ClipboardUtil.copy(result)
-        this.showSnackbar("$result ${appContext.getString(R.string.copied)}")
+        this.showSnackbar("$result ${context.getString(R.string.copied)}")
     } catch (e: Exception) {
         e.message?.let { this.showSnackbar(it) }
     }
