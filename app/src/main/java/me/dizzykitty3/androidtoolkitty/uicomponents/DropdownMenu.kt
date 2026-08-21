@@ -10,7 +10,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,10 +29,8 @@ fun CustomDropdownMenu(
         onExpandedChange = { expanded = !expanded },
         modifier = Modifier.fillMaxWidth()
     ) {
-        var mSelectedPlatformIndex by remember { mutableIntStateOf(selectedPlatformIndex) }
-
         OutlinedTextField(
-            value = items[mSelectedPlatformIndex],
+            value = items[selectedPlatformIndex],
             onValueChange = {},
             readOnly = true,
             trailingIcon = {
@@ -55,7 +52,6 @@ fun CustomDropdownMenu(
                 DropdownMenuItem(
                     text = { Text(item) },
                     onClick = {
-                        mSelectedPlatformIndex = index
                         onItemSelected(index)
                         expanded = false
                     }

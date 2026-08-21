@@ -214,7 +214,7 @@ private fun SocialMediaProfile() {
                 lastSelectedPlatformIndex = it
             },
             label = { Text(stringResource(R.string.platform)) },
-            selectedPlatformIndex = lastSelectedPlatformIndex // TODO why won't this refresh
+            selectedPlatformIndex = lastSelectedPlatformIndex
         )
     }
 
