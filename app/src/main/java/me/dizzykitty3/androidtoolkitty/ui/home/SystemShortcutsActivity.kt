@@ -9,15 +9,10 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,13 +31,12 @@ import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
 import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.availableSystemSettings
-import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
-import me.dizzykitty3.androidtoolkitty.uicomponents.Screen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SystemSettingButton
+import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtil
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil
@@ -57,25 +50,11 @@ class SystemShortcutsActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            AppTheme(
+            ToolkitScreen(
+                title = R.string.system_shortcuts,
                 dynamicColor = state.dynamicColor
             ) {
-                Scaffold(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                ) { innerPadding ->
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(
-                                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                            )
-                    ) {
-                        Screen(screenTitle = R.string.system_shortcuts) {
-                            SystemShortcutsComposable()
-                        }
-                    }
-                }
+                SystemShortcutsComposable()
             }
         }
     }
