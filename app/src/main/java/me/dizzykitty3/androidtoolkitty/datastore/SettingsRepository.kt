@@ -32,6 +32,7 @@ class SettingsRepository @Inject constructor(
     }
 
     val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
+        val defaults = UserSettings.default()
         val cardShownStates = preferences.asMap()
             .mapNotNull { (key, value) ->
                 if ((key.name.startsWith("card_") || key.name.startsWith("setting_")) &&
@@ -45,17 +46,21 @@ class SettingsRepository @Inject constructor(
             .toMap()
 
         UserSettings(
-            dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: true,
-            autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: false,
-            switchToBingSearch = preferences[Keys.SWITCH_TO_BING_SEARCH] ?: false,
-            lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX] ?: 0,
-            typingContents = preferences[Keys.TYPING_CONTENTS] ?: "",
-            latitude = preferences[Keys.LATITUDE] ?: "",
-            longitude = preferences[Keys.LONGITUDE] ?: "",
-            haveTappedAddButton = preferences[Keys.HAVE_TAPPED_ADD_BUTTON] ?: false,
-            customVolume = preferences[Keys.CUSTOM_VOLUME] ?: Int.MIN_VALUE,
-            haveTappedVolumeButton = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON] ?: 0,
-            wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS],
+            dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
+            autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
+            switchToBingSearch = preferences[Keys.SWITCH_TO_BING_SEARCH] ?: defaults.switchToBingSearch,
+            lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX]
+                ?: defaults.lastSelectedPlatformIndex,
+            typingContents = preferences[Keys.TYPING_CONTENTS] ?: defaults.typingContents,
+            latitude = preferences[Keys.LATITUDE] ?: defaults.latitude,
+            longitude = preferences[Keys.LONGITUDE] ?: defaults.longitude,
+            haveTappedAddButton = preferences[Keys.HAVE_TAPPED_ADD_BUTTON]
+                ?: defaults.haveTappedAddButton,
+            customVolume = preferences[Keys.CUSTOM_VOLUME] ?: defaults.customVolume,
+            haveTappedVolumeButton = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON]
+                ?: defaults.haveTappedVolumeButton,
+            wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
+                ?: defaults.wheelOfFortuneItems,
             cardShownStates = cardShownStates,
         )
     }
@@ -125,4 +130,21 @@ data class UserSettings(
     val haveTappedVolumeButton: Int,
     val wheelOfFortuneItems: String?,
     val cardShownStates: Map<String, Boolean>,
-)
+) {
+    companion object {
+        fun default(): UserSettings = UserSettings(
+            dynamicColor = true,
+            autoClearClipboard = false,
+            switchToBingSearch = false,
+            lastSelectedPlatformIndex = 0,
+            typingContents = "",
+            latitude = "",
+            longitude = "",
+            haveTappedAddButton = false,
+            customVolume = Int.MIN_VALUE,
+            haveTappedVolumeButton = 0,
+            wheelOfFortuneItems = null,
+            cardShownStates = emptyMap(),
+        )
+    }
+}

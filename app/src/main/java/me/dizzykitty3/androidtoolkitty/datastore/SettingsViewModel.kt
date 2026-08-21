@@ -21,20 +21,7 @@ class SettingsViewModel @Inject constructor(
     val settingsState = repository.settingsFlow.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
-        initialValue = UserSettings(
-            dynamicColor = true,
-            autoClearClipboard = false,
-            switchToBingSearch = false,
-            lastSelectedPlatformIndex = 0,
-            typingContents = "",
-            latitude = "",
-            longitude = "",
-            haveTappedAddButton = false,
-            customVolume = Int.MIN_VALUE,
-            haveTappedVolumeButton = 0,
-            wheelOfFortuneItems = null,
-            cardShownStates = emptyMap(),
-        )
+        initialValue = UserSettings.default()
     )
 
     fun getShownState(card: String): Boolean {
