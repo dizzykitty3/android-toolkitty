@@ -56,7 +56,9 @@ class SettingsRepository @Inject constructor(
             longitude = preferences[Keys.LONGITUDE] ?: defaults.longitude,
             haveTappedAddButton = preferences[Keys.HAVE_TAPPED_ADD_BUTTON]
                 ?: defaults.haveTappedAddButton,
-            customVolume = preferences[Keys.CUSTOM_VOLUME] ?: defaults.customVolume,
+            customVolume = preferences[Keys.CUSTOM_VOLUME]
+                ?.takeUnless { it == Int.MIN_VALUE }
+                ?: defaults.customVolume,
             volumeButtonTapCount = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON]
                 ?: defaults.volumeButtonTapCount,
             wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
@@ -126,7 +128,7 @@ data class UserSettings(
     val latitude: String,
     val longitude: String,
     val haveTappedAddButton: Boolean,
-    val customVolume: Int,
+    val customVolume: Int?,
     val volumeButtonTapCount: Int,
     val wheelOfFortuneItems: String?,
     val cardShownStates: Map<String, Boolean>,
@@ -141,7 +143,7 @@ data class UserSettings(
             latitude = "",
             longitude = "",
             haveTappedAddButton = false,
-            customVolume = Int.MIN_VALUE,
+            customVolume = null,
             volumeButtonTapCount = 0,
             wheelOfFortuneItems = null,
             cardShownStates = emptyMap(),

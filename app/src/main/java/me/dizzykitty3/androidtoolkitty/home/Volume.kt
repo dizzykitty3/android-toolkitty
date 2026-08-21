@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -62,7 +63,7 @@ fun MediaVolume(isHome: Boolean) {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
     val maxVolume = view.context.maxMediaVolumeIndex
-    var mCustomVolume by remember { mutableIntStateOf(Int.MIN_VALUE) }
+    var mCustomVolume by remember { mutableStateOf<Int?>(null) }
     val offAllCap = stringResource(R.string.off_all_cap)
     val addLabel = stringResource(R.string.add)
     val options = remember(offAllCap, addLabel) {
@@ -80,9 +81,10 @@ fun MediaVolume(isHome: Boolean) {
         Timber.i("launched effect")
 
         mCustomVolume = state.customVolume
+        val customVolume = mCustomVolume ?: 0
 
-        if (mCustomVolume > 0) {
-            options[3] = "${mCustomVolume}%"
+        if (customVolume > 0) {
+            options[3] = "${customVolume}%"
         } else {
             options[3] = addLabel
         }
@@ -91,7 +93,7 @@ fun MediaVolume(isHome: Boolean) {
             0 -> 0
             (0.4 * maxVolume).roundToInt() -> 1
             (0.6 * maxVolume).roundToInt() -> 2
-            (mCustomVolume * 0.01 * maxVolume).roundToInt() -> 3
+            (customVolume * 0.01 * maxVolume).roundToInt() -> 3
             else -> -1
         }
     }
@@ -122,8 +124,9 @@ fun MediaVolume(isHome: Boolean) {
 
                         3 -> {
                             vm.toggleHaveTappedAddButton(true)
-                            if (mCustomVolume > 0) {
-                                view.setVolume(mCustomVolume * 0.01 * maxVolume)
+                            val customVolume = mCustomVolume
+                            if (customVolume != null && customVolume > 0) {
+                                view.setVolume(customVolume * 0.01 * maxVolume)
                                 vm.increaseVolumeButtonTapCount()
                             } else {
                                 view.context.openScreen(VolumeCustomizeActivity::class.java)
@@ -153,7 +156,8 @@ fun MediaVolume(isHome: Boolean) {
         }
     }
 
-    if (mCustomVolume > 0 && !isHome) {
+    val customVolume = mCustomVolume
+    if (customVolume != null && customVolume > 0 && !isHome) {
         Row(
             Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End
         ) {

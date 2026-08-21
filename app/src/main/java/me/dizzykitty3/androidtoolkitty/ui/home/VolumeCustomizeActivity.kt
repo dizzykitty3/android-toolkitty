@@ -69,11 +69,7 @@ private fun VolumeCustomizeComposable() {
     var morePreciseSlider by remember { mutableStateOf(false) }
 
     var newCustomVolume by remember {
-        if (state.customVolume < 0) {
-            mutableFloatStateOf(0f)
-        } else {
-            mutableFloatStateOf(state.customVolume.toFloat())
-        }
+        mutableFloatStateOf(state.customVolume?.toFloat() ?: 0f)
     }
 
     BaseCard(R.string.edit) {
