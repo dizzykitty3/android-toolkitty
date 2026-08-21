@@ -76,7 +76,7 @@ fun MediaVolume(isHome: Boolean) {
 
     var selectedIndex by remember { mutableIntStateOf(-1) }
 
-    LaunchedEffect(state.customVolume, state.haveTappedVolumeButton) {
+    LaunchedEffect(state.customVolume, state.volumeButtonTapCount) {
         Timber.i("launched effect")
 
         mCustomVolume = state.customVolume
@@ -107,24 +107,24 @@ fun MediaVolume(isHome: Boolean) {
                     when (index) {
                         0 -> {
                             view.setVolume(0)
-                            vm.increaseHaveTappedVolumeButton()
+                            vm.increaseVolumeButtonTapCount()
                         }
 
                         1 -> {
                             view.setVolume(0.4 * maxVolume)
-                            vm.increaseHaveTappedVolumeButton()
+                            vm.increaseVolumeButtonTapCount()
                         }
 
                         2 -> {
                             view.setVolume(0.6 * maxVolume)
-                            vm.increaseHaveTappedVolumeButton()
+                            vm.increaseVolumeButtonTapCount()
                         }
 
                         3 -> {
                             vm.toggleHaveTappedAddButton(true)
                             if (mCustomVolume > 0) {
                                 view.setVolume(mCustomVolume * 0.01 * maxVolume)
-                                vm.increaseHaveTappedVolumeButton()
+                                vm.increaseVolumeButtonTapCount()
                             } else {
                                 view.context.openScreen(VolumeCustomizeActivity::class.java)
                             }

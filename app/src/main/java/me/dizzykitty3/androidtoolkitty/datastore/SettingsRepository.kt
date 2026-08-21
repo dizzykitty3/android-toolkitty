@@ -57,8 +57,8 @@ class SettingsRepository @Inject constructor(
             haveTappedAddButton = preferences[Keys.HAVE_TAPPED_ADD_BUTTON]
                 ?: defaults.haveTappedAddButton,
             customVolume = preferences[Keys.CUSTOM_VOLUME] ?: defaults.customVolume,
-            haveTappedVolumeButton = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON]
-                ?: defaults.haveTappedVolumeButton,
+            volumeButtonTapCount = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON]
+                ?: defaults.volumeButtonTapCount,
             wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
             cardShownStates = cardShownStates,
@@ -105,7 +105,7 @@ class SettingsRepository @Inject constructor(
         dataStore.edit { it[Keys.CUSTOM_VOLUME] = value }
     }
 
-    suspend fun increaseHaveTappedVolumeButton() {
+    suspend fun increaseVolumeButtonTapCount() {
         dataStore.edit { preferences ->
             val currentCount = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON] ?: 0
             preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON] = currentCount + 1
@@ -127,7 +127,7 @@ data class UserSettings(
     val longitude: String,
     val haveTappedAddButton: Boolean,
     val customVolume: Int,
-    val haveTappedVolumeButton: Int,
+    val volumeButtonTapCount: Int,
     val wheelOfFortuneItems: String?,
     val cardShownStates: Map<String, Boolean>,
 ) {
@@ -142,7 +142,7 @@ data class UserSettings(
             longitude = "",
             haveTappedAddButton = false,
             customVolume = Int.MIN_VALUE,
-            haveTappedVolumeButton = 0,
+            volumeButtonTapCount = 0,
             wheelOfFortuneItems = null,
             cardShownStates = emptyMap(),
         )

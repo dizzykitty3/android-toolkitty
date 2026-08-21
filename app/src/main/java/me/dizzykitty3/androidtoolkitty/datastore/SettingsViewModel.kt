@@ -68,8 +68,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.updateCustomVolume(value) }
     }
 
-    fun increaseHaveTappedVolumeButton() {
-        viewModelScope.launch { repository.increaseHaveTappedVolumeButton() }
+    fun increaseVolumeButtonTapCount() {
+        viewModelScope.launch { repository.increaseVolumeButtonTapCount() }
     }
 
     fun updateWheelOfFortuneItems(items: String) {
