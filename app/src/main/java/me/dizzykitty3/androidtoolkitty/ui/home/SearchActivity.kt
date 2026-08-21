@@ -182,7 +182,7 @@ private fun SocialMediaProfile() {
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
     var username by remember { mutableStateOf("") }
-    var lastSelectedPlatformIndex by remember { mutableIntStateOf(Int.MIN_VALUE) }
+    var lastSelectedPlatformIndex by remember { mutableIntStateOf(0) }
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(state.typingContents, state.lastSelectedPlatformIndex) {
@@ -190,12 +190,18 @@ private fun SocialMediaProfile() {
         if (username != state.typingContents) {
             username = state.typingContents
         }
-        if (lastSelectedPlatformIndex != state.lastSelectedPlatformIndex) {
+        val platformIndex = state.lastSelectedPlatformIndex.coerceIn(
+            0, URLUtil.Platform.entries.lastIndex
+        )
+        if (lastSelectedPlatformIndex != platformIndex) {
             Timber.d("state.lastSelectedPlatformIndex = ${state.lastSelectedPlatformIndex}")
-            lastSelectedPlatformIndex = state.lastSelectedPlatformIndex
+            lastSelectedPlatformIndex = platformIndex
+            if (platformIndex != state.lastSelectedPlatformIndex) {
+                vm.updateLastSelectedPlatformIndex(platformIndex)
+            }
             Timber.d("platform = ${view.context.getString(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)}")
-            isLoading = false
         }
+        isLoading = false
     }
 
     if (isLoading) {
@@ -212,6 +218,7 @@ private fun SocialMediaProfile() {
         )
     }
 
+    val selectedPlatform = URLUtil.Platform.entries[lastSelectedPlatformIndex]
     OutlinedTextField(
         value = username,
         onValueChange = {
@@ -219,7 +226,7 @@ private fun SocialMediaProfile() {
             vm.updateTypingContents(it)
         },
         label = { Text(stringResource(R.string.username)) },
-        isError = !isValid(URLUtil.Platform.entries[lastSelectedPlatformIndex], username),
+        isError = !isValid(selectedPlatform, username),
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
@@ -227,7 +234,7 @@ private fun SocialMediaProfile() {
         keyboardActions = KeyboardActions(
             onDone = {
                 focus.clearFocus()
-                if (isValid(URLUtil.Platform.entries[lastSelectedPlatformIndex], username)) {
+                if (isValid(selectedPlatform, username)) {
                     view.context.onTapVisitProfileButton(
                         username, lastSelectedPlatformIndex
                     )
@@ -245,32 +252,32 @@ private fun SocialMediaProfile() {
         },
         supportingText = {
             Text(
-                toProfileFullURL(URLUtil.Platform.entries[lastSelectedPlatformIndex], username),
+                toProfileFullURL(selectedPlatform, username),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
         })
 
-    if (isCaseSensitive(URLUtil.Platform.entries[lastSelectedPlatformIndex])) {
+    if (isCaseSensitive(selectedPlatform)) {
         SpacerPadding()
         Tip(R.string.tip_case_sensitive)
-    } else if (isInvalidCommonRule(URLUtil.Platform.entries[lastSelectedPlatformIndex], username)) {
+    } else if (isInvalidCommonRule(selectedPlatform, username)) {
         SpacerPadding()
         ErrorTip(
             stringResource(
                 R.string.invalid_username_common_rule,
-                stringResource(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)
+                stringResource(selectedPlatform.platform)
             )
         )
     } else if (isInvalidNotNumbersOnly(
-            URLUtil.Platform.entries[lastSelectedPlatformIndex], username
+            selectedPlatform, username
         )
     ) {
         SpacerPadding()
         ErrorTip(
             stringResource(
                 R.string.invalid_username_numbers_only,
-                stringResource(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)
+                stringResource(selectedPlatform.platform)
             )
         )
     }
@@ -278,7 +285,7 @@ private fun SocialMediaProfile() {
     TextButton(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
         focus.clearFocus()
-        if (isValid(URLUtil.Platform.entries[lastSelectedPlatformIndex], username)) {
+        if (isValid(selectedPlatform, username)) {
             view.context.onTapVisitProfileButton(
                 username, lastSelectedPlatformIndex
             )
