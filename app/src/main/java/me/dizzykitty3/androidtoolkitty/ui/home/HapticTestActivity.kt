@@ -4,29 +4,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.calculateEndPadding
-import androidx.compose.foundation.layout.calculateStartPadding
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
-import me.dizzykitty3.androidtoolkitty.uicomponents.Screen
+import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 
 @AndroidEntryPoint
 class HapticTestActivity : ComponentActivity() {
@@ -37,25 +27,11 @@ class HapticTestActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            AppTheme(
+            ToolkitScreen(
+                title = R.string.haptic_test,
                 dynamicColor = state.dynamicColor
             ) {
-                Scaffold(
-                    containerColor = MaterialTheme.colorScheme.surfaceContainer,
-                ) { innerPadding ->
-                    Box(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(
-                                start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
-                                end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
-                            )
-                    ) {
-                        Screen(screenTitle = R.string.haptic_test) {
-                            HapticTestComposable()
-                        }
-                    }
-                }
+                HapticTestComposable()
             }
         }
     }
