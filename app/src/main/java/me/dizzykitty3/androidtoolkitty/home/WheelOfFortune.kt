@@ -313,7 +313,7 @@ private fun ExpandableList(
             )
             Icon(
                 imageVector = if (expanded) Icons.Default.ArrowDropDown else Icons.AutoMirrored.Filled.ArrowRight,
-                contentDescription = "Expand",
+                contentDescription = stringResource(R.string.expand),
                 modifier = Modifier.padding(start = 8.dp)
             )
         }
@@ -341,7 +341,7 @@ private fun ExpandableList(
                                 )
                                 Icon(
                                     imageVector = Icons.Default.Check,
-                                    contentDescription = "Done",
+                                    contentDescription = stringResource(R.string.done),
                                     modifier = Modifier.clickable {
                                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                         val updatedList = items.toMutableList()
@@ -357,7 +357,7 @@ private fun ExpandableList(
                                         .clickable { editingIndex = index })
                                 Icon(
                                     imageVector = Icons.Default.Remove,
-                                    contentDescription = "Remove",
+                                    contentDescription = stringResource(R.string.remove),
                                     modifier = Modifier.clickable {
                                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                         val newList =
@@ -394,7 +394,7 @@ private fun ExpandableList(
                     horizontalArrangement = Arrangement.Center) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Add",
+                        contentDescription = stringResource(R.string.add),
                         modifier = Modifier.size(24.dp)
                     )
                 }

@@ -5,6 +5,9 @@
     <string name="debugging">Debugging</string>
     <string name="unknown">Unknown</string>
     <string name="clear_input">Clear input</string>
+    <string name="expand">Expand</string>
+    <string name="done">Done</string>
+    <string name="remove">Remove</string>
     <string name="info">Info</string>
     <string name="go_to_settings">Go to settings</string>
     <string name="copy">Copy</string>
