@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
@@ -78,26 +79,15 @@ fun HomeStatusBar(isTablet: Boolean = false) {
 
     Row(Modifier.horizontalScroll(rememberScrollState())) {
         if (isTablet || view.context.headsetNotConnected()) {
-            Surface(
-                shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-                color = MaterialTheme.colorScheme.surfaceContainer
-            ) {
-                Row(Modifier.clickable {
+            StatusChip(
+                imageVector = Icons.Outlined.BatteryStd,
+                contentDescription = stringResource(R.string.battery),
+                text = "$batteryLevel%",
+                onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     view.context.openSystemSettings(S_BATTERY)
-                }) {
-                    Icon(
-                        imageVector = Icons.Outlined.BatteryStd,
-                        contentDescription = stringResource(R.string.battery),
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-                    )
-                    SpacerPadding()
-                    Text(
-                        "$batteryLevel%",
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-                    )
                 }
-            }
+            )
             SpacerPadding()
             SpacerPadding()
             NetworkState()
@@ -108,29 +98,41 @@ fun HomeStatusBar(isTablet: Boolean = false) {
                 SpacerPadding()
                 SpacerPadding()
             }
-            Surface(
-                shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-                color = MaterialTheme.colorScheme.surfaceContainer
-            ) {
-                Row(Modifier.clickable {
+            StatusChip(
+                imageVector = Icons.Outlined.MediaBluetoothOn,
+                contentDescription = stringResource(R.string.audio_devices_connected),
+                text = stringResource(R.string.audio_devices_connected),
+                onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     view.context.openSystemSettings(S_BLUETOOTH)
-                }) {
-                    Icon(
-                        imageVector = Icons.Outlined.MediaBluetoothOn,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-                    )
-                    SpacerPadding()
-                    Text(
-                        stringResource(R.string.audio_devices_connected),
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-                    )
                 }
-            }
+            )
         }
     }
     CardSpacePadding()
+}
+
+@Composable
+private fun StatusChip(
+    imageVector: ImageVector,
+    contentDescription: String?,
+    text: String,
+    onClick: () -> Unit,
+) {
+    Surface(
+        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
+        color = MaterialTheme.colorScheme.surfaceContainer
+    ) {
+        Row(Modifier.clickable(onClick = onClick)) {
+            Icon(
+                imageVector = imageVector,
+                contentDescription = contentDescription,
+                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
+            )
+            SpacerPadding()
+            Text(text, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F))
+        }
+    }
 }
 
 @Composable
@@ -195,29 +197,19 @@ private fun NetworkState() {
 
 @Composable
 private fun NetworkStateIcon(
-    imageVector: androidx.compose.ui.graphics.vector.ImageVector,
+    imageVector: ImageVector,
     @StringRes text: Int,
 ) {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
 
-    Surface(
-        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-        color = MaterialTheme.colorScheme.surfaceContainer
-    ) {
-        Row(Modifier.clickable {
+    StatusChip(
+        imageVector = imageVector,
+        contentDescription = stringResource(text),
+        text = stringResource(text),
+        onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             view.context.openSystemSettings(S_WIFI)
-        }) {
-            Icon(
-                imageVector = imageVector,
-                contentDescription = stringResource(text),
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-            )
-            SpacerPadding()
-            Text(
-                stringResource(text), color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8F)
-            )
         }
-    }
+    )
 }
