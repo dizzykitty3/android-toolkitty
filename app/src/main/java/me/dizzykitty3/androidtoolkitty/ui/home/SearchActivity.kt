@@ -38,7 +38,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.core.text.isDigitsOnly
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -58,8 +57,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.checkOnMarket
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.dropSpaces
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.isInvalidUsername
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil.removeTrailingPeriod
 import me.dizzykitty3.androidtoolkitty.utils.URLUtil
 import me.dizzykitty3.androidtoolkitty.utils.URLUtil.addSuffix
@@ -318,51 +315,6 @@ private fun Context.onTapVisitProfileButton(username: String, platformIndex: Int
     val url = toProfileFullURL(platform, username)
     this.openURL(url)
 }
-
-/**
- * @see me.dizzykitty3.androidtoolkitty.utils.URLUtil.Platform
- */
-private fun toProfileFullURL(platform: URLUtil.Platform, username: String): String =
-    when (platform) {
-        URLUtil.Platform.BLUESKY -> if (username.contains(".")) "${platform.prefix}$username" // user custom
-        else if (username.isNotBlank()) "${platform.prefix}${username.dropSpaces()}.bsky.social" // default
-        else platform.prefix // for app UI display
-
-        URLUtil.Platform.FANBOX, URLUtil.Platform.BOOTH, URLUtil.Platform.TUMBLR, URLUtil.Platform.CARRD -> "${username.dropSpaces()}${platform.prefix}"
-
-        URLUtil.Platform.BILIBILI_AV -> if (username.lowercase()
-                .startsWith("av")
-        ) "${platform.prefix}${username.dropSpaces()}"
-        else "${platform.prefix}av${username.dropSpaces()}"
-
-        URLUtil.Platform.BILIBILI_BV -> if (username.lowercase()
-                .startsWith("bv")
-        ) "${platform.prefix}${username.dropSpaces()}"
-        else "${platform.prefix}BV${username.dropSpaces()}"
-
-        URLUtil.Platform.YOUTUBE_SEARCH, URLUtil.Platform.STEAM_SEARCH_STORE -> "${platform.prefix}${username.trim()}"
-
-        else -> "${platform.prefix}${username.dropSpaces()}"
-    }
-
-private fun numbersOnlyPlatforms(platform: URLUtil.Platform): Boolean =
-    platform == URLUtil.Platform.BILIBILI_UUID || platform == URLUtil.Platform.BILIBILI_AV || platform == URLUtil.Platform.PIXIV_ARTWORK || platform == URLUtil.Platform.PIXIV_UUID || platform == URLUtil.Platform.STEAM_UUID || platform == URLUtil.Platform.WEIBO_UUID || platform == URLUtil.Platform.GOOGLE_ISSUE_TRACKER
-
-private fun isInvalidNotNumbersOnly(platform: URLUtil.Platform, username: String): Boolean =
-    numbersOnlyPlatforms(platform) && username.isNotBlank() && !username.dropSpaces().isDigitsOnly()
-
-private fun commonRulePlatforms(platform: URLUtil.Platform): Boolean =
-    platform == URLUtil.Platform.X
-
-private fun isInvalidCommonRule(platform: URLUtil.Platform, username: String): Boolean =
-    commonRulePlatforms(platform) && username.isNotBlank() && username.dropSpaces()
-        .isInvalidUsername()
-
-private fun isValid(platform: URLUtil.Platform, username: String): Boolean =
-    !isInvalidCommonRule(platform, username) && !isInvalidNotNumbersOnly(platform, username)
-
-private fun isCaseSensitive(platform: URLUtil.Platform): Boolean =
-    platform == URLUtil.Platform.LIT_LINK
 
 @Composable
 private fun CheckAppOnMarket() {

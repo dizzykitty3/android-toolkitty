@@ -69,7 +69,7 @@ object URLUtil {
     }
 
     /**
-     * @see me.dizzykitty3.androidtoolkitty.home.toProfileFullURL
+     * @see me.dizzykitty3.androidtoolkitty.ui.home.toProfileFullURL
      */
     enum class Platform(val prefix: String, @param:StringRes val platform: Int) {
         AFDIAN("afdian.com/a/", R.string.afdian),
