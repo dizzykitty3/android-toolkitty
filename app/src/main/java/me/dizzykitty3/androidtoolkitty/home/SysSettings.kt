@@ -44,22 +44,10 @@ fun SysSettings() {
 
         if (!context.checkIsAutoTime()) Tip(R.string.auto_set_time_is_off_tip)
 
-        val count = shownSettings.count()
-        if (count == 0) {
+        if (shownSettings.isEmpty()) {
             Text(buildAnnotatedString { ItalicText(R.string.no_options_enabled) })
-        } else if (count <= 2) {
-            shownSettings.subList(0, count).forEach { setting ->
-                SystemSettingButton(
-                    setting.settingType, setting.text
-                )
-            }
         } else {
-            shownSettings.subList(0, 2).forEach { setting ->
-                SystemSettingButton(
-                    setting.settingType, setting.text
-                )
-            }
-            shownSettings.subList(2, minOf(4, count)).forEach { setting ->
+            shownSettings.take(4).forEach { setting ->
                 SystemSettingButton(
                     setting.settingType, setting.text
                 )
