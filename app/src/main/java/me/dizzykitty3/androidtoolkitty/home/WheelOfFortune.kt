@@ -139,7 +139,7 @@ fun TheWheel(withEditableList: Boolean = false) {
         animationSpec = tween(durationMillis = 3000, easing = FastOutSlowInEasing), label = "",
     )
     val view = LocalView.current
-    var selected by remember { mutableStateOf("none") }
+    var selected by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(currentRotationDegrees) {
         if (currentRotationDegrees == targetRotationDegrees && hasRotated) {
@@ -149,9 +149,10 @@ fun TheWheel(withEditableList: Boolean = false) {
             val anglePerItem = 360f / itemsCount
             val selectedIndex =
                 (((360 - normalizedRotationDegrees + 270) % 360) / anglePerItem).toInt() % itemsCount
-            selected = items[selectedIndex]
+            val result = items[selectedIndex]
+            selected = result
 
-            view.showSnackbar(selected)
+            view.showSnackbar(result)
         }
     }
 
@@ -253,7 +254,9 @@ fun TheWheel(withEditableList: Boolean = false) {
         SpacerPadding()
 
         Column(Modifier.horizontalScroll(rememberScrollState())) {
-            Text("result: $selected")
+            Text(
+                "${stringResource(R.string.result)} ${selected ?: stringResource(R.string.unknown)}"
+            )
         }
     }
 }
