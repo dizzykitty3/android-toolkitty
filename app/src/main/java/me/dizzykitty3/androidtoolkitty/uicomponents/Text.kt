@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -132,30 +133,12 @@ fun Tip(@StringRes message: Int) = Tip(stringResource(message))
 
 @Composable
 fun Tip(msg: String) {
-    Card(
-        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-        )
-    ) {
-        Row(
-            Modifier
-                .padding(dimensionResource(R.dimen.padding_tip))
-                .fillMaxWidth()
-        ) {
-            Icon(
-                Icons.Outlined.Info, contentDescription = null, modifier = Modifier.size(24.dp)
-            )
-            IconAndTextPadding()
-            Text(
-                text = msg,
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.align(Alignment.CenterVertically)
-            )
-        }
-    }
-    SpacerPadding()
+    MessageCard(
+        icon = Icons.Outlined.Info,
+        message = msg,
+        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+        contentColor = MaterialTheme.colorScheme.onTertiaryContainer,
+    )
 }
 
 @Preview(showBackground = true)
@@ -166,11 +149,26 @@ private fun TipPreview() {
 
 @Composable
 fun ErrorTip(msg: String) {
+    MessageCard(
+        icon = Icons.Outlined.ErrorOutline,
+        message = msg,
+        containerColor = MaterialTheme.colorScheme.errorContainer,
+        contentColor = MaterialTheme.colorScheme.onErrorContainer,
+    )
+}
+
+@Composable
+private fun MessageCard(
+    icon: ImageVector,
+    message: String,
+    containerColor: Color,
+    contentColor: Color,
+) {
     Card(
         shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer,
-            contentColor = MaterialTheme.colorScheme.onErrorContainer
+            containerColor = containerColor,
+            contentColor = contentColor,
         )
     ) {
         Row(
@@ -179,13 +177,13 @@ fun ErrorTip(msg: String) {
                 .fillMaxWidth()
         ) {
             Icon(
-                Icons.Outlined.ErrorOutline,
+                icon,
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
             IconAndTextPadding()
             Text(
-                text = msg,
+                text = message,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
