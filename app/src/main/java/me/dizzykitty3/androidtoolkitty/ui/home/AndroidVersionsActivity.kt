@@ -48,89 +48,83 @@ class AndroidVersionsActivity : ComponentActivity() {
 
 @Composable
 private fun LatestVersion() {
-    val v = Build.VERSION.SDK_INT
+    VersionRow(androidVersions.first())
+}
 
+@Composable
+private fun OlderReleases() {
     Row(Modifier.fillMaxWidth()) {
-        Column(Modifier.weight(0.4F)) {
-            if (v == 37) ScrollableBoldText("Android 17") else ScrollableText("Android 17")
+        Column(Modifier.weight(0.4f)) {
+            androidVersions.drop(1).forEach { version -> VersionName(version) }
+            ScrollableText("...")
         }
 
-        Column(Modifier.weight(0.6F)) {
-            ScrollableItalicText("API 37, CinnamonBun")
+        Column(Modifier.weight(0.6f)) {
+            androidVersions.drop(1).forEach { version ->
+                ScrollableItalicText("API ${version.api}, ${version.codename}")
+            }
         }
     }
 }
 
 @Composable
-private fun OlderReleases() {
-    val v = Build.VERSION.SDK_INT
-
+private fun VersionRow(version: AndroidVersion) {
     Row(Modifier.fillMaxWidth()) {
-        Column(Modifier.weight(0.4f)) {
-            if (v == 36) ScrollableBoldText("Android 16") else ScrollableText("Android 16")
-            if (v == 35) ScrollableBoldText("Android 15") else ScrollableText("Android 15")
-            if (v == 34) ScrollableBoldText("Android 14") else ScrollableText("Android 14")
-            if (v == 33) ScrollableBoldText("Android 13") else ScrollableText("Android 13")
-            if (v == 32) ScrollableBoldText("Android 12L") else ScrollableText("Android 12L")
-            if (v == 31) ScrollableBoldText("Android 12") else ScrollableText("Android 12")
-            if (v == 30) ScrollableBoldText("Android 11") else ScrollableText("Android 11")
-            if (v == 29) ScrollableBoldText("Android 10") else ScrollableText("Android 10")
-            if (v == 28) ScrollableBoldText("Android 9") else ScrollableText("Android 9")
-            if (v == 27) ScrollableBoldText("Android 8.1") else ScrollableText("Android 8.1")
-            if (v == 26) ScrollableBoldText("Android 8") else ScrollableText("Android 8")
-            if (v == 25) ScrollableBoldText("Android 7.1.1") else ScrollableText("Android 7.1.1")
-            if (v == 24) ScrollableBoldText("Android 7") else ScrollableText("Android 7")
-            if (v == 23) ScrollableBoldText("Android 6") else ScrollableText("Android 6")
-            if (v == 22) ScrollableBoldText("Android 5.1") else ScrollableText("Android 5.1")
-            if (v == 21) ScrollableBoldText("Android 5") else ScrollableText("Android 5")
-            if (v == 20) ScrollableBoldText("Android 4.4W") else ScrollableText("Android 4.4W")
-            if (v == 19) ScrollableBoldText("Android 4.4") else ScrollableText("Android 4.4")
-            if (v == 18) ScrollableBoldText("Android 4.3") else ScrollableText("Android 4.3")
-            if (v == 17) ScrollableBoldText("Android 4.2") else ScrollableText("Android 4.2")
-            if (v == 16) ScrollableBoldText("Android 4.1") else ScrollableText("Android 4.1")
-            if (v == 15) ScrollableBoldText("Android 4.0.3") else ScrollableText("Android 4.0.3")
-            if (v == 14) ScrollableBoldText("Android 4.0") else ScrollableText("Android 4.0")
-            if (v == 13) ScrollableBoldText("Android 3.2") else ScrollableText("Android 3.2")
-            if (v == 12) ScrollableBoldText("Android 3.1") else ScrollableText("Android 3.1")
-            if (v == 11) ScrollableBoldText("Android 3.0") else ScrollableText("Android 3.0")
-            if (v == 10) ScrollableBoldText("Android 2.3.3") else ScrollableText("Android 2.3.3")
-            if (v == 9) ScrollableBoldText("Android 2.3") else ScrollableText("Android 2.3")
-            if (v == 8) ScrollableBoldText("Android 2.2") else ScrollableText("Android 2.2")
-            if (v == 7) ScrollableBoldText("Android 2.1") else ScrollableText("Android 2.1")
-            ScrollableText("...")
+        Column(Modifier.weight(0.4F)) {
+            VersionName(version)
         }
-
-        Column(Modifier.weight(0.6f)) {
-            ScrollableItalicText("API 36, Baklava")
-            ScrollableItalicText("API 35, VanillaIceCream")
-            ScrollableItalicText("API 34, UpsideDownCake")
-            ScrollableItalicText("API 33, Tiramisu")
-            ScrollableItalicText("API 32, Sv2")
-            ScrollableItalicText("API 31, S")
-            ScrollableItalicText("API 30, R")
-            ScrollableItalicText("API 29, Q")
-            ScrollableItalicText("API 28, Pie")
-            ScrollableItalicText("API 27, Oreo")
-            ScrollableItalicText("API 26, Oreo")
-            ScrollableItalicText("API 25, Nougat")
-            ScrollableItalicText("API 24, Nougat")
-            ScrollableItalicText("API 23, Marshmallow")
-            ScrollableItalicText("API 22, Lollipop")
-            ScrollableItalicText("API 21, Lollipop")
-            ScrollableItalicText("API 20, KitKat Wear")
-            ScrollableItalicText("API 19, KitKat")
-            ScrollableItalicText("API 18, Jelly Bean")
-            ScrollableItalicText("API 17, Jelly Bean")
-            ScrollableItalicText("API 16, Jelly Bean")
-            ScrollableItalicText("API 15, IceCreamSandwich")
-            ScrollableItalicText("API 14, IceCreamSandwich")
-            ScrollableItalicText("API 13, Honeycomb")
-            ScrollableItalicText("API 12, Honeycomb")
-            ScrollableItalicText("API 11, Honeycomb")
-            ScrollableItalicText("API 10, Gingerbread")
-            ScrollableItalicText("API 9, Gingerbread")
-            ScrollableItalicText("API 8, Froyo")
-            ScrollableItalicText("API 7, Eclair")
+        Column(Modifier.weight(0.6F)) {
+            ScrollableItalicText("API ${version.api}, ${version.codename}")
         }
     }
 }
+
+@Composable
+private fun VersionName(version: AndroidVersion) {
+    val text = "Android ${version.name}"
+    if (Build.VERSION.SDK_INT == version.api) {
+        ScrollableBoldText(text)
+    } else {
+        ScrollableText(text)
+    }
+}
+
+private data class AndroidVersion(
+    val api: Int,
+    val name: String,
+    val codename: String,
+)
+
+private val androidVersions = listOf(
+    AndroidVersion(37, "17", "CinnamonBun"),
+    AndroidVersion(36, "16", "Baklava"),
+    AndroidVersion(35, "15", "VanillaIceCream"),
+    AndroidVersion(34, "14", "UpsideDownCake"),
+    AndroidVersion(33, "13", "Tiramisu"),
+    AndroidVersion(32, "12L", "Sv2"),
+    AndroidVersion(31, "12", "S"),
+    AndroidVersion(30, "11", "R"),
+    AndroidVersion(29, "10", "Q"),
+    AndroidVersion(28, "9", "Pie"),
+    AndroidVersion(27, "8.1", "Oreo"),
+    AndroidVersion(26, "8", "Oreo"),
+    AndroidVersion(25, "7.1.1", "Nougat"),
+    AndroidVersion(24, "7", "Nougat"),
+    AndroidVersion(23, "6", "Marshmallow"),
+    AndroidVersion(22, "5.1", "Lollipop"),
+    AndroidVersion(21, "5", "Lollipop"),
+    AndroidVersion(20, "4.4W", "KitKat Wear"),
+    AndroidVersion(19, "4.4", "KitKat"),
+    AndroidVersion(18, "4.3", "Jelly Bean"),
+    AndroidVersion(17, "4.2", "Jelly Bean"),
+    AndroidVersion(16, "4.1", "Jelly Bean"),
+    AndroidVersion(15, "4.0.3", "IceCreamSandwich"),
+    AndroidVersion(14, "4.0", "IceCreamSandwich"),
+    AndroidVersion(13, "3.2", "Honeycomb"),
+    AndroidVersion(12, "3.1", "Honeycomb"),
+    AndroidVersion(11, "3.0", "Honeycomb"),
+    AndroidVersion(10, "2.3.3", "Gingerbread"),
+    AndroidVersion(9, "2.3", "Gingerbread"),
+    AndroidVersion(8, "2.2", "Froyo"),
+    AndroidVersion(7, "2.1", "Eclair"),
+)
