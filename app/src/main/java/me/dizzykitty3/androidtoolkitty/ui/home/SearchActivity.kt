@@ -5,10 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -46,7 +43,6 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
-import me.dizzykitty3.androidtoolkitty.uicomponents.ButtonDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomDropdownMenu
 import me.dizzykitty3.androidtoolkitty.uicomponents.ErrorTip
@@ -54,7 +50,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.checkOnMarket
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil.removeTrailingPeriod
@@ -314,76 +309,4 @@ private fun Context.onTapVisitProfileButton(username: String, platformIndex: Int
     val platform = URLUtil.Platform.entries.getOrNull(platformIndex) ?: return
     val url = toProfileFullURL(platform, username)
     this.openURL(url)
-}
-
-@Composable
-private fun CheckAppOnMarket() {
-    val vm = LocalSettingsViewModel.current
-    val state by vm.settingsState.collectAsStateWithLifecycle()
-    val view = LocalView.current
-    val focus = LocalFocusManager.current
-    val haptic = LocalHapticFeedback.current
-    var packageName by remember { mutableStateOf("") }
-
-    LaunchedEffect(state.typingContents) {
-        if (packageName != state.typingContents) {
-            packageName = state.typingContents
-        }
-    }
-
-    OutlinedTextField(
-        value = packageName,
-        onValueChange = {
-            packageName = it
-            vm.updateTypingContents(it)
-        },
-        label = { Text(stringResource(R.string.package_name_or_search)) },
-        modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                focus.clearFocus()
-                view.context.checkOnMarket(packageName)
-            }),
-        trailingIcon = {
-            ClearInput(packageName) {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                packageName = ""
-                vm.updateTypingContents("")
-            }
-        })
-    Row(
-        Modifier.horizontalScroll(rememberScrollState()),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        TextButton({
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            focus.clearFocus()
-            view.context.checkOnMarket(packageName)
-        }) {
-            Text(stringResource(R.string.open_on_google_play))
-            Icon(
-                imageVector = Icons.Outlined.ArrowOutward,
-                contentDescription = stringResource(R.string.check_app_on_market),
-                modifier = Modifier.align(Alignment.CenterVertically),
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3F)
-            )
-        }
-        ButtonDivider()
-        TextButton({
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            focus.clearFocus()
-            view.context.checkOnMarket(packageName, false)
-        }) {
-            Text(stringResource(R.string.open_on_other_markets))
-            Icon(
-                imageVector = Icons.Outlined.ArrowOutward,
-                contentDescription = stringResource(R.string.open_on_other_markets),
-                modifier = Modifier.align(Alignment.CenterVertically),
-                tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3F)
-            )
-        }
-    }
 }
