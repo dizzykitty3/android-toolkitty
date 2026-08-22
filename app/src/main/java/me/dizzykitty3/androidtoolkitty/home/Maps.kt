@@ -59,8 +59,9 @@ fun Maps() {
         OutlinedTextField(
             value = latitude,
             onValueChange = { input ->
-                latitude = sanitizeCoordinateInput(input)
-                vm.updateLatitude(sanitizeCoordinateInput(input))
+                val sanitizedInput = sanitizeCoordinateInput(input)
+                latitude = sanitizedInput
+                vm.updateLatitude(sanitizedInput)
             },
             suffix = {
                 Text(
@@ -79,7 +80,7 @@ fun Maps() {
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    if (longitude == "") {
+                    if (longitude.isBlank()) {
                         focusRequester2.requestFocus()
                     } else {
                         focus.clearFocus()
@@ -104,8 +105,9 @@ fun Maps() {
         OutlinedTextField(
             value = longitude,
             onValueChange = { input ->
-                longitude = sanitizeCoordinateInput(input)
-                vm.updateLongitude(sanitizeCoordinateInput(input))
+                val sanitizedInput = sanitizeCoordinateInput(input)
+                longitude = sanitizedInput
+                vm.updateLongitude(sanitizedInput)
             },
             suffix = {
                 Text(
@@ -124,7 +126,7 @@ fun Maps() {
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    if (latitude == "") {
+                    if (latitude.isBlank()) {
                         focusRequester1.requestFocus()
                     } else {
                         focus.clearFocus()
