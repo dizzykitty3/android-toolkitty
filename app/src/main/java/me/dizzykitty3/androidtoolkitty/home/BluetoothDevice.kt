@@ -54,7 +54,6 @@ fun BluetoothDevice() {
         var showResult by remember { mutableStateOf(false) }
         var bluetoothAdapter by remember { mutableStateOf<BluetoothAdapter?>(null) }
         var pairedDevices by remember { mutableStateOf<List<BluetoothDevice>>(emptyList()) }
-        var size by remember { mutableIntStateOf(0) }
         val btPermissionState = rememberPermissionState(BT_CONNECT)
         val legacyBTPermissionState = rememberMultiplePermissionsState(listOf(BT, BT_ADMIN))
         var clickCount by remember { mutableIntStateOf(0) }
@@ -72,7 +71,6 @@ fun BluetoothDevice() {
                 // Show current device name, paired devices' name and MAC address
                 if (adapter.isEnabled) {
                     pairedDevices = adapter.bondedDevices.sortedBy { it.name }
-                    size = pairedDevices.size
                     showResult = true
                     return@OutlinedButton
                 }
@@ -114,7 +112,7 @@ fun BluetoothDevice() {
             Text(stringResource(R.string.current_device))
             ScrollableText("${bluetoothAdapter?.name}\n")
 
-            if (size == 0) {
+            if (pairedDevices.isEmpty()) {
                 Text(stringResource(R.string.no_paired_devices))
             } else {
                 Text(stringResource(R.string.paired_devices))
