@@ -224,8 +224,17 @@ private fun GroupTitleNoColorPreview() {
 }
 
 @Composable
-fun ScrollableText(text: String) =
-    Box(Modifier.horizontalScroll(rememberScrollState())) { Text(text) }
+private fun ScrollableTextContent(
+    text: String,
+    fontWeight: FontWeight? = null,
+    fontStyle: FontStyle? = null,
+    maxLines: Int = Int.MAX_VALUE,
+) = Box(Modifier.horizontalScroll(rememberScrollState())) {
+    Text(text, fontWeight = fontWeight, fontStyle = fontStyle, maxLines = maxLines)
+}
+
+@Composable
+fun ScrollableText(text: String) = ScrollableTextContent(text)
 
 @Composable
 fun ScrollableText(@StringRes text: Int) = ScrollableText(stringResource(text))
@@ -237,11 +246,8 @@ private fun ScrollableTextPreview() {
 }
 
 @Composable
-fun ScrollableBoldText(text: String) = Box(Modifier.horizontalScroll(rememberScrollState())) {
-    Text(
-        text, fontWeight = FontWeight.Bold
-    )
-}
+fun ScrollableBoldText(text: String) =
+    ScrollableTextContent(text, fontWeight = FontWeight.Bold)
 
 @Composable
 fun ScrollableBoldText(@StringRes text: Int) = ScrollableBoldText(stringResource(text))
@@ -254,14 +260,16 @@ private fun ScrollableBoldTextPreview() {
 
 @Composable
 fun ScrollableItalicText(@StringRes text: Int) =
-    Box(Modifier.horizontalScroll(rememberScrollState())) {
-        Text(buildAnnotatedString { ItalicText(stringResource(text)) }, maxLines = 1)
-    }
+    ScrollableItalicText(stringResource(text))
 
 @Composable
-fun ScrollableItalicText(text: String) = Box(Modifier.horizontalScroll(rememberScrollState())) {
-    Text(buildAnnotatedString { ItalicText(text) }, maxLines = 1)
-}
+fun ScrollableItalicText(text: String) =
+    ScrollableTextContent(
+        text,
+        fontWeight = FontWeight.Light,
+        fontStyle = FontStyle.Italic,
+        maxLines = 1,
+    )
 
 @Preview(showBackground = true)
 @Composable
