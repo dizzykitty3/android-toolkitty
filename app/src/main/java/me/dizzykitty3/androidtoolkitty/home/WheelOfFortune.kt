@@ -106,7 +106,7 @@ fun TheWheel(withEditableList: Boolean = false) {
     }
 
     val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
-    val paint = remember {
+    val paint = remember(textColor) {
         Paint().apply {
             color = textColor
             textAlign = Paint.Align.CENTER
