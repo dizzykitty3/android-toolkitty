@@ -10,7 +10,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowOutward
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
@@ -34,7 +33,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
@@ -44,16 +42,12 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
-import me.dizzykitty3.androidtoolkitty.uicomponents.CustomDropdownMenu
-import me.dizzykitty3.androidtoolkitty.uicomponents.ErrorTip
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.StringUtil.removeTrailingPeriod
-import me.dizzykitty3.androidtoolkitty.utils.URLUtil
 import me.dizzykitty3.androidtoolkitty.utils.URLUtil.addSuffix
 import me.dizzykitty3.androidtoolkitty.utils.URLUtil.getSuffix
 import timber.log.Timber
@@ -166,147 +160,8 @@ private fun Webpage() {
     }
 }
 
-@Composable
-private fun SocialMediaProfile() {
-    val vm = LocalSettingsViewModel.current
-    val state by vm.settingsState.collectAsStateWithLifecycle()
-    val view = LocalView.current
-    val focus = LocalFocusManager.current
-    val haptic = LocalHapticFeedback.current
-    var username by remember { mutableStateOf("") }
-    var lastSelectedPlatformIndex by remember { mutableIntStateOf(0) }
-    var isLoading by remember { mutableStateOf(true) }
-
-    LaunchedEffect(state.typingContents, state.lastSelectedPlatformIndex) {
-        Timber.i("LaunchedEffect")
-        if (username != state.typingContents) {
-            username = state.typingContents
-        }
-        val platformIndex = state.lastSelectedPlatformIndex.coerceIn(
-            0, URLUtil.Platform.entries.lastIndex
-        )
-        if (lastSelectedPlatformIndex != platformIndex) {
-            Timber.d("state.lastSelectedPlatformIndex = ${state.lastSelectedPlatformIndex}")
-            lastSelectedPlatformIndex = platformIndex
-            if (platformIndex != state.lastSelectedPlatformIndex) {
-                vm.updateLastSelectedPlatformIndex(platformIndex)
-            }
-            Timber.d("platform = ${view.context.getString(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)}")
-        }
-        isLoading = false
-    }
-
-    if (isLoading) {
-        CircularProgressIndicator()
-        return
-    } else {
-        CustomDropdownMenu(
-            items = URLUtil.Platform.entries.map { stringResource(it.platform) },
-            onItemSelected = {
-                lastSelectedPlatformIndex = it
-            },
-            label = { Text(stringResource(R.string.platform)) },
-            selectedPlatformIndex = lastSelectedPlatformIndex
-        )
-    }
-
-    val selectedPlatform = URLUtil.Platform.entries[lastSelectedPlatformIndex]
-    OutlinedTextField(
-        value = username,
-        onValueChange = {
-            username = it
-            vm.updateTypingContents(it)
-        },
-        label = { Text(stringResource(R.string.username)) },
-        isError = !isValid(selectedPlatform, username),
-        modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions.Default.copy(
-            imeAction = ImeAction.Done
-        ),
-        keyboardActions = KeyboardActions(
-            onDone = {
-                focus.clearFocus()
-                if (isValid(selectedPlatform, username)) {
-                    view.context.onTapVisitProfileButton(
-                        username, lastSelectedPlatformIndex
-                    )
-                    vm.updateLastSelectedPlatformIndex(lastSelectedPlatformIndex)
-                } else {
-                    view.showSnackbar(R.string.invalid_username_tip)
-                }
-            }),
-        trailingIcon = {
-            ClearInput(username) {
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                username = ""
-                vm.updateTypingContents("")
-            }
-        },
-        supportingText = {
-            Text(
-                toProfileFullURL(selectedPlatform, username),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1
-            )
-        })
-
-    if (isCaseSensitive(selectedPlatform)) {
-        SpacerPadding()
-        Tip(R.string.tip_case_sensitive)
-    } else if (isInvalidCommonRule(selectedPlatform, username)) {
-        SpacerPadding()
-        ErrorTip(
-            stringResource(
-                R.string.invalid_username_common_rule,
-                stringResource(selectedPlatform.platform)
-            )
-        )
-    } else if (isInvalidNotNumbersOnly(
-            selectedPlatform, username
-        )
-    ) {
-        SpacerPadding()
-        ErrorTip(
-            stringResource(
-                R.string.invalid_username_numbers_only,
-                stringResource(selectedPlatform.platform)
-            )
-        )
-    }
-
-    TextButton(onClick = {
-        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        focus.clearFocus()
-        if (isValid(selectedPlatform, username)) {
-            view.context.onTapVisitProfileButton(
-                username, lastSelectedPlatformIndex
-            )
-            vm.updateLastSelectedPlatformIndex(lastSelectedPlatformIndex)
-        } else {
-            view.showSnackbar(R.string.invalid_username_tip)
-        }
-    }) {
-        Text(stringResource(R.string.visit))
-
-        Icon(
-            imageVector = Icons.Outlined.ArrowOutward,
-            contentDescription = null,
-            modifier = Modifier.align(Alignment.CenterVertically),
-            tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3F)
-        )
-    }
-}
-
 private fun Context.onTapVisitURLButton(url: String) {
     if (url.isBlank()) return
     Timber.d("onTapVisitURLButton")
     this.openURL(url.removeTrailingPeriod().addSuffix())
-}
-
-private fun Context.onTapVisitProfileButton(username: String, platformIndex: Int) {
-    if (username.isBlank()) return
-    Timber.d("onTapVisitProfileButton")
-    val platform = URLUtil.Platform.entries.getOrNull(platformIndex) ?: return
-    val url = toProfileFullURL(platform, username)
-    this.openURL(url)
 }
