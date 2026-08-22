@@ -96,7 +96,7 @@ fun WheelOfFortune() {
 }
 
 @Composable
-fun TheWheel(withEditableList: Boolean? = false) {
+fun TheWheel(withEditableList: Boolean = false) {
     val viewModel = LocalSettingsViewModel.current
     val settingsState by viewModel.settingsState.collectAsStateWithLifecycle()
     val item = stringResource(R.string.item)
@@ -162,7 +162,7 @@ fun TheWheel(withEditableList: Boolean? = false) {
     ) {
         val primary = MaterialTheme.colorScheme.primary
 
-        if (withEditableList == true) {
+        if (withEditableList) {
             ExpandableList(
                 items = items,
                 onItemsChange = { updatedItems ->
