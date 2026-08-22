@@ -4,10 +4,11 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import androidx.annotation.CheckResult
+import androidx.core.content.getSystemService
 
 @CheckResult
 fun Context.clearClipboard(): Boolean {
-    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clipboard = getSystemService<ClipboardManager>() ?: return false
     if (!clipboard.hasPrimaryClip()) return false
     if (OSVersion.android9()) {
         clipboard.clearPrimaryClip()
@@ -18,7 +19,7 @@ fun Context.clearClipboard(): Boolean {
 }
 
 fun Context.copyToClipboard(text: String) {
-    val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    val clipboard = getSystemService<ClipboardManager>() ?: return
     val clip = ClipData.newPlainText("", text)
     clipboard.setPrimaryClip(clip)
 }

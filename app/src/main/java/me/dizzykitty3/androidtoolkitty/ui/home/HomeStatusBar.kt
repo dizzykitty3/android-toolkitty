@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.core.content.getSystemService
 import kotlinx.coroutines.awaitCancellation
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.S_BATTERY
@@ -139,8 +140,8 @@ private fun NetworkState() {
 
     LaunchedEffect(Unit) {
         if (OSVersion.android7()) {
-            val connectivityManager =
-                context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val connectivityManager = context.getSystemService<ConnectivityManager>()
+                ?: return@LaunchedEffect
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     Timber.d("Network onAvailable: $network")

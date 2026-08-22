@@ -5,11 +5,11 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Activity
 import android.content.Context
-import android.content.Context.NOTIFICATION_SERVICE
 import android.content.pm.PackageManager
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.getSystemService
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.noNotificationPermission
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.requestNotificationPermission
 
@@ -26,8 +26,8 @@ object NotificationUtil {
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText
             }
-            val notificationManager: NotificationManager =
-                context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager = context.getSystemService<NotificationManager>()
+                ?: return
             notificationManager.createNotificationChannel(channel)
         }
 
