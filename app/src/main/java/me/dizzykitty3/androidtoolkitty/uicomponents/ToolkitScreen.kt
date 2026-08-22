@@ -14,8 +14,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 
 @Composable
-fun ToolkitScreen(
-    @StringRes title: Int,
+fun ToolkitScaffold(
     dynamicColor: Boolean,
     content: @Composable () -> Unit,
 ) {
@@ -31,8 +30,19 @@ fun ToolkitScreen(
                         end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
                     )
             ) {
-                Screen(screenTitle = title, content = content)
+                content()
             }
         }
+    }
+}
+
+@Composable
+fun ToolkitScreen(
+    @StringRes title: Int,
+    dynamicColor: Boolean,
+    content: @Composable () -> Unit,
+) {
+    ToolkitScaffold(dynamicColor = dynamicColor) {
+        Screen(screenTitle = title, content = content)
     }
 }
