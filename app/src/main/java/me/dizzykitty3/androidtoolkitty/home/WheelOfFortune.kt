@@ -101,19 +101,8 @@ fun TheWheel(withEditableList: Boolean = false) {
     val settingsState by viewModel.settingsState.collectAsStateWithLifecycle()
     val item = stringResource(R.string.item)
 
-    val items = remember(settingsState.wheelOfFortuneItems) {
-        val itemsJson = settingsState.wheelOfFortuneItems
-        if (itemsJson.isNullOrEmpty()) {
-            List(4) { index -> "$item ${index + 1}" }
-        } else {
-            try {
-                val data: WheelOfFortuneItems = Json.decodeFromString(itemsJson)
-                data.items
-            } catch (e: Exception) {
-                Timber.e(e)
-                List(4) { index -> "$item ${index + 1}" }
-            }
-        }
+    val items = remember(settingsState.wheelOfFortuneItems, item) {
+        decodeWheelItems(settingsState.wheelOfFortuneItems, item)
     }
 
     val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
@@ -258,6 +247,20 @@ fun TheWheel(withEditableList: Boolean = false) {
                 "${stringResource(R.string.result)} ${selected ?: stringResource(R.string.unknown)}"
             )
         }
+    }
+}
+
+private fun decodeWheelItems(itemsJson: String?, itemLabel: String): List<String> {
+    val defaultItems = List(4) { index -> "$itemLabel ${index + 1}" }
+    if (itemsJson.isNullOrEmpty()) return defaultItems
+
+    return try {
+        Json.decodeFromString<WheelOfFortuneItems>(itemsJson).items
+            .takeIf { it.isNotEmpty() }
+            ?: defaultItems
+    } catch (e: Exception) {
+        Timber.e(e)
+        defaultItems
     }
 }
 
