@@ -31,8 +31,8 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
@@ -46,12 +46,12 @@ import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.batteryLevel
-import me.dizzykitty3.androidtoolkitty.utils.headsetNotConnected
-import me.dizzykitty3.androidtoolkitty.utils.isHeadsetConnected
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
+import me.dizzykitty3.androidtoolkitty.utils.batteryLevel
+import me.dizzykitty3.androidtoolkitty.utils.headsetNotConnected
+import me.dizzykitty3.androidtoolkitty.utils.isHeadsetConnected
 import me.dizzykitty3.androidtoolkitty.utils.networkState
 import timber.log.Timber
 
@@ -141,13 +141,17 @@ private fun NetworkState() {
     var networkState by remember { mutableIntStateOf(context.networkState()) }
 
     LaunchedEffect(Unit) {
+        fun refreshNetworkState() {
+            networkState = context.networkState()
+        }
+
         if (OSVersion.android7()) {
             val connectivityManager = context.getSystemService<ConnectivityManager>()
                 ?: return@LaunchedEffect
             val callback = object : ConnectivityManager.NetworkCallback() {
                 override fun onAvailable(network: Network) {
                     Timber.d("Network onAvailable: $network")
-                    networkState = context.networkState()
+                    refreshNetworkState()
                 }
 
                 override fun onLost(network: Network) {
@@ -159,8 +163,8 @@ private fun NetworkState() {
                     network: Network,
                     networkCapabilities: NetworkCapabilities
                 ) {
-                    Timber.d("Network onCapabilitiesChanged: $network")
-                    networkState = context.networkState()
+                    Timber.d("Network onCapabilitiesChanged: $network, capabilities: $networkCapabilities")
+                    refreshNetworkState()
                 }
             }
             connectivityManager.registerDefaultNetworkCallback(callback)
@@ -172,7 +176,7 @@ private fun NetworkState() {
         } else {
             val receiver = object : BroadcastReceiver() {
                 override fun onReceive(context: Context, intent: Intent) {
-                    networkState = context.networkState()
+                    refreshNetworkState()
                 }
             }
             context.registerReceiver(
