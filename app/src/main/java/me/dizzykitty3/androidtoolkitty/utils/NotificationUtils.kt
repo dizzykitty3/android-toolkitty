@@ -10,10 +10,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
-import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.noNotificationPermission
-import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.requestNotificationPermission
+import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.noNotificationPermission
+import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.requestNotificationPermission
 
-object NotificationUtil {
+object NotificationUtils {
     private const val CHANNEL_ID = "test_channel"
     private var count = 1
 

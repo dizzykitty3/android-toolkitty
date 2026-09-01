@@ -8,13 +8,13 @@ import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.YearProgressIndicator
-import me.dizzykitty3.androidtoolkitty.utils.DateUtil
-import me.dizzykitty3.androidtoolkitty.utils.DateUtil.toProgress
+import me.dizzykitty3.androidtoolkitty.utils.DateUtils
+import me.dizzykitty3.androidtoolkitty.utils.DateUtils.toProgress
 
 @Composable
 fun YearProgress() {
     BaseCard(title = R.string.year_progress, icon = Icons.Outlined.HourglassTop) {
         YearProgressIndicator()
-        Text(DateUtil.yearProgress.toProgress(stringResource(R.string.happy_new_year)))
+        Text(DateUtils.yearProgress.toProgress(stringResource(R.string.happy_new_year)))
     }
 }

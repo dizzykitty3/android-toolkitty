@@ -18,7 +18,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import timber.log.Timber
 
 @Composable

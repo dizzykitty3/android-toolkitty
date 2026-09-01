@@ -5,7 +5,7 @@ import android.os.Build
 import androidx.annotation.CheckResult
 import java.util.Locale
 
-object StringUtil {
+object StringUtils {
 
     // ----- string processing -----//
 

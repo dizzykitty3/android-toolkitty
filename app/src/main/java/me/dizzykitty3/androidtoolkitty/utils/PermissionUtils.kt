@@ -10,7 +10,7 @@ import me.dizzykitty3.androidtoolkitty.BT_CONNECT
 import me.dizzykitty3.androidtoolkitty.GRANTED
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
 
-object PermissionUtil {
+object PermissionUtils {
     /**
      * Remember to use Activity Context to check/request permissions.
      * DO NOT use AppContext.check(_) which will cause a ClassCastException.

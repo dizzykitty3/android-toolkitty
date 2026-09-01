@@ -24,7 +24,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 @Composable
 fun BaseCard(

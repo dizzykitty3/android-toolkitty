@@ -5,7 +5,7 @@ import android.media.AudioManager
 import android.view.View
 import androidx.core.content.getSystemService
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import kotlin.math.roundToInt
 
 private val Context.audioManager: AudioManager?

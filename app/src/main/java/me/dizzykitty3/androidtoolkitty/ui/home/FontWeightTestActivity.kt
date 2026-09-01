@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,7 +25,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 
 @AndroidEntryPoint
 class FontWeightTestActivity : ComponentActivity() {
@@ -64,7 +63,7 @@ private fun FontWeightTest() {
 
 @Composable
 private fun RowFontWeightTest() {
-    val showCJK = StringUtil.sysLangCJK
+    val showCJK = StringUtils.sysLangCJK
     RowFontWeightTestImpl(R.string.a)
     if (showCJK) {
         RowFontWeightTestImpl(R.string.c_que)
@@ -89,7 +88,7 @@ private fun RowFontWeightTestImpl(@StringRes text: Int) {
 
 @Composable
 private fun FontFamilyTest() {
-    val showCJK = StringUtil.sysLangCJK
+    val showCJK = StringUtils.sysLangCJK
     Column(Modifier.fillMaxWidth()) {
         Text(
             "SansSerif SansSerif SansSerif SansSerif SansSerif SansSerif SansSerif SansSerif",

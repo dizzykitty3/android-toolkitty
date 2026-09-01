@@ -14,11 +14,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import me.dizzykitty3.androidtoolkitty.utils.DateUtil
+import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 
 @Composable
 fun YearProgressIndicator() {
-    YearProgressContent(targetProgress = DateUtil.yearProgress)
+    YearProgressContent(targetProgress = DateUtils.yearProgress)
 }
 
 @Composable

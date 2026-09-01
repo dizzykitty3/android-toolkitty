@@ -29,9 +29,9 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
 import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 import timber.log.Timber
 
 @Composable
@@ -139,8 +139,8 @@ private fun View.onClickConvertButton(
     Timber.d("onClickConvertButton")
 
     try {
-        val result = if (isUnicodeToChar) StringUtil.unicodeToCharacter(input)
-        else StringUtil.characterToUnicode(input)
+        val result = if (isUnicodeToChar) StringUtils.unicodeToCharacter(input)
+        else StringUtils.characterToUnicode(input)
 
         updateResult(result)
         context.copyToClipboard(result)

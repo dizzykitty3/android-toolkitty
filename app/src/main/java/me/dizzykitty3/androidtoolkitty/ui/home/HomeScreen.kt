@@ -45,7 +45,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.DevBuildTip
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.TopPadding
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
 @Composable
 fun HomeScreen(onAutoClearClipboardChanged: (Boolean) -> Unit) {

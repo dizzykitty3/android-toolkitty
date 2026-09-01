@@ -37,9 +37,9 @@ import me.dizzykitty3.androidtoolkitty.ui.home.SearchActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ButtonDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSearch
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.searchOnYouTube
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnYouTube
 import timber.log.Timber
 
 @Composable

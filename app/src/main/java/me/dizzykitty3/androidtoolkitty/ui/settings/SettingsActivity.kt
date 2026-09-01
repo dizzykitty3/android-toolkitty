@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.EventNote
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.ArrowOutward
 import androidx.compose.material.icons.outlined.ClearAll
 import androidx.compose.material.icons.outlined.Code
@@ -55,12 +54,12 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.IconAndTextPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openAppDetailSettings
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openAppLanguageSetting
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.versionName
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils.versionName
 import timber.log.Timber
 
 @AndroidEntryPoint

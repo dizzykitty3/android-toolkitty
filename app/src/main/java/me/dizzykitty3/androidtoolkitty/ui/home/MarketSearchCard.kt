@@ -32,7 +32,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.ButtonDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.checkOnMarket
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnMarket
 
 @Composable
 internal fun CheckAppOnMarket() {

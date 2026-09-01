@@ -8,8 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalView
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.ContactUtil
-import me.dizzykitty3.androidtoolkitty.utils.NotificationUtil
+import me.dizzykitty3.androidtoolkitty.utils.ContactUtils
+import me.dizzykitty3.androidtoolkitty.utils.NotificationUtils
 
 @Composable
 fun Test() {
@@ -17,18 +17,18 @@ fun Test() {
         val view = LocalView.current
         val activity = LocalActivity.current
         Button(
-            onClick = { activity?.let(NotificationUtil::createNotificationChannel) }
+            onClick = { activity?.let(NotificationUtils::createNotificationChannel) }
         ) {
             Text("create notification channel")
         }
-      Button(onClick = { NotificationUtil.sendNotification(view.context) }) { Text("post notification") }
+      Button(onClick = { NotificationUtils.sendNotification(view.context) }) { Text("post notification") }
 
         SpacerPadding()
         HorizontalDivider()
         SpacerPadding()
 
         Button(
-            onClick = { ContactUtil.createContact(activity) }
+            onClick = { ContactUtils.createContact(activity) }
         ) {
             Text("create contact")
         }

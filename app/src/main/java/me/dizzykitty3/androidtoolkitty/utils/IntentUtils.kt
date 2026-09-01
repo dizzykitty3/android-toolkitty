@@ -12,12 +12,12 @@ import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
 import me.dizzykitty3.androidtoolkitty.PACKAGE
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.dropSpaces
-import me.dizzykitty3.androidtoolkitty.utils.ToastUtil.showToast
-import me.dizzykitty3.androidtoolkitty.utils.URLUtil.addURLScheme
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils.dropSpaces
+import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
+import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addURLScheme
 import timber.log.Timber
 
-object IntentUtil {
+object IntentUtils {
     // Didn't use StartActivity as the name because a custom extension function is needed.
     private fun Context.launch(intent: Intent) {
         var msg: String
@@ -37,8 +37,8 @@ object IntentUtil {
                 )
                 return
             } else {
-                Timber.e("brand = ${StringUtil.manufacturer}\nintent = ${intent}\n$e")
-                msg = this.getString(R.string.oem_removed, StringUtil.manufacturer)
+                Timber.e("brand = ${StringUtils.manufacturer}\nintent = ${intent}\n$e")
+                msg = this.getString(R.string.oem_removed, StringUtils.manufacturer)
             }
         }
 

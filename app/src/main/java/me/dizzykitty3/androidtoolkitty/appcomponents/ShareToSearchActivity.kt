@@ -3,7 +3,7 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSearch
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
 import timber.log.Timber
 
 class ShareToSearchActivity : Activity() {

@@ -6,7 +6,7 @@ import android.bluetooth.BluetoothProfile
 import android.content.Context
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
-import me.dizzykitty3.androidtoolkitty.utils.PermissionUtil.noBluetoothPermission
+import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.noBluetoothPermission
 
 fun Context.bluetoothAdapter(): BluetoothAdapter? = if (OSVersion.android12()) {
     getSystemService<BluetoothManager>()?.adapter

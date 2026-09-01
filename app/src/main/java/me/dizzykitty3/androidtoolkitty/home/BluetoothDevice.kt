@@ -40,10 +40,10 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.RowDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openAppDetailSettings
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

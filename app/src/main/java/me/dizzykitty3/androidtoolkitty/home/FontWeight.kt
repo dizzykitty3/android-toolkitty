@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.ui.home.FontWeightTestActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
 @Composable
 fun FontWeight() {

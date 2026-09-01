@@ -24,7 +24,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.maxVoiceCallVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.setVoiceCallVolume
 import me.dizzykitty3.androidtoolkitty.utils.voiceCallVolume
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 @AndroidEntryPoint
 class VolumeActivity : ComponentActivity() {

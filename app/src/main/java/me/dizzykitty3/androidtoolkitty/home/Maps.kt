@@ -34,7 +34,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.checkOnGoogleMaps
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnGoogleMaps
 import timber.log.Timber
 
 @Composable

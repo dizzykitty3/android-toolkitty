@@ -46,7 +46,7 @@ import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.batteryLevel

@@ -39,7 +39,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.mediaVolume
 import me.dizzykitty3.androidtoolkitty.utils.setVolume
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import timber.log.Timber
 import kotlin.math.roundToInt
 

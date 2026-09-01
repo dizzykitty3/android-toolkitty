@@ -5,7 +5,7 @@ import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.TimeZone
 
-object DateUtil {
+object DateUtils {
     fun greeting(): String = when (LocalTime.now().hour) {
         in 6..11 -> "Good morning"
         in 12..18 -> "Good afternoon"

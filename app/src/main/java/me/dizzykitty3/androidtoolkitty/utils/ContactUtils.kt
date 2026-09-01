@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.provider.ContactsContract
 
-object ContactUtil {
+object ContactUtils {
     private const val TEST = "test"
     private const val TEL_MOBILE = "+86 100 0000 00"
     private const val MAIL_HOME = "@gmail.com"

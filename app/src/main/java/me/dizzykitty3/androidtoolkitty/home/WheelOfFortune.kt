@@ -72,8 +72,8 @@ import me.dizzykitty3.androidtoolkitty.datastore.WheelOfFortuneItems
 import me.dizzykitty3.androidtoolkitty.ui.home.WheelOfFortuneActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import timber.log.Timber
 import kotlin.math.cos
 import kotlin.math.sin

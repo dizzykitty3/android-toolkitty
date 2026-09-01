@@ -37,9 +37,9 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CustomDropdownMenu
 import me.dizzykitty3.androidtoolkitty.uicomponents.ErrorTip
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
-import me.dizzykitty3.androidtoolkitty.utils.URLUtil
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.URLUtils
 import timber.log.Timber
 
 @Composable
@@ -59,7 +59,7 @@ internal fun SocialMediaProfile() {
             username = state.typingContents
         }
         val platformIndex = state.lastSelectedPlatformIndex.coerceIn(
-            0, URLUtil.Platform.entries.lastIndex
+            0, URLUtils.Platform.entries.lastIndex
         )
         if (lastSelectedPlatformIndex != platformIndex) {
             Timber.d("state.lastSelectedPlatformIndex = ${state.lastSelectedPlatformIndex}")
@@ -67,7 +67,7 @@ internal fun SocialMediaProfile() {
             if (platformIndex != state.lastSelectedPlatformIndex) {
                 vm.updateLastSelectedPlatformIndex(platformIndex)
             }
-            Timber.d("platform = ${view.context.getString(URLUtil.Platform.entries[lastSelectedPlatformIndex].platform)}")
+            Timber.d("platform = ${view.context.getString(URLUtils.Platform.entries[lastSelectedPlatformIndex].platform)}")
         }
         isLoading = false
     }
@@ -78,13 +78,13 @@ internal fun SocialMediaProfile() {
     }
 
     CustomDropdownMenu(
-        items = URLUtil.Platform.entries.map { stringResource(it.platform) },
+        items = URLUtils.Platform.entries.map { stringResource(it.platform) },
         onItemSelected = { lastSelectedPlatformIndex = it },
         label = { Text(stringResource(R.string.platform)) },
         selectedPlatformIndex = lastSelectedPlatformIndex
     )
 
-    val selectedPlatform = URLUtil.Platform.entries[lastSelectedPlatformIndex]
+    val selectedPlatform = URLUtils.Platform.entries[lastSelectedPlatformIndex]
     OutlinedTextField(
         value = username,
         onValueChange = {
@@ -167,7 +167,7 @@ private fun View.visitProfileOrShowError(
     viewModel: SettingsViewModel,
 ) {
     if (username.isBlank()) return
-    val platform = URLUtil.Platform.entries.getOrNull(platformIndex) ?: return
+    val platform = URLUtils.Platform.entries.getOrNull(platformIndex) ?: return
     if (isValid(platform, username)) {
         this.context.openURL(toProfileFullURL(platform, username))
         viewModel.updateLastSelectedPlatformIndex(platformIndex)

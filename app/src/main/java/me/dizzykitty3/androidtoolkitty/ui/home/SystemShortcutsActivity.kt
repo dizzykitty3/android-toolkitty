@@ -37,9 +37,9 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SystemSettingButton
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.DateUtil
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil
+import me.dizzykitty3.androidtoolkitty.utils.DateUtils
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 
 @AndroidEntryPoint
 class SystemShortcutsActivity : ComponentActivity() {
@@ -72,9 +72,9 @@ private fun SystemShortcutsComposable() {
 
     BaseCard(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
-            LabelAndValueTextRow("manufacturer", StringUtil.manufacturer)
-            LabelAndValueTextRow("model", StringUtil.model)
-            LabelAndValueTextRow("device", StringUtil.device)
+            LabelAndValueTextRow("manufacturer", StringUtils.manufacturer)
+            LabelAndValueTextRow("model", StringUtils.model)
+            LabelAndValueTextRow("device", StringUtils.device)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(0.4F)) {
                     LabelText("os_ver")
@@ -82,7 +82,7 @@ private fun SystemShortcutsComposable() {
                 Row(Modifier.weight(0.6F)) {
                     Box(Modifier.horizontalScroll(rememberScrollState())) {
                         Text(
-                            text = StringUtil.osVer, modifier = Modifier.clickable {
+                            text = StringUtils.osVer, modifier = Modifier.clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                 context.openScreen(AndroidVersionsActivity::class.java)
                             }, color = MaterialTheme.colorScheme.primary
@@ -90,8 +90,8 @@ private fun SystemShortcutsComposable() {
                     }
                 }
             }
-            LabelAndValueTextRow("locale", StringUtil.sysLocale)
-            LabelAndValueTextRow("time_zone", DateUtil.sysTimeZone)
+            LabelAndValueTextRow("locale", StringUtils.sysLocale)
+            LabelAndValueTextRow("time_zone", DateUtils.sysTimeZone)
             SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }

@@ -30,8 +30,8 @@ import me.dizzykitty3.androidtoolkitty.home.Unicode
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.DateUtil
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.toASCII
+import me.dizzykitty3.androidtoolkitty.utils.DateUtils
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils.toASCII
 
 @AndroidEntryPoint
 class CodesOfCharactersActivity : ComponentActivity() {
@@ -96,5 +96,5 @@ private fun ASCII() {
 @Composable
 private fun UnixTimestamp() {
     Text("current unix timestamp in seconds:")
-    Text(DateUtil.unixTimestampInSeconds)
+    Text(DateUtils.unixTimestampInSeconds)
 }

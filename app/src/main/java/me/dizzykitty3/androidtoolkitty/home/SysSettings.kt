@@ -20,7 +20,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SystemSettingButton
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
 @Composable
 fun SysSettings() {

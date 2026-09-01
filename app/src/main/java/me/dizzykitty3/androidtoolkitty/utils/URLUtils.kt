@@ -27,7 +27,7 @@ import me.dizzykitty3.androidtoolkitty.US
 import me.dizzykitty3.androidtoolkitty.WIKI
 import timber.log.Timber
 
-object URLUtil {
+object URLUtils {
     fun String.addURLScheme(): String = if (this.contains("://")) this else "$HTTPS$this"
 
     /**

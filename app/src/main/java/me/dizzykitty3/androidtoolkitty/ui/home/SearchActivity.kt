@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,13 +42,11 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtil.openURL
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtil.showSnackbar
-import me.dizzykitty3.androidtoolkitty.utils.StringUtil.removeTrailingPeriod
-import me.dizzykitty3.androidtoolkitty.utils.URLUtil.addSuffix
-import me.dizzykitty3.androidtoolkitty.utils.URLUtil.getSuffix
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
+import me.dizzykitty3.androidtoolkitty.utils.StringUtils.removeTrailingPeriod
+import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addSuffix
+import me.dizzykitty3.androidtoolkitty.utils.URLUtils.getSuffix
 import timber.log.Timber
 
 @AndroidEntryPoint
