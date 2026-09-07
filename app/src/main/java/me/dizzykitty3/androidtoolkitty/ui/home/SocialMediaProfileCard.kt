@@ -53,11 +53,13 @@ internal fun SocialMediaProfile() {
     var lastSelectedPlatformIndex by remember { mutableIntStateOf(0) }
     var isLoading by remember { mutableStateOf(true) }
 
-    LaunchedEffect(state.typingContents, state.lastSelectedPlatformIndex) {
-        Timber.i("LaunchedEffect")
+    LaunchedEffect(state.typingContents) {
         if (username != state.typingContents) {
             username = state.typingContents
         }
+    }
+
+    LaunchedEffect(state.lastSelectedPlatformIndex) {
         val platformIndex = state.lastSelectedPlatformIndex.coerceIn(
             0, URLUtils.Platform.entries.lastIndex
         )
