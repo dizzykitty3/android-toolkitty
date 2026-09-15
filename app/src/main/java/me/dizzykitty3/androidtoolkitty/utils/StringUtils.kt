@@ -37,15 +37,8 @@ object StringUtils {
         require(length % 4 == 0) { "The length of the input is not a multiple of 4" }
 
         try {
-            val stringBuilder = StringBuilder()
-            var i = 0
-            while (i < length) {
-                val hexValue = unicode.substring(i, i + 4)
-                val decimalValue = hexValue.toInt(16)
-                stringBuilder.append(decimalValue.toChar())
-                i += 4
-            }
-            return stringBuilder.toString()
+            return unicode.chunked(4)
+                .joinToString("") { it.toInt(16).toChar().toString() }
         } catch (e: Exception) {
             throw IllegalArgumentException("Invalid Unicode string format: ", e)
         }
