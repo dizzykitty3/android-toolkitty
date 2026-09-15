@@ -29,7 +29,7 @@ object DateUtils {
         if (this == 0f) {
             happyNewYear
         } else {
-            (this * 100).toString().substring(0, 4).plus("%")
+            (this * 100).toString().take(4).plus("%")
         }
 
     private val sysTimeMillis: Long
