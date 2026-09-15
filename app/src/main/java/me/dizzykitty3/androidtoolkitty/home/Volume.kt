@@ -47,6 +47,8 @@ private const val SIXTY_PERCENT_VOLUME_INDEX = 2
 private const val CUSTOM_VOLUME_INDEX = 3
 private const val FORTY_PERCENT = 0.4
 private const val SIXTY_PERCENT = 0.6
+private const val ONE_PERCENT = 0.01
+private const val NO_SELECTED_VOLUME_INDEX = -1
 
 @Composable
 fun Volume() {
@@ -79,7 +81,7 @@ fun MediaVolume(isHome: Boolean) {
         )
     }
 
-    var selectedIndex by remember { mutableIntStateOf(-1) }
+    var selectedIndex by remember { mutableIntStateOf(NO_SELECTED_VOLUME_INDEX) }
 
     LaunchedEffect(state.customVolume, state.volumeButtonTapCount) {
         Timber.i("launched effect")
@@ -113,7 +115,7 @@ fun MediaVolume(isHome: Boolean) {
                             vm.toggleHaveTappedAddButton(true)
                             val customVolume = state.customVolume
                             if (customVolume != null && customVolume > 0) {
-                                view.setVolume(customVolume * 0.01 * maxVolume)
+                                view.setVolume(customVolume * ONE_PERCENT * maxVolume)
                                 vm.increaseVolumeButtonTapCount()
                             } else {
                                 view.context.openScreen(VolumeCustomizeActivity::class.java)
@@ -179,6 +181,6 @@ private fun selectedVolumeIndex(
     0 -> OFF_VOLUME_INDEX
     (FORTY_PERCENT * maxVolume).roundToInt() -> FORTY_PERCENT_VOLUME_INDEX
     (SIXTY_PERCENT * maxVolume).roundToInt() -> SIXTY_PERCENT_VOLUME_INDEX
-    (customVolume * 0.01 * maxVolume).roundToInt() -> CUSTOM_VOLUME_INDEX
-    else -> -1
+    (customVolume * ONE_PERCENT * maxVolume).roundToInt() -> CUSTOM_VOLUME_INDEX
+    else -> NO_SELECTED_VOLUME_INDEX
 }
