@@ -114,7 +114,7 @@ private fun General() {
     val viewModel = LocalSettingsViewModel.current
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
-    val showSearchCard = state.isShown(HomeCardId.SEARCH.preferenceKey)
+    val isSearchCardShown = state.isShown(HomeCardId.SEARCH.preferenceKey)
 
     CustomSwitchRow(
         icon = Icons.Outlined.ClearAll,
@@ -125,7 +125,7 @@ private fun General() {
         viewModel.toggleAutoClearClipboard(it)
     }
 
-    if (showSearchCard) {
+    if (isSearchCardShown) {
         SettingsLinkRow(
             icon = Icons.Outlined.Search,
             title = stringResource(R.string.search_settings),
