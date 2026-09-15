@@ -21,7 +21,7 @@ import kotlin.coroutines.resume
 class MainActivity : ComponentActivity() {
     private var continuation: Continuation<Unit>? = null
     private var clipboardClearJob: Job? = null
-    private var continuationNotResumed = AtomicBoolean(true)
+    private val continuationNotResumed = AtomicBoolean(true)
     private var isAutoClearClipboard = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
