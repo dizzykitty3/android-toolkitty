@@ -3,7 +3,6 @@ package me.dizzykitty3.androidtoolkitty.utils
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 object ToastUtils {
     /**
