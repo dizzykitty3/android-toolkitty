@@ -7,7 +7,6 @@ import android.os.Build
  */
 object OSVersion {
     private val osVersion = Build.VERSION.SDK_INT
-    private val osVersionFull = Build.VERSION.SDK_INT_FULL // Android 16 added
 
     /**
      * Cinnamon Bun 37
