@@ -16,7 +16,7 @@ import javax.inject.Inject
 @Serializable
 data class WheelOfFortuneItems(val items: List<String>)
 
-private fun Preferences.cardShownStates(): Map<String, Boolean> = asMap()
+private fun Preferences.shownItemStates(): Map<String, Boolean> = asMap()
     .mapNotNull { (key, value) ->
         if ((key.name.startsWith("card_") || key.name.startsWith("setting_")) &&
             value is Boolean
@@ -74,7 +74,7 @@ class SettingsRepository @Inject constructor(
                 ?: defaults.volumeButtonTapCount,
             wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
-            cardShownStates = preferences.cardShownStates(),
+            shownItemStates = preferences.shownItemStates(),
         )
     }
 
@@ -161,9 +161,9 @@ data class UserSettings(
     val customVolume: Int?,
     val volumeButtonTapCount: Int,
     val wheelOfFortuneItems: String?,
-    val cardShownStates: Map<String, Boolean>,
+    val shownItemStates: Map<String, Boolean>,
 ) {
-    fun isShown(key: String): Boolean = cardShownStates[key] ?: true
+    fun isShown(key: String): Boolean = shownItemStates[key] ?: true
 
     companion object {
         fun default(): UserSettings = UserSettings(
@@ -180,7 +180,7 @@ data class UserSettings(
             customVolume = null,
             volumeButtonTapCount = 0,
             wheelOfFortuneItems = null,
-            cardShownStates = emptyMap(),
+            shownItemStates = emptyMap(),
         )
     }
 }
