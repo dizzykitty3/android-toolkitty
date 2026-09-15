@@ -85,6 +85,10 @@ internal fun SocialMediaProfile() {
     )
 
     val selectedPlatform = URLUtils.Platform.entries[lastSelectedPlatformIndex]
+    val visitProfile = {
+        focus.clearFocus()
+        view.visitProfileOrShowError(username, selectedPlatform, vm)
+    }
     OutlinedTextField(
         value = username,
         onValueChange = {
@@ -96,14 +100,7 @@ internal fun SocialMediaProfile() {
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = {
-                focus.clearFocus()
-                view.visitProfileOrShowError(
-                    username,
-                    selectedPlatform,
-                    vm
-                )
-            }
+            onDone = { visitProfile() }
         ),
         trailingIcon = {
             ClearInput(username) {
@@ -144,12 +141,7 @@ internal fun SocialMediaProfile() {
 
     TextButton(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        focus.clearFocus()
-        view.visitProfileOrShowError(
-            username,
-            selectedPlatform,
-            vm
-        )
+        visitProfile()
     }) {
         Text(stringResource(R.string.visit))
         Icon(
