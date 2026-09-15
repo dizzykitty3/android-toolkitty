@@ -17,17 +17,17 @@ object DateUtils {
         else -> R.string.good_night
     }
 
-    private val daysPassed: Long
-        get() = daysFromStartOfYear(LocalDate.now())
-
-    private val totalDaysInYear: Long
-        get() = daysFromStartOfYear(LocalDate.of(LocalDate.now().year, 12, 31)) + 1
+    val yearProgress: Float
+        get() {
+            val today = LocalDate.now()
+            val daysPassed = daysFromStartOfYear(today)
+            val totalDaysInYear =
+                daysFromStartOfYear(LocalDate.of(today.year, 12, 31)) + 1
+            return daysPassed.toFloat() / totalDaysInYear.toFloat()
+        }
 
     private fun daysFromStartOfYear(endDate: LocalDate): Long =
         LocalDate.of(endDate.year, 1, 1).until(endDate, ChronoUnit.DAYS)
-
-    val yearProgress: Float
-        get() = daysPassed.toFloat() / totalDaysInYear.toFloat()
 
     fun Float.toProgress(happyNewYear: String): String =
         if (this == 0f) {
