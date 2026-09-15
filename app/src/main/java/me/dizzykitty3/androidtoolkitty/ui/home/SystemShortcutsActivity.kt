@@ -68,9 +68,9 @@ private fun SystemShortcutsComposable() {
     val haptic = LocalHapticFeedback.current
     val settings = availableSystemSettings().filterNot { it.settingType == S_ABOUT_PHONE }
 
-    val i1 = settings.indexOfFirst { it.settingType == S_NFC } + 1
-    val i2 = settings.indexOfFirst { it.settingType == S_ACCESSIBILITY } + 1
-    val i3 = settings.count()
+    val permissionsStartIndex = settings.indexOfFirst { it.settingType == S_NFC } + 1
+    val debuggingStartIndex = settings.indexOfFirst { it.settingType == S_ACCESSIBILITY } + 1
+    val settingsEndIndex = settings.count()
 
     BaseCard(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
@@ -97,9 +97,15 @@ private fun SystemShortcutsComposable() {
             SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
-    SystemSettingsGroup(R.string.general, settings.subList(0, i1))
-    SystemSettingsGroup(R.string.permissions, settings.subList(i1, i2))
-    SystemSettingsGroup(R.string.debugging, settings.subList(i2, i3))
+    SystemSettingsGroup(
+        R.string.general, settings.subList(0, permissionsStartIndex)
+    )
+    SystemSettingsGroup(
+        R.string.permissions, settings.subList(permissionsStartIndex, debuggingStartIndex)
+    )
+    SystemSettingsGroup(
+        R.string.debugging, settings.subList(debuggingStartIndex, settingsEndIndex)
+    )
 
     Button(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
