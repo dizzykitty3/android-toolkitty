@@ -1,19 +1,23 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.Context
 import android.os.BatteryManager
 
+private const val BATTERY_VALUE_UNAVAILABLE = -1
+
 fun Context.batteryLevel(): Int {
-        val batteryIntent = registerReceiver(
-            null,
-            IntentFilter(Intent.ACTION_BATTERY_CHANGED)
-        )
-        val level = batteryIntent?.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) ?: -1
-        val scale = batteryIntent?.getIntExtra(BatteryManager.EXTRA_SCALE, -1) ?: -1
+    val batteryIntent = registerReceiver(
+        null,
+        IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+    )
+    val level = batteryIntent?.getIntExtra(BatteryManager.EXTRA_LEVEL, BATTERY_VALUE_UNAVAILABLE)
+        ?: BATTERY_VALUE_UNAVAILABLE
+    val scale = batteryIntent?.getIntExtra(BatteryManager.EXTRA_SCALE, BATTERY_VALUE_UNAVAILABLE)
+        ?: BATTERY_VALUE_UNAVAILABLE
 
-        if (level == -1 || scale == -1) return -1
+    if (level == BATTERY_VALUE_UNAVAILABLE || scale <= 0) return BATTERY_VALUE_UNAVAILABLE
 
-        return (level.toFloat() / scale.toFloat() * 100).toInt()
+    return (level.toFloat() / scale.toFloat() * 100).toInt()
 }
