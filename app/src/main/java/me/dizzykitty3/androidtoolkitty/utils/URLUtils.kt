@@ -28,6 +28,22 @@ import me.dizzykitty3.androidtoolkitty.WIKI
 import timber.log.Timber
 
 object URLUtils {
+    private val suffixMap = mapOf(
+        "remove" to BG, "feishu" to CN, "52pojie" to CN, "360" to CN, "mercadolibre" to CO_AR,
+        "rakuten" to CO_JP, "dmm" to CO_JP, "autohome" to COM_CN, "zol" to COM_CN,
+        "pconline" to COM_CN, "dailymail" to CO_UK, "bbc" to CO_UK, "linktr" to EE,
+        "shaparak" to IR, "livedoor" to JP, "nicovideo" to JP, "hitomi" to LA, "csdn" to NET,
+        "pixiv" to NET, "atlassian" to NET, "cnki" to NET, "doubleclick" to NET,
+        "speedtest" to NET, "researchgate" to NET, "behance" to NET, "ali213" to NET,
+        "savefrom" to NET, "cloudfront" to NET, "bytedance" to NET, "nhentai" to NET,
+        "daum" to NET, "animeflv" to NET, "jb51" to NET, "manatoki215" to NET, "line" to ME,
+        "yts" to MX, "mega" to NZ, "wikipedia" to ORG, "telegram" to ORG, "archive" to ORG,
+        "mozilla" to ORG, "e-hentai" to ORG, "greasyfork" to ORG, "coursera" to ORG,
+        "craigslist" to ORG, "yandex" to RU, "mail" to RU, "dzen" to RU, "avito" to RU,
+        "ok" to RU, "ozon" to RU, "wildberries" to RU, "gosulugi" to RU, "ya" to RU,
+        "notion" to SO, "zoro" to TO, "1337x" to TO, "twitch" to TV, "jable" to TV,
+        "zoom" to US, "namu" to WIKI
+    )
     fun String.addURLScheme(): String = if (this.contains("://")) this else "$HTTPS$this"
 
     /**
@@ -47,23 +63,6 @@ object URLUtils {
 
     fun String.getSuffix(): String {
         if (this.contains(".")) return ""
-
-        val suffixMap = mapOf(
-            "remove" to BG, "feishu" to CN, "52pojie" to CN, "360" to CN, "mercadolibre" to CO_AR,
-            "rakuten" to CO_JP, "dmm" to CO_JP, "autohome" to COM_CN, "zol" to COM_CN,
-            "pconline" to COM_CN, "dailymail" to CO_UK, "bbc" to CO_UK, "linktr" to EE,
-            "shaparak" to IR, "livedoor" to JP, "nicovideo" to JP, "hitomi" to LA, "csdn" to NET,
-            "pixiv" to NET, "atlassian" to NET, "cnki" to NET, "doubleclick" to NET,
-            "speedtest" to NET, "researchgate" to NET, "behance" to NET, "ali213" to NET,
-            "savefrom" to NET, "cloudfront" to NET, "bytedance" to NET, "nhentai" to NET,
-            "daum" to NET, "animeflv" to NET, "jb51" to NET, "manatoki215" to NET, "line" to ME,
-            "yts" to MX, "mega" to NZ, "wikipedia" to ORG, "telegram" to ORG, "archive" to ORG,
-            "mozilla" to ORG, "e-hentai" to ORG, "greasyfork" to ORG, "coursera" to ORG,
-            "craigslist" to ORG, "yandex" to RU, "mail" to RU, "dzen" to RU, "avito" to RU,
-            "ok" to RU, "ozon" to RU, "wildberries" to RU, "gosulugi" to RU, "ya" to RU,
-            "notion" to SO, "zoro" to TO, "1337x" to TO, "twitch" to TV, "jable" to TV,
-            "zoom" to US, "namu" to WIKI
-        )
 
         return suffixMap[this.lowercase()] ?: COM
     }
