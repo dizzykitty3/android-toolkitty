@@ -70,7 +70,7 @@ private fun SystemShortcutsComposable() {
 
     val permissionsStartIndex = settings.indexOfFirst { it.settingType == S_NFC } + 1
     val debuggingStartIndex = settings.indexOfFirst { it.settingType == S_ACCESSIBILITY } + 1
-    val settingsEndIndex = settings.count()
+    val settingsEndIndex = settings.size
 
     BaseCard(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
