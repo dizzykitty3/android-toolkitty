@@ -8,11 +8,11 @@ object ContactUtils {
     private const val CONTACT_NAME_PREFIX = "test"
     private const val MOBILE_NUMBER_PREFIX = "+86 100 0000 00"
     private const val HOME_EMAIL_DOMAIN = "@gmail.com"
-    private var count = 0
+    private var contactIndex = 0
 
     fun createContact(activity: Activity?) {
-        createContactImpl(activity, count)
-        count++
+        createContactImpl(activity, contactIndex)
+        contactIndex++
     }
 
     private fun createContactImpl(activity: Activity?, number: Int) {
@@ -36,7 +36,7 @@ object ContactUtils {
             // email
             putExtra(
                 ContactsContract.Intents.Insert.EMAIL,
-                "$CONTACT_NAME_PREFIX$count$HOME_EMAIL_DOMAIN"
+                "$CONTACT_NAME_PREFIX$number$HOME_EMAIL_DOMAIN"
             )
             putExtra(
                 ContactsContract.Intents.Insert.EMAIL_TYPE,
