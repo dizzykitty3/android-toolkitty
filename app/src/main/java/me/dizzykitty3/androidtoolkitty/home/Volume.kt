@@ -43,6 +43,8 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+private const val CUSTOM_VOLUME_INDEX = 3
+
 @Composable
 fun Volume() {
     val context = LocalContext.current
@@ -84,9 +86,9 @@ fun MediaVolume(isHome: Boolean) {
         val customVolume = mCustomVolume ?: 0
 
         if (customVolume > 0) {
-            options[3] = "${customVolume}%"
+            options[CUSTOM_VOLUME_INDEX] = "${customVolume}%"
         } else {
-            options[3] = addLabel
+            options[CUSTOM_VOLUME_INDEX] = addLabel
         }
 
         selectedIndex = selectedVolumeIndex(
@@ -112,7 +114,7 @@ fun MediaVolume(isHome: Boolean) {
                             }
                         }
 
-                        3 -> {
+                        CUSTOM_VOLUME_INDEX -> {
                             vm.toggleHaveTappedAddButton(true)
                             val customVolume = mCustomVolume
                             if (customVolume != null && customVolume > 0) {
@@ -131,7 +133,7 @@ fun MediaVolume(isHome: Boolean) {
                 colors = SegmentedButtonDefaults.colors()
                     .copy(inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerLow)
             ) {
-                if (label != stringResource(R.string.add)) {
+                if (index != CUSTOM_VOLUME_INDEX) {
                     Text(label)
                 } else if (state.haveTappedAddButton) {
                     Text(label)
