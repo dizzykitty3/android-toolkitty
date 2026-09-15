@@ -19,9 +19,9 @@ import kotlin.coroutines.resume
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private var continuation: Continuation<Unit>? = null
+    private var windowFocusContinuation: Continuation<Unit>? = null
     private var clipboardClearJob: Job? = null
-    private val continuationNotResumed = AtomicBoolean(true)
+    private val windowFocusContinuationNotResumed = AtomicBoolean(true)
     private var isAutoClearClipboard = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +36,11 @@ class MainActivity : ComponentActivity() {
     override fun onStart() {
         super.onStart()
         Timber.d("onStart")
-        continuationNotResumed.set(true)
+        windowFocusContinuationNotResumed.set(true)
         clipboardClearJob?.cancel()
         clipboardClearJob = lifecycleScope.launch {
             suspendCancellableCoroutine { cont ->
-                continuation = cont
+                windowFocusContinuation = cont
             }
             if (isAutoClearClipboard && clearClipboard()) {
                 window.decorView.showSnackbar(R.string.clipboard_cleared_automatically)
@@ -52,15 +52,15 @@ class MainActivity : ComponentActivity() {
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         Timber.d("onWindowFocusChanged")
-        if (hasFocus && continuationNotResumed.get()) {
+        if (hasFocus && windowFocusContinuationNotResumed.get()) {
             try {
                 Timber.d("continuation resume start")
-                continuation?.resume(Unit)
+                windowFocusContinuation?.resume(Unit)
             } catch (e: IllegalStateException) {
                 Timber.e(e)
             } finally {
                 Timber.i("continuation resumed")
-                continuationNotResumed.set(false)
+                windowFocusContinuationNotResumed.set(false)
             }
         }
     }
@@ -75,7 +75,7 @@ class MainActivity : ComponentActivity() {
         Timber.d("onStop")
         clipboardClearJob?.cancel()
         clipboardClearJob = null
-        continuation = null
+        windowFocusContinuation = null
     }
 
     override fun onDestroy() {
