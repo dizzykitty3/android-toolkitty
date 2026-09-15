@@ -16,6 +16,18 @@ import javax.inject.Inject
 @Serializable
 data class WheelOfFortuneItems(val items: List<String>)
 
+private fun Preferences.cardShownStates(): Map<String, Boolean> = asMap()
+    .mapNotNull { (key, value) ->
+        if ((key.name.startsWith("card_") || key.name.startsWith("setting_")) &&
+            value is Boolean
+        ) {
+            key.name to value
+        } else {
+            null
+        }
+    }
+    .toMap()
+
 class SettingsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
@@ -38,18 +50,6 @@ class SettingsRepository @Inject constructor(
 
     val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
         val defaults = UserSettings.default()
-        val cardShownStates = preferences.asMap()
-            .mapNotNull { (key, value) ->
-                if ((key.name.startsWith("card_") || key.name.startsWith("setting_")) &&
-                    value is Boolean
-                ) {
-                    key.name to value
-                } else {
-                    null
-                }
-            }
-            .toMap()
-
         UserSettings(
             dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
             autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
@@ -74,7 +74,7 @@ class SettingsRepository @Inject constructor(
                 ?: defaults.volumeButtonTapCount,
             wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
-            cardShownStates = cardShownStates,
+            cardShownStates = preferences.cardShownStates(),
         )
     }
 
