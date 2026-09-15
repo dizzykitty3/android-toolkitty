@@ -24,7 +24,7 @@ import me.dizzykitty3.androidtoolkitty.home.YearProgress
  * changes in several unrelated places.
  */
 enum class HomeCardId(
-    val key: String,
+    val preferenceKey: String,
     @param:StringRes val title: Int,
 ) {
     YEAR_PROGRESS("card_year_progress", R.string.year_progress),
@@ -62,4 +62,4 @@ val homeCardDefinitions = listOf(
 )
 
 fun UserSettings.visibleHomeCards(): List<HomeCardDefinition> =
-    homeCardDefinitions.filter { card -> isShown(card.id.key) }
+    homeCardDefinitions.filter { card -> isShown(card.id.preferenceKey) }

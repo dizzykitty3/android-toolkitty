@@ -63,10 +63,10 @@ private fun CustomizeHomeComposable() {
         homeCardDefinitions.forEach { card ->
             CustomHideCardSettingSwitch(
                 text = card.id.title,
-                isChecked = state.isShown(card.id.key)
+                isChecked = state.isShown(card.id.preferenceKey)
             ) { newState ->
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                vm.saveShownState(card.id.key, newState)
+                vm.saveShownState(card.id.preferenceKey, newState)
             }
         }
 
@@ -75,7 +75,7 @@ private fun CustomizeHomeComposable() {
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.key, false) }
+                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, false) }
             }
         ) {
             Icon(
@@ -90,7 +90,7 @@ private fun CustomizeHomeComposable() {
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.key, true) }
+                homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, true) }
             }
         ) {
             Icon(

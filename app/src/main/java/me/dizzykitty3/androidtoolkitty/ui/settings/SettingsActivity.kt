@@ -116,7 +116,7 @@ private fun General() {
     val viewModel = LocalSettingsViewModel.current
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
-    val showSearchCard = state.isShown(HomeCardId.SEARCH.key)
+    val showSearchCard = state.isShown(HomeCardId.SEARCH.preferenceKey)
 
     CustomSwitchRow(
         icon = Icons.Outlined.ClearAll,
