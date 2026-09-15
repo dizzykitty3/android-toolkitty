@@ -84,6 +84,10 @@ private fun Webpage() {
     val halfWidthPeriod = "."
     val fullWidthSpace = "　"
     val halfWidthSpace = " "
+    val visitUrl = {
+        focus.clearFocus()
+        view.context.onTapVisitURLButton(url)
+    }
 
     LaunchedEffect(state.typingContents) {
         if (url != state.typingContents) {
@@ -107,10 +111,7 @@ private fun Webpage() {
             imeAction = ImeAction.Done, keyboardType = KeyboardType.Ascii
         ),
         keyboardActions = KeyboardActions(
-            onDone = {
-                focus.clearFocus()
-                view.context.onTapVisitURLButton(url)
-            }),
+            onDone = { visitUrl() }),
         trailingIcon = {
             ClearInput(url) {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -144,8 +145,7 @@ private fun Webpage() {
 
     TextButton(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        focus.clearFocus()
-        view.context.onTapVisitURLButton(url)
+        visitUrl()
     }) {
         Text(stringResource(R.string.visit))
         Icon(
