@@ -6,18 +6,20 @@ import androidx.annotation.CheckResult
 import java.util.Locale
 
 object StringUtils {
+    private val whitespaceRegex = Regex("\\s")
+    private val validUsernameRegex = Regex("^[a-zA-Z0-9_]*$")
 
     // ----- string processing -----//
 
     /**
      * Drop spaces, including full-width ones.
      */
-    fun String.dropSpaces(): String = this.replace(Regex("\\s"), "")
+    fun String.dropSpaces(): String = replace(whitespaceRegex, "")
 
     /**
      * Allows for letters, numbers, or underscores.
      */
-    fun String.isValidUsername(): Boolean = this.matches(Regex("^[a-zA-Z0-9_]*$"))
+    fun String.isValidUsername(): Boolean = matches(validUsernameRegex)
 
     fun String.isInvalidUsername(): Boolean = !this.isValidUsername()
 
