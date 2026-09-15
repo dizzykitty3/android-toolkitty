@@ -35,6 +35,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.GradientSmall
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
+import me.dizzykitty3.androidtoolkitty.utils.PERCENT_TO_VOLUME_RATIO
 import me.dizzykitty3.androidtoolkitty.utils.mediaVolume
 import me.dizzykitty3.androidtoolkitty.utils.setVolume
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
@@ -47,7 +48,6 @@ private const val SIXTY_PERCENT_VOLUME_INDEX = 2
 private const val CUSTOM_VOLUME_INDEX = 3
 private const val FORTY_PERCENT = 0.4
 private const val SIXTY_PERCENT = 0.6
-private const val ONE_PERCENT = 0.01
 private const val NO_SELECTED_VOLUME_INDEX = -1
 
 @Composable
@@ -119,7 +119,7 @@ fun MediaVolume(isHome: Boolean) {
                             vm.toggleHaveTappedAddButton(true)
                             val customVolume = state.customVolume
                             if (customVolume != null && customVolume > 0) {
-                                view.setVolume(customVolume * ONE_PERCENT * maxVolume)
+                                view.setVolume(customVolume * PERCENT_TO_VOLUME_RATIO * maxVolume)
                                 vm.increaseVolumeButtonTapCount()
                             } else {
                                 view.context.openScreen(VolumeCustomizeActivity::class.java)
@@ -185,6 +185,6 @@ private fun selectedVolumeIndex(
     0 -> OFF_VOLUME_INDEX
     (FORTY_PERCENT * maxVolume).roundToInt() -> FORTY_PERCENT_VOLUME_INDEX
     (SIXTY_PERCENT * maxVolume).roundToInt() -> SIXTY_PERCENT_VOLUME_INDEX
-    (customVolume * ONE_PERCENT * maxVolume).roundToInt() -> CUSTOM_VOLUME_INDEX
+    (customVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt() -> CUSTOM_VOLUME_INDEX
     else -> NO_SELECTED_VOLUME_INDEX
 }

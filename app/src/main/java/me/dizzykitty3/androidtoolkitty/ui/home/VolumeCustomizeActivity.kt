@@ -34,12 +34,12 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
+import me.dizzykitty3.androidtoolkitty.utils.PERCENT_TO_VOLUME_RATIO
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import kotlin.math.roundToInt
 
 private const val MAX_VOLUME_PERCENT = 100f
 private const val COARSE_SLIDER_STEPS = 9
-private const val PERCENT_TO_VOLUME_RATIO = 0.01
 
 @AndroidEntryPoint
 class VolumeCustomizeActivity : ComponentActivity() {
