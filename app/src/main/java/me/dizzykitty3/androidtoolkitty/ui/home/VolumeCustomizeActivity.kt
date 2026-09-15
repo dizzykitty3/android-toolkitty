@@ -37,6 +37,10 @@ import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import kotlin.math.roundToInt
 
+private const val MAX_VOLUME_PERCENT = 100f
+private const val COARSE_SLIDER_STEPS = 9
+private const val PERCENT_TO_VOLUME_RATIO = 0.01
+
 @AndroidEntryPoint
 class VolumeCustomizeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,13 +85,14 @@ private fun VolumeCustomizeComposable() {
                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                 }
                 newCustomVolume = it
-            }, valueRange = 0f..100f, steps = if (morePreciseSlider) {
-                0
-            } else {
-                9
-            }
+            },
+            valueRange = 0f..MAX_VOLUME_PERCENT,
+            steps = if (morePreciseSlider) 0 else COARSE_SLIDER_STEPS
         )
-        Text("${newCustomVolume.roundToInt()}% -> ${(newCustomVolume * 0.01 * maxVolume).roundToInt()}/$maxVolume")
+        Text(
+            "${newCustomVolume.roundToInt()}% -> " +
+                "${(newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt()}/"
+        )
 
         SpacerPadding()
         SpacerPadding()
@@ -105,7 +110,7 @@ private fun VolumeCustomizeComposable() {
                 Button(
                     {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        if ((newCustomVolume * 0.01 * maxVolume).roundToInt() == 0) {
+                        if ((newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt() == 0) {
                             if (newCustomVolume.roundToInt() != 0) {
                                 view.showSnackbar(R.string.volume_steps_limited)
                             }
