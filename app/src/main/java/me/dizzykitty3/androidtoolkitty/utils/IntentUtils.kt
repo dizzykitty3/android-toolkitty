@@ -20,6 +20,11 @@ import timber.log.Timber
 object IntentUtils {
     private const val BILIBILI_SEARCH_URI_PREFIX = "bilibili://search?keyword="
     private const val BILIBILI_SEARCH_WEB_PREFIX = "https://m.bilibili.com/search?keyword="
+    private const val BING_SEARCH_PREFIX = "https://bing.com/search?q="
+    private const val DUCKDUCKGO_SEARCH_PREFIX = "https://duckduckgo.com/?q="
+    private const val ECOSIA_SEARCH_PREFIX = "https://www.ecosia.org/search?q="
+    private const val YOUTUBE_SEARCH_PREFIX = "https://youtube.com/results?search_query="
+
     // Didn't use StartActivity as the name because a custom extension function is needed.
     private fun Context.launch(intent: Intent) {
         var msg: String
@@ -73,20 +78,23 @@ object IntentUtils {
                 intent.putExtra(SearchManager.QUERY, query)
                 this.launch(intent)
             }
-            SearchEngine.BING -> this.openURL("https://bing.com/search?q=$query")
-            SearchEngine.DUCKDUCKGO -> this.openURL("https://duckduckgo.com/?q=$query")
-            SearchEngine.ECOSIA -> this.openURL("https://www.ecosia.org/search?q=$query")
+            SearchEngine.BING -> this.openURL(BING_SEARCH_PREFIX + query)
+            SearchEngine.DUCKDUCKGO -> this.openURL(DUCKDUCKGO_SEARCH_PREFIX + query)
+            SearchEngine.ECOSIA -> this.openURL(ECOSIA_SEARCH_PREFIX + query)
         }
     }
 
-    fun Context.searchOnVideoPlatform(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
+    fun Context.searchOnVideoPlatform(
+        query: String,
+        videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
+    ) {
         if (query.isBlank()) return
 
         Timber.d("searchOnVideoPlatform, videoSearchEngine = $videoSearchEngine")
         val intent = Intent(
             Intent.ACTION_VIEW,
             when (videoSearchEngine) {
-                VideoSearchEngine.YOUTUBE -> "https://youtube.com/results?search_query=$query".toUri()
+                VideoSearchEngine.YOUTUBE -> (YOUTUBE_SEARCH_PREFIX + query).toUri()
                 VideoSearchEngine.BILIBILI -> (BILIBILI_SEARCH_URI_PREFIX + query).toUri()
             }
         )
