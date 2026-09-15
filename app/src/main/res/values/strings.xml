@@ -225,6 +225,8 @@
     <string name="ascii">ASCII</string>
     <string name="convert_to_ascii_values">Convert to ASCII values</string>
     <string name="codes_of_characters">Codes of Characters</string>
+    <string name="unix_timestamp">Unix Timestamp</string>
+    <string name="current_unix_timestamp_in_seconds">Current Unix timestamp in seconds:</string>
 
     <!-- Home > Maps -->
     <string name="maps">Maps</string>

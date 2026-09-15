@@ -48,7 +48,7 @@ class CodesOfCharactersActivity : ComponentActivity() {
             ) {
                 BaseCard(R.string.unicode) { Unicode() }
                 BaseCard(R.string.ascii) { ASCII() }
-                BaseCard("Unix Timestamp") { UnixTimestamp() }
+                BaseCard(R.string.unix_timestamp) { UnixTimestamp() }
             }
         }
     }
@@ -95,6 +95,6 @@ private fun ASCII() {
 
 @Composable
 private fun UnixTimestamp() {
-    Text("current unix timestamp in seconds:")
+    Text(stringResource(R.string.current_unix_timestamp_in_seconds))
     Text(DateUtils.unixTimestampInSeconds)
 }
