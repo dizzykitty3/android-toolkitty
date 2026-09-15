@@ -75,6 +75,13 @@ object IntentUtils {
         this.showToast(msg)
     }
 
+    private fun Context.launchView(uri: Uri, targetPackage: String? = null) {
+        val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+            if (targetPackage != null) setPackage(targetPackage)
+        }
+        launch(intent)
+    }
+
     fun Context.openScreen(screen: Class<*>) {
         launch(Intent(this, screen))
     }
@@ -100,20 +107,14 @@ object IntentUtils {
         if (query.isBlank()) return
 
         Timber.d("searchOnVideoPlatform, videoSearchEngine = $videoSearchEngine")
-        val intent = Intent(
-            Intent.ACTION_VIEW,
-            videoSearchEngine.buildSearchUri(query)
-        )
-        this.launch(intent)
+        this.launchView(videoSearchEngine.buildSearchUri(query))
     }
 
     fun Context.openURL(url: String) {
         if (url.isBlank()) return
 
         Timber.d("openURL")
-        val intent = Intent(Intent.ACTION_VIEW)
-        intent.data = url.addURLScheme().toUri()
-        this.launch(intent)
+        this.launchView(url.addURLScheme().toUri())
     }
 
     fun Context.checkOnMarket(packageName: String, isGooglePlay: Boolean = true) {
@@ -131,9 +132,7 @@ object IntentUtils {
             }
         }.toUri()
         Timber.d("checkOnMarket")
-        val intent = Intent(Intent.ACTION_VIEW, marketUri)
-        if (isGooglePlay) intent.setPackage(GOOGLE_PLAY)
-        this.launch(intent)
+        this.launchView(marketUri, GOOGLE_PLAY.takeIf { isGooglePlay })
     }
 
     fun Context.checkOnGoogleMaps(latitude: String, longitude: String) {
@@ -142,9 +141,7 @@ object IntentUtils {
         Timber.d("checkOnGoogleMaps")
         val coordinates = "$latitude,$longitude"
         val googleMapsIntentUri = "geo:$coordinates?q=$coordinates".toUri()
-        val intent = Intent(Intent.ACTION_VIEW, googleMapsIntentUri)
-        intent.setPackage(GOOGLE_MAPS)
-        this.launch(intent)
+        this.launchView(googleMapsIntentUri, GOOGLE_MAPS)
     }
 
     @JvmStatic
