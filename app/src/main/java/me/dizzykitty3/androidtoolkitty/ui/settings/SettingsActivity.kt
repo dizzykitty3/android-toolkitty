@@ -184,22 +184,15 @@ private fun OtherSettings() {
         }
     }
 
-    if (BuildConfig.DEBUG) {
-        CustomSwitchRow(
-            icon = Icons.AutoMirrored.Outlined.EventNote,
-            title = R.string.log_outputs,
-            checked = true,
-            enabled = false,
-        ) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        }
-    } else {
-        CustomSwitchRow(
-            icon = Icons.AutoMirrored.Outlined.EventNote,
-            title = R.string.log_outputs,
-            checked = isLoggingEnabled
-        ) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+    val isDebugBuild = BuildConfig.DEBUG
+    CustomSwitchRow(
+        icon = Icons.AutoMirrored.Outlined.EventNote,
+        title = R.string.log_outputs,
+        checked = if (isDebugBuild) true else isLoggingEnabled,
+        enabled = !isDebugBuild,
+    ) {
+        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        if (!isDebugBuild) {
             isLoggingEnabled = it
             LoggingPreferences.isEnabled = it
             if (it) {
