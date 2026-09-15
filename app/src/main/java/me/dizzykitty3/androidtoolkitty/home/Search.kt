@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.home
 
 import android.content.Context
+import androidx.annotation.StringRes
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -119,7 +120,7 @@ private fun SearchComposable() {
             focus.clearFocus()
             view.context.onTapCheckOnYouTubeButton(query, state.videoSearchEngine)
         }) {
-            Text(stringResource(if (state.videoSearchEngine == VideoSearchEngine.BILIBILI) R.string.search_on_bilibili else R.string.search_on_youtube))
+            Text(stringResource(videoSearchButtonLabel(state.videoSearchEngine)))
             Icon(
                 imageVector = Icons.Outlined.ArrowOutward,
                 contentDescription = null,
@@ -130,13 +131,26 @@ private fun SearchComposable() {
     }
 }
 
-private fun Context.onTapSearchButton(query: String, searchEngine: SearchEngine = SearchEngine.GOOGLE) {
+@StringRes
+private fun videoSearchButtonLabel(videoSearchEngine: VideoSearchEngine): Int =
+    when (videoSearchEngine) {
+        VideoSearchEngine.YOUTUBE -> R.string.search_on_youtube
+        VideoSearchEngine.BILIBILI -> R.string.search_on_bilibili
+    }
+
+private fun Context.onTapSearchButton(
+    query: String,
+    searchEngine: SearchEngine = SearchEngine.GOOGLE,
+) {
     if (query.isBlank()) return
     Timber.d("onTapSearchButton $searchEngine")
     this.openSearch(query, searchEngine)
 }
 
-private fun Context.onTapCheckOnYouTubeButton(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
+private fun Context.onTapCheckOnYouTubeButton(
+    query: String,
+    videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
+) {
     if (query.isBlank()) return
     Timber.d("onTapCheckOnYouTubeButton $videoSearchEngine")
     this.searchOnYouTube(query, videoSearchEngine)
