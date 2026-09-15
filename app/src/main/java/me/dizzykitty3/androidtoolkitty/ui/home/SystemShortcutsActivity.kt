@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -30,6 +31,7 @@ import me.dizzykitty3.androidtoolkitty.S_ABOUT_PHONE
 import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
 import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.home.Setting
 import me.dizzykitty3.androidtoolkitty.home.availableSystemSettings
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
@@ -95,33 +97,26 @@ private fun SystemShortcutsComposable() {
             SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
-    BaseCard(R.string.general) {
-        settings.subList(0, i1).forEach { setting ->
-            SystemSettingButton(
-                setting.settingType, setting.text
-            )
-        }
-    }
-    BaseCard(R.string.permissions) {
-        settings.subList(i1, i2).forEach { setting ->
-            SystemSettingButton(
-                setting.settingType, setting.text
-            )
-        }
-    }
-    BaseCard(R.string.debugging) {
-        settings.subList(i2, i3).forEach { setting ->
-            SystemSettingButton(
-                setting.settingType, setting.text
-            )
-        }
-    }
+    SystemSettingsGroup(R.string.general, settings.subList(0, i1))
+    SystemSettingsGroup(R.string.permissions, settings.subList(i1, i2))
+    SystemSettingsGroup(R.string.debugging, settings.subList(i2, i3))
 
-    // edit
     Button(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
         context.openScreen(SystemShortcutsCustomizeActivity::class.java)
     }) { Text(stringResource(R.string.customize_system_settings_card)) }
 
     SpacerPadding()
+}
+
+@Composable
+private fun SystemSettingsGroup(
+    @StringRes title: Int,
+    settings: List<Setting>,
+) {
+    BaseCard(title) {
+        settings.forEach { setting ->
+            SystemSettingButton(setting.settingType, setting.text)
+        }
+    }
 }
