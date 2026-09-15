@@ -9,7 +9,7 @@ object SnackbarUtils {
         Snackbar.make(this, message, Snackbar.LENGTH_SHORT).show()
 
     fun View.showSnackbar(@StringRes message: Int) =
-        Snackbar.make(this, context.getString(message), Snackbar.LENGTH_SHORT).show()
+        showSnackbar(context.getString(message))
 
     fun View.showSnackbar(
         @StringRes message: Int,
