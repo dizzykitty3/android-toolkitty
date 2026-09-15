@@ -10,20 +10,20 @@ import timber.log.Timber
  */
 object LoggingPreferences {
     // Keep the existing storage name and key so upgrades preserve the user's setting.
-    private const val PREF_NAME = "Settings"
-    private const val IS_ENABLED = "is_logging_enabled"
+    private const val PREFERENCES_NAME = "Settings"
+    private const val LOGGING_ENABLED_KEY = "is_logging_enabled"
 
     private lateinit var sharedPreferences: SharedPreferences
 
     fun initialize(context: Context) {
         sharedPreferences = context.applicationContext
-            .getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+            .getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
     var isEnabled: Boolean
-        get() = sharedPreferences.getBoolean(IS_ENABLED, false)
+        get() = sharedPreferences.getBoolean(LOGGING_ENABLED_KEY, false)
         set(value) {
             Timber.d("set logging enabled: $value")
-            sharedPreferences.edit().putBoolean(IS_ENABLED, value).apply()
+            sharedPreferences.edit().putBoolean(LOGGING_ENABLED_KEY, value).apply()
         }
 }
