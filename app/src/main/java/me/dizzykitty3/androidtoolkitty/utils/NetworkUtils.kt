@@ -7,6 +7,7 @@ import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
+
 object NetworkUtil {
     const val STATE_CODE_UNKNOWN = 0
     const val STATE_CODE_WIFI = 1
@@ -22,8 +23,8 @@ fun Context.networkState(): Int {
         val activeNetwork = connectivityManager.activeNetworkInfo
             ?: return NetworkUtil.STATE_CODE_OFFLINE
         return when (activeNetwork.type) {
-                TYPE_WIFI -> NetworkUtil.STATE_CODE_WIFI
-                TYPE_MOBILE -> NetworkUtil.STATE_CODE_MOBILE
+            TYPE_WIFI -> NetworkUtil.STATE_CODE_WIFI
+            TYPE_MOBILE -> NetworkUtil.STATE_CODE_MOBILE
             else -> NetworkUtil.STATE_CODE_UNKNOWN
         }
     }
