@@ -143,11 +143,10 @@ fun TheWheel(withEditableList: Boolean = false) {
     LaunchedEffect(currentRotationDegrees) {
         if (currentRotationDegrees == targetRotationDegrees && hasRotated) {
             isSpinning = false
-            val normalizedRotationDegrees = targetRotationDegrees % 360
-            val itemsCount = items.size
-            val anglePerItem = 360f / itemsCount
-            val selectedIndex =
-                (((360 - normalizedRotationDegrees + 270) % 360) / anglePerItem).toInt() % itemsCount
+            val selectedIndex = selectedWheelItemIndex(
+                rotationDegrees = targetRotationDegrees,
+                itemCount = items.size,
+            )
             val result = items[selectedIndex]
             selected = result
 
@@ -258,6 +257,14 @@ fun TheWheel(withEditableList: Boolean = false) {
             )
         }
     }
+}
+
+private fun selectedWheelItemIndex(rotationDegrees: Float, itemCount: Int): Int {
+    if (itemCount <= 0) return 0
+
+    val normalizedRotationDegrees = rotationDegrees % 360
+    val anglePerItem = 360f / itemCount
+    return (((360 - normalizedRotationDegrees + 270) % 360) / anglePerItem).toInt() % itemCount
 }
 
 private fun decodeWheelItems(itemsJson: String?, itemLabel: String): List<String> {
