@@ -71,10 +71,10 @@ fun HomeScreen(onAutoClearClipboardChanged: (Boolean) -> Unit) {
                         )
                         .background(MaterialTheme.colorScheme.surfaceContainer)
                 ) {
-                    val largeScreen =
+                    val isLargeScreen =
                         currentWindowAdaptiveInfoV2().windowSizeClass.minWidthDp >=
                             WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
-                    if (largeScreen) TabletLayout(viewModel) else MobileLayout(viewModel)
+                    if (isLargeScreen) TabletLayout(viewModel) else MobileLayout(viewModel)
                 }
             }
         }
