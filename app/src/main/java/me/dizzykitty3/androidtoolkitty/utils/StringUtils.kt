@@ -77,7 +77,7 @@ object StringUtils {
     val device: String
         get() = Build.DEVICE
 
-    val osVer: String
+    val osVersion: String
         get() = "Android ${Build.VERSION.RELEASE} (${Build.getMajorSdkVersion(Build.VERSION.SDK_INT_FULL)}.${
             Build.getMinorSdkVersion(
                 Build.VERSION.SDK_INT_FULL

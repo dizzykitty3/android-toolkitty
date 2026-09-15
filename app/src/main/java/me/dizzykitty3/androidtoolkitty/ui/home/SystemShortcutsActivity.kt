@@ -84,7 +84,7 @@ private fun SystemShortcutsComposable() {
                 Row(Modifier.weight(0.6F)) {
                     Box(Modifier.horizontalScroll(rememberScrollState())) {
                         Text(
-                            text = StringUtils.osVer, modifier = Modifier.clickable {
+                            text = StringUtils.osVersion, modifier = Modifier.clickable {
                                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                                 context.openScreen(AndroidVersionsActivity::class.java)
                             }, color = MaterialTheme.colorScheme.primary
