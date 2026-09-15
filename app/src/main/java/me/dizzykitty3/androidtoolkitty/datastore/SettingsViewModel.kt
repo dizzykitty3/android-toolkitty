@@ -1,8 +1,5 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
-import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
-import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
-
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +7,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import javax.inject.Inject
 
 val LocalSettingsViewModel = staticCompositionLocalOf<SettingsViewModel> {
@@ -27,63 +26,67 @@ class SettingsViewModel @Inject constructor(
         initialValue = UserSettings.default()
     )
 
+    private fun updateSettings(update: suspend SettingsRepository.() -> Unit) {
+        viewModelScope.launch { repository.update() }
+    }
+
     fun getShownState(card: String): Boolean {
         return settingsState.value.cardShownStates[card] ?: true
     }
 
     fun saveShownState(card: String, isShown: Boolean) {
-        viewModelScope.launch { repository.saveShownState(card, isShown) }
+        updateSettings { saveShownState(card, isShown) }
     }
 
     fun toggleDynamicColor(enabled: Boolean) {
-        viewModelScope.launch { repository.toggleDynamicColor(enabled) }
+        updateSettings { toggleDynamicColor(enabled) }
     }
 
     fun toggleAutoClearClipboard(enabled: Boolean) {
-        viewModelScope.launch { repository.toggleAutoClearClipboard(enabled) }
+        updateSettings { toggleAutoClearClipboard(enabled) }
     }
 
     fun setSearchEngine(engine: SearchEngine) {
-        viewModelScope.launch { repository.setSearchEngine(engine) }
+        updateSettings { setSearchEngine(engine) }
     }
 
     fun setVideoSearchEngine(engine: VideoSearchEngine) {
-        viewModelScope.launch { repository.setVideoSearchEngine(engine) }
+        updateSettings { setVideoSearchEngine(engine) }
     }
 
     fun setDoNotRememberLastSearch(enabled: Boolean) {
-        viewModelScope.launch { repository.setDoNotRememberLastSearch(enabled) }
+        updateSettings { setDoNotRememberLastSearch(enabled) }
     }
 
     fun updateLastSelectedPlatformIndex(index: Int) {
-        viewModelScope.launch { repository.updateLastSelectedPlatformIndex(index) }
+        updateSettings { updateLastSelectedPlatformIndex(index) }
     }
 
     fun updateTypingContents(contents: String) {
-        viewModelScope.launch { repository.updateTypingContents(contents) }
+        updateSettings { updateTypingContents(contents) }
     }
 
     fun updateLatitude(latitude: String) {
-        viewModelScope.launch { repository.updateLatitude(latitude) }
+        updateSettings { updateLatitude(latitude) }
     }
 
     fun updateLongitude(longitude: String) {
-        viewModelScope.launch { repository.updateLongitude(longitude) }
+        updateSettings { updateLongitude(longitude) }
     }
 
     fun toggleHaveTappedAddButton(haveTapped: Boolean) {
-        viewModelScope.launch { repository.toggleHaveTappedAddButton(haveTapped) }
+        updateSettings { toggleHaveTappedAddButton(haveTapped) }
     }
 
     fun updateCustomVolume(value: Int) {
-        viewModelScope.launch { repository.updateCustomVolume(value) }
+        updateSettings { updateCustomVolume(value) }
     }
 
     fun increaseVolumeButtonTapCount() {
-        viewModelScope.launch { repository.increaseVolumeButtonTapCount() }
+        updateSettings { increaseVolumeButtonTapCount() }
     }
 
     fun updateWheelOfFortuneItems(items: String) {
-        viewModelScope.launch { repository.updateWheelOfFortuneItems(items) }
+        updateSettings { updateWheelOfFortuneItems(items) }
     }
 }
