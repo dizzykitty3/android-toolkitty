@@ -36,11 +36,8 @@ object DateUtils {
             (this * 100).toString().take(4).plus("%")
         }
 
-    private val sysTimeMillis: Long
-        get() = System.currentTimeMillis()
-
     val unixTimestampInSeconds: String
-        get() = (sysTimeMillis / 1000).toString()
+        get() = (System.currentTimeMillis() / 1000).toString()
 
     val sysTimeZone: String
         get() = TimeZone.getDefault().id
