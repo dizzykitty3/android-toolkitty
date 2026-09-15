@@ -163,7 +163,7 @@ data class UserSettings(
     val wheelOfFortuneItems: String?,
     val shownItemStates: Map<String, Boolean>,
 ) {
-    fun isShown(key: String): Boolean = shownItemStates[key] ?: true
+    fun isShown(itemKey: String): Boolean = shownItemStates[itemKey] ?: true
 
     companion object {
         fun default(): UserSettings = UserSettings(
