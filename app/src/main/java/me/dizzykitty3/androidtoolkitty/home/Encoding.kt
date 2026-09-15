@@ -52,8 +52,7 @@ fun CodesOfCharacters() {
 fun Unicode() {
     var unicode by remember { mutableStateOf("") }
     var characters by remember { mutableStateOf("") }
-    var isUnicodeInput by remember { mutableStateOf(false) }
-    var isCharacterInput by remember { mutableStateOf(false) }
+    var inputMode by remember { mutableStateOf(ConversionInput.NONE) }
     val view = LocalView.current
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
@@ -71,8 +70,7 @@ fun Unicode() {
         onValueChange = {
             unicode = it
             characters = ""
-            isUnicodeInput = true
-            isCharacterInput = false
+            inputMode = ConversionInput.UNICODE
         },
         label = { Text(stringResource(R.string.unicode)) },
         modifier = Modifier.fillMaxWidth(),
@@ -87,7 +85,7 @@ fun Unicode() {
         },
         keyboardActions = KeyboardActions(
             onDone = {
-                if (isUnicodeInput) convertUnicode()
+                if (inputMode == ConversionInput.UNICODE) convertUnicode()
             }),
         trailingIcon = {
             ClearInput(unicode) {
@@ -102,8 +100,7 @@ fun Unicode() {
         onValueChange = {
             characters = it
             unicode = ""
-            isCharacterInput = true
-            isUnicodeInput = false
+            inputMode = ConversionInput.CHARACTER
         },
         label = { Text(stringResource(R.string.character)) },
         modifier = Modifier.fillMaxWidth(),
@@ -112,7 +109,7 @@ fun Unicode() {
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                if (isCharacterInput) convertCharacters()
+                if (inputMode == ConversionInput.CHARACTER) convertCharacters()
             }),
         trailingIcon = {
             ClearInput(characters) {
@@ -124,12 +121,18 @@ fun Unicode() {
     TextButton(onClick = {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
         focus.clearFocus()
-        if (isUnicodeInput) {
-            convertUnicode()
-        } else if (isCharacterInput) {
-            convertCharacters()
+        when (inputMode) {
+            ConversionInput.UNICODE -> convertUnicode()
+            ConversionInput.CHARACTER -> convertCharacters()
+            ConversionInput.NONE -> Unit
         }
     }) { Text(stringResource(R.string.convert)) }
+}
+
+private enum class ConversionInput {
+    NONE,
+    UNICODE,
+    CHARACTER,
 }
 
 private enum class ConversionDirection {
