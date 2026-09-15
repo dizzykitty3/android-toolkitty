@@ -41,7 +41,12 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import timber.log.Timber
 import kotlin.math.roundToInt
 
+private const val OFF_VOLUME_INDEX = 0
+private const val FORTY_PERCENT_VOLUME_INDEX = 1
+private const val SIXTY_PERCENT_VOLUME_INDEX = 2
 private const val CUSTOM_VOLUME_INDEX = 3
+private const val FORTY_PERCENT = 0.4
+private const val SIXTY_PERCENT = 0.6
 
 @Composable
 fun Volume() {
@@ -97,7 +102,7 @@ fun MediaVolume(isHome: Boolean) {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     selectedIndex = index
                     when (index) {
-                        0, 1, 2 -> {
+                        OFF_VOLUME_INDEX, FORTY_PERCENT_VOLUME_INDEX, SIXTY_PERCENT_VOLUME_INDEX -> {
                             presetVolume(index, maxVolume)?.let { volume ->
                                 view.setVolume(volume)
                                 vm.increaseVolumeButtonTapCount()
@@ -160,9 +165,9 @@ fun MediaVolume(isHome: Boolean) {
 }
 
 private fun presetVolume(index: Int, maxVolume: Int): Double? = when (index) {
-    0 -> 0.0
-    1 -> 0.4 * maxVolume
-    2 -> 0.6 * maxVolume
+    OFF_VOLUME_INDEX -> 0.0
+    FORTY_PERCENT_VOLUME_INDEX -> FORTY_PERCENT * maxVolume
+    SIXTY_PERCENT_VOLUME_INDEX -> SIXTY_PERCENT * maxVolume
     else -> null
 }
 
@@ -171,9 +176,9 @@ private fun selectedVolumeIndex(
     maxVolume: Int,
     customVolume: Int,
 ): Int = when (volume) {
-    0 -> 0
-    (0.4 * maxVolume).roundToInt() -> 1
-    (0.6 * maxVolume).roundToInt() -> 2
-    (customVolume * 0.01 * maxVolume).roundToInt() -> 3
+    0 -> OFF_VOLUME_INDEX
+    (FORTY_PERCENT * maxVolume).roundToInt() -> FORTY_PERCENT_VOLUME_INDEX
+    (SIXTY_PERCENT * maxVolume).roundToInt() -> SIXTY_PERCENT_VOLUME_INDEX
+    (customVolume * 0.01 * maxVolume).roundToInt() -> CUSTOM_VOLUME_INDEX
     else -> -1
 }
