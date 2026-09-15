@@ -69,7 +69,7 @@ private fun SearchSettings() {
         SearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
-                selected = state.searchEngine == engine,
+                isSelected = state.searchEngine == engine,
                 onClick = { viewModel.setSearchEngine(engine) },
             )
         }
@@ -79,7 +79,7 @@ private fun SearchSettings() {
         VideoSearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
-                selected = state.videoSearchEngine == engine,
+                isSelected = state.videoSearchEngine == engine,
                 onClick = { viewModel.setVideoSearchEngine(engine) },
             )
         }
@@ -99,7 +99,7 @@ private fun SearchSettings() {
 @Composable
 private fun SettingsRadioRow(
     @StringRes title: Int,
-    selected: Boolean,
+    isSelected: Boolean,
     onClick: () -> Unit,
 ) {
     val haptic = LocalHapticFeedback.current
@@ -113,7 +113,7 @@ private fun SettingsRadioRow(
                 .fillMaxWidth()
                 .requiredHeightIn(min = dimensionResource(R.dimen.height_setting_row))
                 .selectable(
-                    selected = selected,
+                    selected = isSelected,
                     role = Role.RadioButton,
                     onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -125,7 +125,7 @@ private fun SettingsRadioRow(
         ) {
             Text(stringResource(title))
             Spacer(Modifier.weight(1F))
-            RadioButton(selected = selected, onClick = null)
+            RadioButton(selected = isSelected, onClick = null)
         }
     }
 }
