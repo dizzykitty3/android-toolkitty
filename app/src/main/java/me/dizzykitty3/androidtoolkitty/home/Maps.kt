@@ -70,7 +70,7 @@ fun Maps() {
                 )
             },
             label = { Text(stringResource(R.string.latitude)) },
-            isError = latitude.errorLatitude(),
+            isError = latitude.hasInvalidLatitude(),
             supportingText = { Text(stringResource(R.string.latitude_description)) },
             modifier = Modifier
                 .fillMaxWidth()
@@ -115,7 +115,7 @@ fun Maps() {
                     color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3F)
                 )
             },
-            isError = longitude.errorLongitude(),
+            isError = longitude.hasInvalidLongitude(),
             label = { Text(stringResource(R.string.longitude)) },
             supportingText = { Text(stringResource(R.string.longitude_description)) },
             modifier = Modifier
@@ -159,7 +159,7 @@ fun Maps() {
 }
 
 private fun Context.openGoogleMapsIfValid(latitude: String, longitude: String) {
-    if (latitude.errorLatitude() || longitude.errorLongitude()) return
+    if (latitude.hasInvalidLatitude() || longitude.hasInvalidLongitude()) return
 
     Timber.d("openGoogleMapsIfValid")
     this.checkOnGoogleMaps(latitude, longitude)
@@ -184,10 +184,10 @@ private fun String.getCoordinateDirection(
     }
 }
 
-private fun String.errorLatitude(): Boolean =
+private fun String.hasInvalidLatitude(): Boolean =
     isNotBlank() && getLatitudeSuffix().isEmpty()
 
-private fun String.errorLongitude(): Boolean =
+private fun String.hasInvalidLongitude(): Boolean =
     isNotBlank() && getLongitudeSuffix().isEmpty()
 
 private fun sanitizeCoordinateInput(input: String): String {
