@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.semantics.Role
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -66,7 +68,7 @@ private fun SearchSettings() {
     BaseCard(R.string.search_engine) {
         SearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
-                title = stringResource(engine.title),
+                title = engine.title,
                 selected = state.searchEngine == engine,
                 onClick = { viewModel.setSearchEngine(engine) },
             )
@@ -76,7 +78,7 @@ private fun SearchSettings() {
     BaseCard(R.string.video_search_engine) {
         VideoSearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
-                title = stringResource(engine.title),
+                title = engine.title,
                 selected = state.videoSearchEngine == engine,
                 onClick = { viewModel.setVideoSearchEngine(engine) },
             )
@@ -96,7 +98,7 @@ private fun SearchSettings() {
 
 @Composable
 private fun SettingsRadioRow(
-    title: String,
+    @StringRes title: Int,
     selected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -119,9 +121,9 @@ private fun SettingsRadioRow(
                     },
                 )
                 .padding(horizontal = dimensionResource(R.dimen.padding_card_content)),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(title)
+            Text(stringResource(title))
             Spacer(Modifier.weight(1F))
             RadioButton(selected = selected, onClick = null)
         }
