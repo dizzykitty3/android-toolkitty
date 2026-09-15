@@ -8,6 +8,9 @@ import java.util.Locale
 object StringUtils {
     private val whitespaceRegex = Regex("\\s")
     private val validUsernameRegex = Regex("^[a-zA-Z0-9_]*$")
+    private val supportedLocaleRegex = Regex("en|Hans|zh_CN|zh_SG|ja")
+    private val englishLocaleRegex = Regex("en")
+    private val cjkLocaleRegex = Regex("Hans|Hant|zh|ja|ko")
 
     // ----- string processing -----//
 
@@ -64,15 +67,15 @@ object StringUtils {
 
     val sysLocale: String @CheckResult get() = Locale.getDefault().toString()
 
-    val sysLangSupported: Boolean @CheckResult get() = sysLocale.contains(Regex("en|Hans|zh_CN|zh_SG|ja"))
+    val sysLangSupported: Boolean @CheckResult get() = sysLocale.contains(supportedLocaleRegex)
 
     val sysLangNotSupported: Boolean @CheckResult get() = !sysLangSupported
 
-    val sysLangFullyTranslated: Boolean @CheckResult get() = sysLocale.contains(Regex("en"))
+    val sysLangFullyTranslated: Boolean @CheckResult get() = sysLocale.contains(englishLocaleRegex)
 
     val sysLangNotFullyTranslated: Boolean @CheckResult get() = !sysLangFullyTranslated
 
-    val sysLangCJK: Boolean @CheckResult get() = sysLocale.contains(Regex("Hans|Hant|zh|ja|ko"))
+    val sysLangCJK: Boolean @CheckResult get() = sysLocale.contains(cjkLocaleRegex)
 
     // ----- device and app info ----- //
 
