@@ -32,6 +32,10 @@
 
     <!-- Home > Year progress -->
     <string name="year_progress">Year progress</string>
+    <string name="good_morning">Good morning</string>
+    <string name="good_afternoon">Good afternoon</string>
+    <string name="good_evening">Good evening</string>
+    <string name="good_night">Good night</string>
     <string name="happy_new_year">Happy new year!</string>
 
     <!-- Home > Volume -->

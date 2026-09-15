@@ -1,16 +1,20 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
+import androidx.annotation.StringRes
+import me.dizzykitty3.androidtoolkitty.R
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.temporal.ChronoUnit
 import java.util.TimeZone
 
 object DateUtils {
-    fun greeting(): String = when (LocalTime.now().hour) {
-        in 6..11 -> "Good morning"
-        in 12..18 -> "Good afternoon"
-        in 19..22 -> "Good evening"
-        else -> "Good night"
+
+    @StringRes
+    fun greeting(): Int = when (LocalTime.now().hour) {
+        in 6..11 -> R.string.good_morning
+        in 12..18 -> R.string.good_afternoon
+        in 19..22 -> R.string.good_evening
+        else -> R.string.good_night
     }
 
     private val daysPassed: Long
