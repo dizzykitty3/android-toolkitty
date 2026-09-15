@@ -37,6 +37,9 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnGoogleMaps
 import timber.log.Timber
 
+private const val MAX_LATITUDE = 90F
+private const val MAX_LONGITUDE = 180F
+
 @Composable
 fun Maps() {
     BaseCard(title = R.string.maps, icon = Icons.Outlined.Map) {
@@ -166,10 +169,10 @@ private fun Context.openGoogleMapsIfValid(latitude: String, longitude: String) {
 }
 
 private fun String.getLatitudeSuffix(): String =
-    getCoordinateDirection(maximum = 90F, positive = "N", negative = "S")
+    getCoordinateDirection(maximum = MAX_LATITUDE, positive = "N", negative = "S")
 
 private fun String.getLongitudeSuffix(): String =
-    getCoordinateDirection(maximum = 180F, positive = "E", negative = "W")
+    getCoordinateDirection(maximum = MAX_LONGITUDE, positive = "E", negative = "W")
 
 private fun String.getCoordinateDirection(
     maximum: Float,
