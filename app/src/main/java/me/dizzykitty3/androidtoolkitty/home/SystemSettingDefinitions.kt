@@ -34,7 +34,7 @@ import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 
 data class Setting(
     val settingType: String,
-    @param:StringRes val text: Int,
+    @param:StringRes val title: Int,
     val isAvailable: () -> Boolean = { true },
 )
 

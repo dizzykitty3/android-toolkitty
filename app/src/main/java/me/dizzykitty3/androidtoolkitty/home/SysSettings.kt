@@ -49,7 +49,7 @@ fun SysSettings() {
         } else {
             shownSettings.take(4).forEach { setting ->
                 SystemSettingButton(
-                    setting.settingType, setting.text
+                    setting.settingType, setting.title
                 )
             }
         }

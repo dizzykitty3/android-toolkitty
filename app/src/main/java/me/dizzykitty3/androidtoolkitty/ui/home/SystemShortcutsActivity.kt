@@ -116,7 +116,7 @@ private fun SystemSettingsGroup(
 ) {
     BaseCard(title) {
         settings.forEach { setting ->
-            SystemSettingButton(setting.settingType, setting.text)
+            SystemSettingButton(setting.settingType, setting.title)
         }
     }
 }

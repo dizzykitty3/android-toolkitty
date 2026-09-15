@@ -64,7 +64,7 @@ private fun SystemShortcutsPinOptionsComposable() {
         systemSettingDefinitions.forEach { setting ->
             if (setting.isAvailable()) {
                 CustomHideCardSettingSwitch(
-                    text = setting.text,
+                    text = setting.title,
                     isChecked = state.isShown(setting.settingType)
                 ) { newState ->
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
