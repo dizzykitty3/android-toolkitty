@@ -62,26 +62,32 @@ object IntentUtils {
         launch(Intent(this, screen))
     }
 
-    fun Context.openSearch(query: String, bingSearch: Boolean = false) {
+    fun Context.openSearch(query: String, searchEngine: SearchEngine = SearchEngine.GOOGLE) {
         if (query.isBlank()) return
 
-        Timber.d("openSearch, bingSearch = $bingSearch")
-        if (bingSearch) {
-            this.openURL("https://bing.com/search?q=$query")
-        } else {
-            val intent = Intent(Intent.ACTION_WEB_SEARCH)
-            intent.putExtra(SearchManager.QUERY, query)
-            this.launch(intent)
+        Timber.d("openSearch, searchEngine = $searchEngine")
+        when (searchEngine) {
+            SearchEngine.GOOGLE -> {
+                val intent = Intent(Intent.ACTION_WEB_SEARCH)
+                intent.putExtra(SearchManager.QUERY, query)
+                this.launch(intent)
+            }
+            SearchEngine.BING -> this.openURL("https://bing.com/search?q=$query")
+            SearchEngine.DUCKDUCKGO -> this.openURL("https://duckduckgo.com/?q=$query")
+            SearchEngine.ECOSIA -> this.openURL("https://www.ecosia.org/search?q=$query")
         }
     }
 
-    fun Context.searchOnYouTube(query: String, bingSearch: Boolean = false) {
+    fun Context.searchOnYouTube(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
         if (query.isBlank()) return
 
-        Timber.d("searchOnYouTube, bingSearch = $bingSearch")
+        Timber.d("searchOnYouTube, videoSearchEngine = $videoSearchEngine")
         val intent = Intent(
             Intent.ACTION_VIEW,
-            if (bingSearch) "bilibili://search?keyword=$query".toUri() else "https://youtube.com/results?search_query=$query".toUri()
+            when (videoSearchEngine) {
+                VideoSearchEngine.YOUTUBE -> "https://youtube.com/results?search_query=$query".toUri()
+                VideoSearchEngine.BILIBILI -> "bilibili://search?keyword=$query".toUri()
+            }
         )
         this.launch(intent)
     }

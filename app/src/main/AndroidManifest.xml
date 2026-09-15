@@ -58,6 +58,8 @@
 
         <activity android:name=".ui.settings.SettingsActivity"></activity>
 
+        <activity android:name=".ui.settings.SearchSettingsActivity"></activity>
+
         <activity android:name=".ui.settings.CustomizeHomeActivity"></activity>
 
         <activity android:name=".ui.settings.LicensesActivity"></activity>

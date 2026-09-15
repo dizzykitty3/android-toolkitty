@@ -9,6 +9,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
+import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import javax.inject.Inject
 
 @Serializable
@@ -20,7 +22,8 @@ class SettingsRepository @Inject constructor(
     private object Keys {
         val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
         val AUTO_CLEAR_CLIPBOARD = booleanPreferencesKey("auto_clear_clipboard")
-        val SWITCH_TO_BING_SEARCH = booleanPreferencesKey("switch_to_bing_search")
+        val SEARCH_ENGINE = stringPreferencesKey("search_engine")
+        val VIDEO_SEARCH_ENGINE = stringPreferencesKey("video_search_engine")
         val DO_NOT_REMEMBER_RECENT_SEARCHES = booleanPreferencesKey("do_not_remember_recent_searches")
         val LAST_SELECTED_PLATFORM_INDEX = intPreferencesKey("last_selected_platform_index")
         val TYPING_CONTENTS = stringPreferencesKey("typing_contents")
@@ -49,7 +52,12 @@ class SettingsRepository @Inject constructor(
         UserSettings(
             dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
             autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
-            switchToBingSearch = preferences[Keys.SWITCH_TO_BING_SEARCH] ?: defaults.switchToBingSearch,
+            searchEngine = preferences[Keys.SEARCH_ENGINE]
+                ?.let(SearchEngine::fromStoredName)
+                ?: defaults.searchEngine,
+            videoSearchEngine = preferences[Keys.VIDEO_SEARCH_ENGINE]
+                ?.let(VideoSearchEngine::fromStoredName)
+                ?: defaults.videoSearchEngine,
             doNotRememberRecentSearches = preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] ?: defaults.doNotRememberRecentSearches,
             lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX]
                 ?: defaults.lastSelectedPlatformIndex,
@@ -81,8 +89,12 @@ class SettingsRepository @Inject constructor(
         dataStore.edit { it[Keys.AUTO_CLEAR_CLIPBOARD] = enabled }
     }
 
-    suspend fun toggleSwitchToBingSearch(enabled: Boolean) {
-        dataStore.edit { it[Keys.SWITCH_TO_BING_SEARCH] = enabled }
+    suspend fun setSearchEngine(engine: SearchEngine) {
+        dataStore.edit { it[Keys.SEARCH_ENGINE] = engine.name }
+    }
+
+    suspend fun setVideoSearchEngine(engine: VideoSearchEngine) {
+        dataStore.edit { it[Keys.VIDEO_SEARCH_ENGINE] = engine.name }
     }
 
     suspend fun setDoNotRememberRecentSearches(enabled: Boolean) {
@@ -137,7 +149,8 @@ class SettingsRepository @Inject constructor(
 data class UserSettings(
     val dynamicColor: Boolean,
     val autoClearClipboard: Boolean,
-    val switchToBingSearch: Boolean,
+    val searchEngine: SearchEngine,
+    val videoSearchEngine: VideoSearchEngine,
     val doNotRememberRecentSearches: Boolean,
     val lastSelectedPlatformIndex: Int,
     val typingContents: String,
@@ -153,7 +166,8 @@ data class UserSettings(
         fun default(): UserSettings = UserSettings(
             dynamicColor = true,
             autoClearClipboard = false,
-            switchToBingSearch = false,
+            searchEngine = SearchEngine.GOOGLE,
+            videoSearchEngine = VideoSearchEngine.YOUTUBE,
             doNotRememberRecentSearches = false,
             lastSelectedPlatformIndex = 0,
             typingContents = "",

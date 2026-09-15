@@ -40,6 +40,8 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnYouTube
+import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import timber.log.Timber
 
 @Composable
@@ -83,7 +85,7 @@ private fun SearchComposable() {
         keyboardActions = KeyboardActions(
             onDone = {
                 focus.clearFocus()
-                view.context.onTapSearchButton(query, state.switchToBingSearch)
+                view.context.onTapSearchButton(query, state.searchEngine)
             }),
         trailingIcon = {
             ClearInput(query) {
@@ -101,7 +103,7 @@ private fun SearchComposable() {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             focus.clearFocus()
-            view.context.onTapSearchButton(query, state.switchToBingSearch)
+            view.context.onTapSearchButton(query, state.searchEngine)
         }) {
             Text(stringResource(R.string.search))
             Icon(
@@ -115,9 +117,9 @@ private fun SearchComposable() {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             focus.clearFocus()
-            view.context.onTapCheckOnYouTubeButton(query, state.switchToBingSearch)
+            view.context.onTapCheckOnYouTubeButton(query, state.videoSearchEngine)
         }) {
-            Text(stringResource(if (state.switchToBingSearch) R.string.search_on_bilibili else R.string.search_on_youtube))
+            Text(stringResource(if (state.videoSearchEngine == VideoSearchEngine.BILIBILI) R.string.search_on_bilibili else R.string.search_on_youtube))
             Icon(
                 imageVector = Icons.Outlined.ArrowOutward,
                 contentDescription = null,
@@ -128,14 +130,14 @@ private fun SearchComposable() {
     }
 }
 
-private fun Context.onTapSearchButton(query: String, bingSearch: Boolean = false) {
+private fun Context.onTapSearchButton(query: String, searchEngine: SearchEngine = SearchEngine.GOOGLE) {
     if (query.isBlank()) return
-    Timber.d("onTapSearchButton ${if (bingSearch) "Bing" else "Google"}")
-    this.openSearch(query, bingSearch)
+    Timber.d("onTapSearchButton $searchEngine")
+    this.openSearch(query, searchEngine)
 }
 
-private fun Context.onTapCheckOnYouTubeButton(query: String, bingSearch: Boolean = false) {
+private fun Context.onTapCheckOnYouTubeButton(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
     if (query.isBlank()) return
-    Timber.d("onTapCheckOnYouTubeButton")
-    this.searchOnYouTube(query, bingSearch)
+    Timber.d("onTapCheckOnYouTubeButton $videoSearchEngine")
+    this.searchOnYouTube(query, videoSearchEngine)
 }

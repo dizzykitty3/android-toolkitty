@@ -135,25 +135,15 @@ private fun General() {
         viewModel.toggleAutoClearClipboard(it)
     }
 
-    // Switch to Bing Search
     if (showSearchCard) {
-        CustomSwitchRow(
+        SettingsLinkRow(
             icon = Icons.Outlined.Search,
-            title = R.string.switch_to_bing_search,
-            checked = state.switchToBingSearch
-        ) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            viewModel.toggleSwitchToBingSearch(it)
-        }
-
-        CustomSwitchRow(
-            icon = Icons.Outlined.Search,
-            title = R.string.do_not_remember_recent_searches,
-            checked = state.doNotRememberRecentSearches
-        ) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            viewModel.setDoNotRememberRecentSearches(it)
-        }
+            title = stringResource(R.string.search_settings),
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                context.openScreen(SearchSettingsActivity::class.java)
+            }
+        )
     }
 
     // edit home

@@ -168,6 +168,15 @@
     <string name="accounts">Manage accounts</string>
     <string name="vpn">VPN</string>
     <string name="search_settings">Search settings</string>
+    <string name="search_engine">Search engine</string>
+    <string name="video_search_engine">Video search engine</string>
+    <string name="search_preferences">Search preferences</string>
+    <string name="google">Google</string>
+    <string name="bing">Bing</string>
+    <string name="duckduckgo">DuckDuckGo</string>
+    <string name="ecosia">Ecosia</string>
+    <string name="youtube">YouTube</string>
+    <string name="bilibili">bilibili</string>
     <string name="sound">Sound &amp; vibration</string>
     <string name="keyboard">Keyboard apps</string>
     <string name="nfc">NFC</string>
@@ -244,8 +253,7 @@
     <string name="show_all_cards">Show all cards</string>
     <string name="customize_home">Customize Home</string>
     <string name="clear_clipboard_on_launch">Clear clipboard on launch</string>
-    <string name="switch_to_bing_search">Switch to Bing Search</string>
-    <string name="do_not_remember_recent_searches">Do not remember recent searches</string>
+    <string name="do_not_remember_recent_searches">Do not remember the last search</string>
 
     <!-- Settings > App info -->
     <string name="view_source_code">Source code</string>

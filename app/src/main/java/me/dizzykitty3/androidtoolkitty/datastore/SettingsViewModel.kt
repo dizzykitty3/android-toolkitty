@@ -1,5 +1,8 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
+import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
+
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -40,8 +43,12 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.toggleAutoClearClipboard(enabled) }
     }
 
-    fun toggleSwitchToBingSearch(enabled: Boolean) {
-        viewModelScope.launch { repository.toggleSwitchToBingSearch(enabled) }
+    fun setSearchEngine(engine: SearchEngine) {
+        viewModelScope.launch { repository.setSearchEngine(engine) }
+    }
+
+    fun setVideoSearchEngine(engine: VideoSearchEngine) {
+        viewModelScope.launch { repository.setVideoSearchEngine(engine) }
     }
 
     fun setDoNotRememberRecentSearches(enabled: Boolean) {
