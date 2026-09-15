@@ -145,6 +145,15 @@ private fun General() {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             viewModel.toggleSwitchToBingSearch(it)
         }
+
+        CustomSwitchRow(
+            icon = Icons.Outlined.Search,
+            title = R.string.do_not_remember_recent_searches,
+            checked = state.doNotRememberRecentSearches
+        ) {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            viewModel.setDoNotRememberRecentSearches(it)
+        }
     }
 
     // edit home

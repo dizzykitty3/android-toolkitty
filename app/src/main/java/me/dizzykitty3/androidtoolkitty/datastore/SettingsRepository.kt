@@ -21,6 +21,7 @@ class SettingsRepository @Inject constructor(
         val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
         val AUTO_CLEAR_CLIPBOARD = booleanPreferencesKey("auto_clear_clipboard")
         val SWITCH_TO_BING_SEARCH = booleanPreferencesKey("switch_to_bing_search")
+        val DO_NOT_REMEMBER_RECENT_SEARCHES = booleanPreferencesKey("do_not_remember_recent_searches")
         val LAST_SELECTED_PLATFORM_INDEX = intPreferencesKey("last_selected_platform_index")
         val TYPING_CONTENTS = stringPreferencesKey("typing_contents")
         val LATITUDE = stringPreferencesKey("latitude")
@@ -49,6 +50,7 @@ class SettingsRepository @Inject constructor(
             dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
             autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
             switchToBingSearch = preferences[Keys.SWITCH_TO_BING_SEARCH] ?: defaults.switchToBingSearch,
+            doNotRememberRecentSearches = preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] ?: defaults.doNotRememberRecentSearches,
             lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX]
                 ?: defaults.lastSelectedPlatformIndex,
             typingContents = preferences[Keys.TYPING_CONTENTS] ?: defaults.typingContents,
@@ -83,12 +85,25 @@ class SettingsRepository @Inject constructor(
         dataStore.edit { it[Keys.SWITCH_TO_BING_SEARCH] = enabled }
     }
 
+    suspend fun setDoNotRememberRecentSearches(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] = enabled
+            if (enabled) preferences.remove(Keys.TYPING_CONTENTS)
+        }
+    }
+
     suspend fun updateLastSelectedPlatformIndex(index: Int) {
         dataStore.edit { it[Keys.LAST_SELECTED_PLATFORM_INDEX] = index }
     }
 
     suspend fun updateTypingContents(contents: String) {
-        dataStore.edit { it[Keys.TYPING_CONTENTS] = contents }
+        dataStore.edit { preferences ->
+            if (preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] == true) {
+                preferences.remove(Keys.TYPING_CONTENTS)
+            } else {
+                preferences[Keys.TYPING_CONTENTS] = contents
+            }
+        }
     }
 
     suspend fun updateLatitude(latitude: String) {
@@ -123,6 +138,7 @@ data class UserSettings(
     val dynamicColor: Boolean,
     val autoClearClipboard: Boolean,
     val switchToBingSearch: Boolean,
+    val doNotRememberRecentSearches: Boolean,
     val lastSelectedPlatformIndex: Int,
     val typingContents: String,
     val latitude: String,
@@ -138,6 +154,7 @@ data class UserSettings(
             dynamicColor = true,
             autoClearClipboard = false,
             switchToBingSearch = false,
+            doNotRememberRecentSearches = false,
             lastSelectedPlatformIndex = 0,
             typingContents = "",
             latitude = "",

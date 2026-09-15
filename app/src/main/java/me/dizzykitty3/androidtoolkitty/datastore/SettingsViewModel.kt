@@ -44,6 +44,10 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.toggleSwitchToBingSearch(enabled) }
     }
 
+    fun setDoNotRememberRecentSearches(enabled: Boolean) {
+        viewModelScope.launch { repository.setDoNotRememberRecentSearches(enabled) }
+    }
+
     fun updateLastSelectedPlatformIndex(index: Int) {
         viewModelScope.launch { repository.updateLastSelectedPlatformIndex(index) }
     }

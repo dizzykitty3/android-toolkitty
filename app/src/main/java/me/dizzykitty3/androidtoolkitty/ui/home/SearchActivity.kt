@@ -98,7 +98,7 @@ private fun Webpage() {
             vm.updateTypingContents(
                 it.replace(fullWidthPeriod, halfWidthPeriod)
                     .replace(halfWidthSpace, halfWidthPeriod)
-                    .replace(fullWidthSpace, halfWidthPeriod)
+                    .replace(fullWidthSpace, halfWidthPeriod),
             )
         },
         label = { Text(stringResource(R.string.url)) },
