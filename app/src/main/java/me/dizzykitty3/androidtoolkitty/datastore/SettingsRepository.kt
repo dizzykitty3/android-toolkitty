@@ -59,7 +59,9 @@ class SettingsRepository @Inject constructor(
             videoSearchEngine = preferences[PreferenceKeys.VIDEO_SEARCH_ENGINE]
                 ?.let(VideoSearchEngine::fromStoredName)
                 ?: defaults.videoSearchEngine,
-            doNotRememberLastSearch = preferences[PreferenceKeys.DO_NOT_REMEMBER_LAST_SEARCH] ?: defaults.doNotRememberLastSearch,
+            doNotRememberLastSearch =
+                preferences[PreferenceKeys.DO_NOT_REMEMBER_LAST_SEARCH]
+                    ?: defaults.doNotRememberLastSearch,
             lastSelectedPlatformIndex = preferences[PreferenceKeys.LAST_SELECTED_PLATFORM_INDEX]
                 ?: defaults.lastSelectedPlatformIndex,
             typingContents = preferences[PreferenceKeys.TYPING_CONTENTS] ?: defaults.typingContents,
