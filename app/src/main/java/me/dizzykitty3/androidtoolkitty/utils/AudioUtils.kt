@@ -23,19 +23,18 @@ val Context.maxMediaVolumeIndex: Int
 val Context.maxVoiceCallVolumeIndex: Int
     get() = audioManager?.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL) ?: 0
 
-private fun Context.setMediaVolume(volume: Int) =
+private fun Context.setAudioStreamVolume(streamType: Int, volume: Int) =
     audioManager?.setStreamVolume(
-        AudioManager.STREAM_MUSIC,
+        streamType,
         volume,
         AudioManager.FLAG_SHOW_UI
     )
 
+private fun Context.setMediaVolume(volume: Int) =
+    setAudioStreamVolume(AudioManager.STREAM_MUSIC, volume)
+
 fun Context.setVoiceCallVolume(volume: Int) =
-    audioManager?.setStreamVolume(
-        AudioManager.STREAM_VOICE_CALL,
-        volume,
-        AudioManager.FLAG_SHOW_UI
-    )
+    setAudioStreamVolume(AudioManager.STREAM_VOICE_CALL, volume)
 
 fun View.setVolume(volume: Int) {
     context.setMediaVolume(volume)
