@@ -89,13 +89,11 @@ fun MediaVolume(isHome: Boolean) {
             options[3] = addLabel
         }
 
-        selectedIndex = when (view.context.mediaVolume) {
-            0 -> 0
-            (0.4 * maxVolume).roundToInt() -> 1
-            (0.6 * maxVolume).roundToInt() -> 2
-            (customVolume * 0.01 * maxVolume).roundToInt() -> 3
-            else -> -1
-        }
+        selectedIndex = selectedVolumeIndex(
+            volume = view.context.mediaVolume,
+            maxVolume = maxVolume,
+            customVolume = customVolume,
+        )
     }
 
     SingleChoiceSegmentedButtonRow(
@@ -175,4 +173,16 @@ fun MediaVolume(isHome: Boolean) {
             }
         }
     }
+}
+
+private fun selectedVolumeIndex(
+    volume: Int,
+    maxVolume: Int,
+    customVolume: Int,
+): Int = when (volume) {
+    0 -> 0
+    (0.4 * maxVolume).roundToInt() -> 1
+    (0.6 * maxVolume).roundToInt() -> 2
+    (customVolume * 0.01 * maxVolume).roundToInt() -> 3
+    else -> -1
 }
