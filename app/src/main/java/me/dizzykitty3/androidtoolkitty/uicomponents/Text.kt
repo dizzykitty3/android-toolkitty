@@ -312,10 +312,7 @@ fun LabelAndValueTextRow(label: String, text: String) =
 
 @Composable
 fun LabelAndValueTextRow(@StringRes label: Int, text: String) =
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Column(Modifier.weight(0.4F)) { LabelText(stringResource(label)) }
-        Column(Modifier.weight(0.6F)) { ScrollableText(text) }
-    }
+    LabelAndValueTextRow(stringResource(label), text)
 
 @Preview(showBackground = true)
 @Composable
