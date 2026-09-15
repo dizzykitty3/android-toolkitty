@@ -8,7 +8,7 @@ import android.net.NetworkCapabilities
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
 
-object NetworkUtil {
+internal object NetworkUtil {
     const val STATE_CODE_UNKNOWN = 0
     const val STATE_CODE_WIFI = 1
     const val STATE_CODE_MOBILE = 2
