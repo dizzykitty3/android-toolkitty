@@ -49,6 +49,11 @@ import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addSuffix
 import me.dizzykitty3.androidtoolkitty.utils.URLUtils.getSuffix
 import timber.log.Timber
 
+private const val FULL_WIDTH_PERIOD = "。"
+private const val HALF_WIDTH_PERIOD = "."
+private const val FULL_WIDTH_SPACE = "　"
+private const val HALF_WIDTH_SPACE = " "
+
 @AndroidEntryPoint
 class SearchActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,10 +85,6 @@ private fun Webpage() {
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
     var url by remember { mutableStateOf("") }
-    val fullWidthPeriod = "。"
-    val halfWidthPeriod = "."
-    val fullWidthSpace = "　"
-    val halfWidthSpace = " "
     val visitUrl = {
         focus.clearFocus()
         view.context.onTapVisitURLButton(url)
@@ -100,9 +101,9 @@ private fun Webpage() {
         onValueChange = {
             url = it
             vm.updateTypingContents(
-                it.replace(fullWidthPeriod, halfWidthPeriod)
-                    .replace(halfWidthSpace, halfWidthPeriod)
-                    .replace(fullWidthSpace, halfWidthPeriod),
+                it.replace(FULL_WIDTH_PERIOD, HALF_WIDTH_PERIOD)
+                    .replace(HALF_WIDTH_SPACE, HALF_WIDTH_PERIOD)
+                    .replace(FULL_WIDTH_SPACE, HALF_WIDTH_PERIOD),
             )
         },
         label = { Text(stringResource(R.string.url)) },
@@ -137,9 +138,7 @@ private fun Webpage() {
         },
         suffix = {
             Text(
-                if (url.isEmpty()) ""
-                else if (url.last() == '.') url.removeTrailingPeriod().getSuffix().removePrefix(".")
-                else url.removeTrailingPeriod().getSuffix()
+                displayedUrlSuffix(url)
             )
         })
 
@@ -155,6 +154,12 @@ private fun Webpage() {
             tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.3F)
         )
     }
+}
+
+private fun displayedUrlSuffix(url: String): String = when {
+    url.isEmpty() -> ""
+    url.endsWith(".") -> url.removeTrailingPeriod().getSuffix().removePrefix(".")
+    else -> url.removeTrailingPeriod().getSuffix()
 }
 
 private fun Context.onTapVisitURLButton(url: String) {
