@@ -63,7 +63,7 @@ private fun CustomizeHomeComposable() {
         homeCardDefinitions.forEach { card ->
             CustomHideCardSettingSwitch(
                 text = card.id.title,
-                isChecked = state.cardShownStates[card.id.key] ?: true
+                isChecked = state.isShown(card.id.key)
             ) { newState ->
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 vm.saveShownState(card.id.key, newState)

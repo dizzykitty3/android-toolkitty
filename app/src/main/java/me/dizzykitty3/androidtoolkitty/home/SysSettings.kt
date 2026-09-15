@@ -39,7 +39,7 @@ fun SysSettings() {
         }) {
         val settings = availableSystemSettings()
         val shownSettings = settings.filter { setting ->
-            state.cardShownStates[setting.settingType] ?: true
+            state.isShown(setting.settingType)
         }
 
         if (!context.checkIsAutoTime()) Tip(R.string.auto_set_time_is_off_tip)

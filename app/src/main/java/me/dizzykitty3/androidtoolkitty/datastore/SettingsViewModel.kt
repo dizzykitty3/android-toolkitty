@@ -31,7 +31,7 @@ class SettingsViewModel @Inject constructor(
     }
 
     fun getShownState(card: String): Boolean {
-        return settingsState.value.cardShownStates[card] ?: true
+        return settingsState.value.isShown(card)
     }
 
     fun saveShownState(card: String, isShown: Boolean) {

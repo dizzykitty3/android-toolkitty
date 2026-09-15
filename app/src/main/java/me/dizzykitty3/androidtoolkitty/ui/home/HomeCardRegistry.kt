@@ -62,4 +62,4 @@ val homeCardDefinitions = listOf(
 )
 
 fun UserSettings.visibleHomeCards(): List<HomeCardDefinition> =
-    homeCardDefinitions.filter { card -> cardShownStates[card.id.key] ?: true }
+    homeCardDefinitions.filter { card -> isShown(card.id.key) }

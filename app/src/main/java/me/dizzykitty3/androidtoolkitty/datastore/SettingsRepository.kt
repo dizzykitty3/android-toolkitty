@@ -163,6 +163,8 @@ data class UserSettings(
     val wheelOfFortuneItems: String?,
     val cardShownStates: Map<String, Boolean>,
 ) {
+    fun isShown(key: String): Boolean = cardShownStates[key] ?: true
+
     companion object {
         fun default(): UserSettings = UserSettings(
             dynamicColor = true,
