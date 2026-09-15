@@ -23,7 +23,7 @@ object StringUtils {
 
     fun String.removeTrailingPeriod(): String {
         var temp = this
-        while (temp.last() == '.') {
+        while (temp.endsWith(".")) {
             temp = temp.removeSuffix(".")
         }
         return temp
