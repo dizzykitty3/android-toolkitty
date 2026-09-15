@@ -30,11 +30,11 @@ class ClearClipboardTileService : TileService() {
 
         super.onStartListening()
         Timber.d("onStartListening")
-        val cleanTitle = qsTile
-        cleanTitle.label = getString(R.string.clear_clipboard)
-        cleanTitle.state = Tile.STATE_INACTIVE
-        cleanTitle.icon = Icon.createWithResource(this, android.R.drawable.ic_delete)
-        cleanTitle.updateTile()
+        val tile = qsTile
+        tile.label = getString(R.string.clear_clipboard)
+        tile.state = Tile.STATE_INACTIVE
+        tile.icon = Icon.createWithResource(this, android.R.drawable.ic_delete)
+        tile.updateTile()
     }
 
     override fun onClick() {
