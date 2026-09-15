@@ -24,7 +24,8 @@ class SettingsRepository @Inject constructor(
         val AUTO_CLEAR_CLIPBOARD = booleanPreferencesKey("auto_clear_clipboard")
         val SEARCH_ENGINE = stringPreferencesKey("search_engine")
         val VIDEO_SEARCH_ENGINE = stringPreferencesKey("video_search_engine")
-        val DO_NOT_REMEMBER_RECENT_SEARCHES = booleanPreferencesKey("do_not_remember_recent_searches")
+        // Keep the legacy key to preserve existing user preferences.
+        val DO_NOT_REMEMBER_LAST_SEARCH = booleanPreferencesKey("do_not_remember_recent_searches")
         val LAST_SELECTED_PLATFORM_INDEX = intPreferencesKey("last_selected_platform_index")
         val TYPING_CONTENTS = stringPreferencesKey("typing_contents")
         val LATITUDE = stringPreferencesKey("latitude")
@@ -58,7 +59,7 @@ class SettingsRepository @Inject constructor(
             videoSearchEngine = preferences[Keys.VIDEO_SEARCH_ENGINE]
                 ?.let(VideoSearchEngine::fromStoredName)
                 ?: defaults.videoSearchEngine,
-            doNotRememberRecentSearches = preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] ?: defaults.doNotRememberRecentSearches,
+            doNotRememberLastSearch = preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] ?: defaults.doNotRememberLastSearch,
             lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX]
                 ?: defaults.lastSelectedPlatformIndex,
             typingContents = preferences[Keys.TYPING_CONTENTS] ?: defaults.typingContents,
@@ -97,9 +98,9 @@ class SettingsRepository @Inject constructor(
         dataStore.edit { it[Keys.VIDEO_SEARCH_ENGINE] = engine.name }
     }
 
-    suspend fun setDoNotRememberRecentSearches(enabled: Boolean) {
+    suspend fun setDoNotRememberLastSearch(enabled: Boolean) {
         dataStore.edit { preferences ->
-            preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] = enabled
+            preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] = enabled
             if (enabled) preferences.remove(Keys.TYPING_CONTENTS)
         }
     }
@@ -110,7 +111,7 @@ class SettingsRepository @Inject constructor(
 
     suspend fun updateTypingContents(contents: String) {
         dataStore.edit { preferences ->
-            if (preferences[Keys.DO_NOT_REMEMBER_RECENT_SEARCHES] == true) {
+            if (preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] == true) {
                 preferences.remove(Keys.TYPING_CONTENTS)
             } else {
                 preferences[Keys.TYPING_CONTENTS] = contents
@@ -151,7 +152,7 @@ data class UserSettings(
     val autoClearClipboard: Boolean,
     val searchEngine: SearchEngine,
     val videoSearchEngine: VideoSearchEngine,
-    val doNotRememberRecentSearches: Boolean,
+    val doNotRememberLastSearch: Boolean,
     val lastSelectedPlatformIndex: Int,
     val typingContents: String,
     val latitude: String,
@@ -168,7 +169,7 @@ data class UserSettings(
             autoClearClipboard = false,
             searchEngine = SearchEngine.GOOGLE,
             videoSearchEngine = VideoSearchEngine.YOUTUBE,
-            doNotRememberRecentSearches = false,
+            doNotRememberLastSearch = false,
             lastSelectedPlatformIndex = 0,
             typingContents = "",
             latitude = "",

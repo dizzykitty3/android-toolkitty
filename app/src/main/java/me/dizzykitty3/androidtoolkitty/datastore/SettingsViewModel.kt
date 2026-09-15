@@ -51,8 +51,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.setVideoSearchEngine(engine) }
     }
 
-    fun setDoNotRememberRecentSearches(enabled: Boolean) {
-        viewModelScope.launch { repository.setDoNotRememberRecentSearches(enabled) }
+    fun setDoNotRememberLastSearch(enabled: Boolean) {
+        viewModelScope.launch { repository.setDoNotRememberLastSearch(enabled) }
     }
 
     fun updateLastSelectedPlatformIndex(index: Int) {

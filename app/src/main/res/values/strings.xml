@@ -253,7 +253,7 @@
     <string name="show_all_cards">Show all cards</string>
     <string name="customize_home">Customize Home</string>
     <string name="clear_clipboard_on_launch">Clear clipboard on launch</string>
-    <string name="do_not_remember_recent_searches">Do not remember the last search</string>
+    <string name="do_not_remember_last_search">Do not remember the last search</string>
 
     <!-- Settings > App info -->
     <string name="view_source_code">Source code</string>
