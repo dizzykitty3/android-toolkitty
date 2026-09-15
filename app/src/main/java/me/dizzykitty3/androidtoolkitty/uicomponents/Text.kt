@@ -95,12 +95,8 @@ private fun GradientSmallPreview() {
 }
 
 @Composable
-fun AnnotatedString.Builder.ItalicText(@StringRes text: Int) {
-    val italicTextStyle = SpanStyle(
-        fontStyle = FontStyle.Italic, fontWeight = FontWeight.Light
-    )
-    withStyle(italicTextStyle) { append(stringResource(text)) }
-}
+fun AnnotatedString.Builder.ItalicText(@StringRes text: Int) =
+    ItalicText(stringResource(text))
 
 @Composable
 fun AnnotatedString.Builder.ItalicText(text: String) {
