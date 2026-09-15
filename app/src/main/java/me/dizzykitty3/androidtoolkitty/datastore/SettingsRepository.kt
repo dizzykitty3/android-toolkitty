@@ -31,7 +31,7 @@ private fun Preferences.shownItemStates(): Map<String, Boolean> = asMap()
 class SettingsRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
-    private object Keys {
+    private object PreferenceKeys {
         val DYNAMIC_COLOR = booleanPreferencesKey("dynamic_color")
         val AUTO_CLEAR_CLIPBOARD = booleanPreferencesKey("auto_clear_clipboard")
         val SEARCH_ENGINE = stringPreferencesKey("search_engine")
@@ -51,28 +51,28 @@ class SettingsRepository @Inject constructor(
     val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
         val defaults = UserSettings.default()
         UserSettings(
-            dynamicColor = preferences[Keys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
-            autoClearClipboard = preferences[Keys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
-            searchEngine = preferences[Keys.SEARCH_ENGINE]
+            dynamicColor = preferences[PreferenceKeys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
+            autoClearClipboard = preferences[PreferenceKeys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
+            searchEngine = preferences[PreferenceKeys.SEARCH_ENGINE]
                 ?.let(SearchEngine::fromStoredName)
                 ?: defaults.searchEngine,
-            videoSearchEngine = preferences[Keys.VIDEO_SEARCH_ENGINE]
+            videoSearchEngine = preferences[PreferenceKeys.VIDEO_SEARCH_ENGINE]
                 ?.let(VideoSearchEngine::fromStoredName)
                 ?: defaults.videoSearchEngine,
-            doNotRememberLastSearch = preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] ?: defaults.doNotRememberLastSearch,
-            lastSelectedPlatformIndex = preferences[Keys.LAST_SELECTED_PLATFORM_INDEX]
+            doNotRememberLastSearch = preferences[PreferenceKeys.DO_NOT_REMEMBER_LAST_SEARCH] ?: defaults.doNotRememberLastSearch,
+            lastSelectedPlatformIndex = preferences[PreferenceKeys.LAST_SELECTED_PLATFORM_INDEX]
                 ?: defaults.lastSelectedPlatformIndex,
-            typingContents = preferences[Keys.TYPING_CONTENTS] ?: defaults.typingContents,
-            latitude = preferences[Keys.LATITUDE] ?: defaults.latitude,
-            longitude = preferences[Keys.LONGITUDE] ?: defaults.longitude,
-            haveTappedAddButton = preferences[Keys.HAVE_TAPPED_ADD_BUTTON]
+            typingContents = preferences[PreferenceKeys.TYPING_CONTENTS] ?: defaults.typingContents,
+            latitude = preferences[PreferenceKeys.LATITUDE] ?: defaults.latitude,
+            longitude = preferences[PreferenceKeys.LONGITUDE] ?: defaults.longitude,
+            haveTappedAddButton = preferences[PreferenceKeys.HAVE_TAPPED_ADD_BUTTON]
                 ?: defaults.haveTappedAddButton,
-            customVolume = preferences[Keys.CUSTOM_VOLUME]
+            customVolume = preferences[PreferenceKeys.CUSTOM_VOLUME]
                 ?.takeUnless { it == Int.MIN_VALUE }
                 ?: defaults.customVolume,
-            volumeButtonTapCount = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON]
+            volumeButtonTapCount = preferences[PreferenceKeys.HAVE_TAPPED_VOLUME_BUTTON]
                 ?: defaults.volumeButtonTapCount,
-            wheelOfFortuneItems = preferences[Keys.WHEEL_OF_FORTUNE_ITEMS]
+            wheelOfFortuneItems = preferences[PreferenceKeys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
             shownItemStates = preferences.shownItemStates(),
         )
@@ -87,58 +87,58 @@ class SettingsRepository @Inject constructor(
     }
 
     suspend fun toggleDynamicColor(enabled: Boolean) =
-        setPreference(Keys.DYNAMIC_COLOR, enabled)
+        setPreference(PreferenceKeys.DYNAMIC_COLOR, enabled)
 
     suspend fun toggleAutoClearClipboard(enabled: Boolean) =
-        setPreference(Keys.AUTO_CLEAR_CLIPBOARD, enabled)
+        setPreference(PreferenceKeys.AUTO_CLEAR_CLIPBOARD, enabled)
 
     suspend fun setSearchEngine(engine: SearchEngine) =
-        setPreference(Keys.SEARCH_ENGINE, engine.name)
+        setPreference(PreferenceKeys.SEARCH_ENGINE, engine.name)
 
     suspend fun setVideoSearchEngine(engine: VideoSearchEngine) =
-        setPreference(Keys.VIDEO_SEARCH_ENGINE, engine.name)
+        setPreference(PreferenceKeys.VIDEO_SEARCH_ENGINE, engine.name)
 
     suspend fun setDoNotRememberLastSearch(enabled: Boolean) {
         dataStore.edit { preferences ->
-            preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] = enabled
-            if (enabled) preferences.remove(Keys.TYPING_CONTENTS)
+            preferences[PreferenceKeys.DO_NOT_REMEMBER_LAST_SEARCH] = enabled
+            if (enabled) preferences.remove(PreferenceKeys.TYPING_CONTENTS)
         }
     }
 
     suspend fun updateLastSelectedPlatformIndex(index: Int) =
-        setPreference(Keys.LAST_SELECTED_PLATFORM_INDEX, index)
+        setPreference(PreferenceKeys.LAST_SELECTED_PLATFORM_INDEX, index)
 
     suspend fun updateTypingContents(contents: String) {
         dataStore.edit { preferences ->
-            if (preferences[Keys.DO_NOT_REMEMBER_LAST_SEARCH] == true) {
-                preferences.remove(Keys.TYPING_CONTENTS)
+            if (preferences[PreferenceKeys.DO_NOT_REMEMBER_LAST_SEARCH] == true) {
+                preferences.remove(PreferenceKeys.TYPING_CONTENTS)
             } else {
-                preferences[Keys.TYPING_CONTENTS] = contents
+                preferences[PreferenceKeys.TYPING_CONTENTS] = contents
             }
         }
     }
 
     suspend fun updateLatitude(latitude: String) =
-        setPreference(Keys.LATITUDE, latitude)
+        setPreference(PreferenceKeys.LATITUDE, latitude)
 
     suspend fun updateLongitude(longitude: String) =
-        setPreference(Keys.LONGITUDE, longitude)
+        setPreference(PreferenceKeys.LONGITUDE, longitude)
 
     suspend fun toggleHaveTappedAddButton(haveTapped: Boolean) =
-        setPreference(Keys.HAVE_TAPPED_ADD_BUTTON, haveTapped)
+        setPreference(PreferenceKeys.HAVE_TAPPED_ADD_BUTTON, haveTapped)
 
     suspend fun updateCustomVolume(value: Int) =
-        setPreference(Keys.CUSTOM_VOLUME, value)
+        setPreference(PreferenceKeys.CUSTOM_VOLUME, value)
 
     suspend fun increaseVolumeButtonTapCount() {
         dataStore.edit { preferences ->
-            val currentCount = preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON] ?: 0
-            preferences[Keys.HAVE_TAPPED_VOLUME_BUTTON] = currentCount + 1
+            val currentCount = preferences[PreferenceKeys.HAVE_TAPPED_VOLUME_BUTTON] ?: 0
+            preferences[PreferenceKeys.HAVE_TAPPED_VOLUME_BUTTON] = currentCount + 1
         }
     }
 
     suspend fun updateWheelOfFortuneItems(items: String) =
-        setPreference(Keys.WHEEL_OF_FORTUNE_ITEMS, items)
+        setPreference(PreferenceKeys.WHEEL_OF_FORTUNE_ITEMS, items)
 }
 
 data class UserSettings(
