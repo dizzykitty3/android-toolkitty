@@ -26,20 +26,13 @@ object PermissionUtils {
      */
     @CheckResult
     fun Context.noBluetoothPermission(): Boolean =
-        if (OSVersion.android12()) {
-            this.check(BT_CONNECT)
-        } else {
-            this.check(BT) || this.check(BT_ADMIN)
-        }
+        bluetoothPermissions().any { check(it) }
 
     fun Activity.requestBluetoothPermission() =
-        this.request(
-            if (OSVersion.android12()) {
-                arrayOf(BT_CONNECT)
-            } else {
-                arrayOf(BT, BT_ADMIN)
-            }
-        )
+        request(bluetoothPermissions())
+
+    private fun bluetoothPermissions(): Array<String> =
+        if (OSVersion.android12()) arrayOf(BT_CONNECT) else arrayOf(BT, BT_ADMIN)
 
     /**
      * @return true if the app does NOT have Notification permissions, false otherwise.
