@@ -59,11 +59,11 @@ fun Unicode() {
     val haptic = LocalHapticFeedback.current
     val convertUnicode = {
         focus.clearFocus()
-        view.onClickConvertButton(unicode, { characters = it }, true)
+        view.onClickConvertButton(unicode, { characters = it }, ConversionDirection.UNICODE_TO_CHARACTER)
     }
     val convertCharacters = {
         focus.clearFocus()
-        view.onClickConvertButton(characters, { unicode = it }, false)
+        view.onClickConvertButton(characters, { unicode = it }, ConversionDirection.CHARACTER_TO_UNICODE)
     }
 
     OutlinedTextField(
@@ -132,16 +132,23 @@ fun Unicode() {
     }) { Text(stringResource(R.string.convert)) }
 }
 
+private enum class ConversionDirection {
+    UNICODE_TO_CHARACTER,
+    CHARACTER_TO_UNICODE,
+}
+
 private fun View.onClickConvertButton(
-    input: String, updateResult: (String) -> Unit, isUnicodeToChar: Boolean
+    input: String, updateResult: (String) -> Unit, direction: ConversionDirection
 ) {
     if (input.isBlank()) return
 
     Timber.d("onClickConvertButton")
 
     try {
-        val result = if (isUnicodeToChar) StringUtils.unicodeToCharacter(input)
-        else StringUtils.characterToUnicode(input)
+        val result = when (direction) {
+            ConversionDirection.UNICODE_TO_CHARACTER -> StringUtils.unicodeToCharacter(input)
+            ConversionDirection.CHARACTER_TO_UNICODE -> StringUtils.characterToUnicode(input)
+        }
 
         updateResult(result)
         context.copyToClipboard(result)
