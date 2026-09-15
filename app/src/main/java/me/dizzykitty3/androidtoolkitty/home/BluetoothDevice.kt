@@ -45,6 +45,8 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
+private const val MANUAL_PERMISSION_HINT_THRESHOLD = 2
+
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun BluetoothDevice() {
@@ -101,7 +103,7 @@ fun BluetoothDevice() {
                     Text(stringResource(R.string.request_permission))
                 }
 
-                if (clickCount >= 2) {
+                if (clickCount >= MANUAL_PERMISSION_HINT_THRESHOLD) {
                     RowDivider()
                     ManuallyGrant()
                 }
@@ -150,8 +152,8 @@ private fun ManuallyGrant() {
  * @see android.bluetooth.BluetoothDevice.DEVICE_TYPE_CLASSIC
  */
 private fun Int.toTypeName(): String = when (this) {
-    1 -> "BT"
-    2 -> "BLE"
-    3 -> "Dual"
+    BluetoothDevice.DEVICE_TYPE_CLASSIC -> "BT"
+    BluetoothDevice.DEVICE_TYPE_LE -> "BLE"
+    BluetoothDevice.DEVICE_TYPE_DUAL -> "Dual"
     else -> "Unknown"
 }
