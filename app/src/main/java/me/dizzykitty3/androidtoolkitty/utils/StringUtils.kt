@@ -54,13 +54,9 @@ object StringUtils {
     @Throws(IllegalArgumentException::class)
     fun characterToUnicode(characters: String): String {
         require(characters.isNotEmpty()) { "Input string is empty" }
-        val stringBuilder = StringBuilder()
-        for (char in characters) {
-            val unicodeValue = char.code
-            val hexString = unicodeValue.toString(16).padStart(4, '0')
-            stringBuilder.append(hexString)
-        }
-        return stringBuilder.toString()
+        return characters
+            .map { it.code.toString(16).padStart(4, '0') }
+            .joinToString("")
     }
 
     // ----- system language setting ----- //
