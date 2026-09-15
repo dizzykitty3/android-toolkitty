@@ -84,7 +84,7 @@ fun Maps() {
                         focusRequester2.requestFocus()
                     } else {
                         focus.clearFocus()
-                        view.context.onClickOpenGoogleMapsButton(latitude, longitude)
+                        view.context.openGoogleMapsIfValid(latitude, longitude)
                     }
                 }),
             trailingIcon = {
@@ -130,7 +130,7 @@ fun Maps() {
                         focusRequester1.requestFocus()
                     } else {
                         focus.clearFocus()
-                        view.context.onClickOpenGoogleMapsButton(latitude, longitude)
+                        view.context.openGoogleMapsIfValid(latitude, longitude)
                     }
                 }),
             trailingIcon = {
@@ -145,7 +145,7 @@ fun Maps() {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             focus.clearFocus()
-            view.context.onClickOpenGoogleMapsButton(latitude, longitude)
+            view.context.openGoogleMapsIfValid(latitude, longitude)
         }) {
             Text(stringResource(R.string.google_maps))
             Icon(
@@ -158,10 +158,10 @@ fun Maps() {
     }
 }
 
-private fun Context.onClickOpenGoogleMapsButton(latitude: String, longitude: String) {
+private fun Context.openGoogleMapsIfValid(latitude: String, longitude: String) {
     if (latitude.errorLatitude() || longitude.errorLongitude()) return
 
-    Timber.d("onClickOpenGoogleMapsButton")
+    Timber.d("openGoogleMapsIfValid")
     this.checkOnGoogleMaps(latitude, longitude)
 }
 
