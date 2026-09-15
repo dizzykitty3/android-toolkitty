@@ -21,13 +21,8 @@ object StringUtils {
 
     fun String.isInvalidUsername(): Boolean = !this.isValidUsername()
 
-    fun String.removeTrailingPeriod(): String {
-        var temp = this
-        while (temp.endsWith(".")) {
-            temp = temp.removeSuffix(".")
-        }
-        return temp
-    }
+    fun String.removeTrailingPeriod(): String =
+        dropLastWhile { it == '.' }
 
     fun String.toASCII(): String = this.map { it.code }.joinToString(", ")
 
