@@ -6,9 +6,9 @@ import android.graphics.drawable.Icon
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
-import android.widget.Toast
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.utils.OSVersion
+import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
 import timber.log.Timber
 
 class ClearClipboardTileService : TileService() {
@@ -61,7 +61,7 @@ class ClearClipboardTileService : TileService() {
             }
         } catch (e: Exception) {
             Timber.e(e)
-            Toast.makeText(this, getString(R.string.error), Toast.LENGTH_SHORT).show()
+            showToast(R.string.error)
         }
     }
 }
