@@ -11,6 +11,8 @@ import me.dizzykitty3.androidtoolkitty.GRANTED
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
 
 object PermissionUtils {
+    private const val PERMISSION_REQUEST_CODE = 1
+
     /**
      * Remember to use Activity Context to check/request permissions.
      * DO NOT use AppContext.check(_) which will cause a ClassCastException.
@@ -19,7 +21,7 @@ object PermissionUtils {
         ActivityCompat.checkSelfPermission(this, permission) != GRANTED
 
     private fun Activity.request(permission: Array<String>) =
-        ActivityCompat.requestPermissions(this, permission, 1)
+        ActivityCompat.requestPermissions(this, permission, PERMISSION_REQUEST_CODE)
 
     /**
      * @return true if the app does NOT have Bluetooth permissions, false otherwise.
