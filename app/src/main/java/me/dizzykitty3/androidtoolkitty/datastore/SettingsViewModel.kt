@@ -30,10 +30,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.update() }
     }
 
-    fun getShownState(card: String): Boolean = settingsState.value.isShown(card)
-
-    fun saveShownState(card: String, isShown: Boolean) {
-        updateSettings { saveShownState(card, isShown) }
+    fun saveShownState(itemKey: String, isShown: Boolean) {
+        updateSettings { saveShownState(itemKey, isShown) }
     }
 
     fun toggleDynamicColor(enabled: Boolean) {

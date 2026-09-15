@@ -78,8 +78,8 @@ class SettingsRepository @Inject constructor(
         )
     }
 
-    suspend fun saveShownState(card: String, isShown: Boolean) {
-        dataStore.edit { it[booleanPreferencesKey(card)] = isShown }
+    suspend fun saveShownState(itemKey: String, isShown: Boolean) {
+        dataStore.edit { it[booleanPreferencesKey(itemKey)] = isShown }
     }
 
     suspend fun toggleDynamicColor(enabled: Boolean) {
