@@ -12,21 +12,21 @@ import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import timber.log.Timber
 
 class ClearClipboardTileService : TileService() {
+    private fun isSupported(): Boolean {
+        if (OSVersion.android7()) return true
+        Timber.w("TileService unsupported")
+        return false
+    }
+
     override fun onBind(intent: Intent?): IBinder? {
-        if (!OSVersion.android7()) {
-            Timber.w("TileService unsupported")
-            return null
-        }
+        if (!isSupported()) return null
 
         Timber.d("onBind")
         return super.onBind(intent)
     }
 
     override fun onStartListening() {
-        if (!OSVersion.android7()) {
-            Timber.w("TileService unsupported")
-            return
-        }
+        if (!isSupported()) return
 
         super.onStartListening()
         Timber.d("onStartListening")
@@ -38,10 +38,7 @@ class ClearClipboardTileService : TileService() {
     }
 
     override fun onClick() {
-        if (!OSVersion.android7()) {
-            Timber.w("TileService unsupported")
-            return
-        }
+        if (!isSupported()) return
 
         super.onClick()
         Timber.d("onClick")
