@@ -8,7 +8,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import kotlin.math.roundToInt
 
-const val PERCENT_TO_VOLUME_RATIO = 0.01
+internal const val PERCENT_TO_VOLUME_RATIO = 0.01
 
 private val Context.audioManager: AudioManager?
     get() = getSystemService()
