@@ -39,7 +39,7 @@ object StringUtils {
         try {
             return unicode.chunked(4)
                 .joinToString("") { it.toInt(16).toChar().toString() }
-        } catch (e: Exception) {
+        } catch (e: NumberFormatException) {
             throw IllegalArgumentException("Invalid Unicode string format: ", e)
         }
     }
