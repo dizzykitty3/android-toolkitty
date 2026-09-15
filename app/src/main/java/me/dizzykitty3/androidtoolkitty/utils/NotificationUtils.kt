@@ -7,6 +7,7 @@ import android.content.Context
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
+import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.noNotificationPermission
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.requestNotificationPermission
 
@@ -17,8 +18,8 @@ object NotificationUtils {
     fun createNotificationChannel(activity: Activity) {
         val context = activity.applicationContext
         if (OSVersion.android8()) {
-            val name = "channel_name"
-            val descriptionText = "channel_description"
+            val name = context.getString(R.string.notification_channel_name)
+            val descriptionText = context.getString(R.string.notification_channel_description)
             val importance = NotificationManager.IMPORTANCE_DEFAULT
             val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
                 description = descriptionText

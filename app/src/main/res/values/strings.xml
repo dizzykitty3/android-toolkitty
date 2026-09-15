@@ -36,6 +36,8 @@
 
     <!-- Home > Volume -->
     <string name="volume">Volume</string>
+    <string name="notification_channel_name">Test notifications</string>
+    <string name="notification_channel_description">Notifications used for testing.</string>
     <string name="media_volume">Media volume</string>
     <string name="volume_forty_percent">40%</string>
     <string name="volume_sixty_percent">60%</string>
