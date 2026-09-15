@@ -14,8 +14,8 @@ class ShareToClipboardActivity : Activity() {
         super.onCreate(savedInstanceState)
         Timber.d("onCreate")
 
-        val intent = intent
-        val sharedText = intent.getStringExtra(Intent.EXTRA_TEXT)
+        val shareIntent = intent
+        val sharedText = shareIntent.getStringExtra(Intent.EXTRA_TEXT)
 
         if (sharedText != null) {
             Timber.i("onCreate sharedText non null")
