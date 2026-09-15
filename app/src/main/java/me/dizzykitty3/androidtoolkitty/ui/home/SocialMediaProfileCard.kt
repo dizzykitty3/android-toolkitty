@@ -100,7 +100,7 @@ internal fun SocialMediaProfile() {
                 focus.clearFocus()
                 view.visitProfileOrShowError(
                     username,
-                    lastSelectedPlatformIndex,
+                    selectedPlatform,
                     vm
                 )
             }
@@ -147,7 +147,7 @@ internal fun SocialMediaProfile() {
         focus.clearFocus()
         view.visitProfileOrShowError(
             username,
-            lastSelectedPlatformIndex,
+            selectedPlatform,
             vm
         )
     }) {
@@ -166,14 +166,13 @@ private fun normalizedPlatformIndex(index: Int): Int =
 
 private fun View.visitProfileOrShowError(
     username: String,
-    platformIndex: Int,
+    platform: URLUtils.Platform,
     viewModel: SettingsViewModel,
 ) {
     if (username.isBlank()) return
-    val platform = URLUtils.Platform.entries.getOrNull(platformIndex) ?: return
     if (isValid(platform, username)) {
         this.context.openURL(toProfileFullURL(platform, username))
-        viewModel.updateLastSelectedPlatformIndex(platformIndex)
+        viewModel.updateLastSelectedPlatformIndex(platform.ordinal)
     } else {
         showSnackbar(R.string.invalid_username_tip)
     }
