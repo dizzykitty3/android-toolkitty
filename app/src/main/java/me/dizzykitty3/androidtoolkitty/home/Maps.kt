@@ -192,15 +192,13 @@ private fun String.errorLongitude(): Boolean =
 
 private fun sanitizeCoordinateInput(input: String): String {
     return buildString {
-        var hasMinus = false
         var hasDot = false
 
         input.forEachIndexed { index, c ->
             when {
                 c.isDigit() -> append(c)
-                c == '-' && index == 0 && !hasMinus -> {
+                c == '-' && index == 0 -> {
                     append(c)
-                    hasMinus = true
                 }
 
                 c == '.' && !hasDot -> {
