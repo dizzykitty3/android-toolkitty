@@ -12,7 +12,7 @@ import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.requestNotification
 
 object NotificationUtils {
     private const val CHANNEL_ID = "test_channel"
-    private var count = 1
+    private var notificationId = 1
 
     fun createNotificationChannel(activity: Activity) {
         val context = activity.applicationContext
@@ -35,15 +35,17 @@ object NotificationUtils {
 
     fun sendNotification(context: Context) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(android.R.drawable.ic_dialog_info).setContentTitle("text_title_$count")
-            .setContentText("text_content_$count").setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSmallIcon(android.R.drawable.ic_dialog_info)
+            .setContentTitle("text_title_$notificationId")
+            .setContentText("text_content_$notificationId")
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(context)) {
             if (context.noNotificationPermission()) {
                 return@with
             }
-            notify(count, builder.build())
-            count += 1
+            notify(notificationId, builder.build())
+            notificationId += 1
         }
     }
 }
