@@ -101,9 +101,7 @@ private fun Webpage() {
         onValueChange = {
             url = it
             vm.updateTypingContents(
-                it.replace(FULL_WIDTH_PERIOD, HALF_WIDTH_PERIOD)
-                    .replace(HALF_WIDTH_SPACE, HALF_WIDTH_PERIOD)
-                    .replace(FULL_WIDTH_SPACE, HALF_WIDTH_PERIOD),
+                normalizeUrlInput(it),
             )
         },
         label = { Text(stringResource(R.string.url)) },
@@ -155,6 +153,11 @@ private fun Webpage() {
         )
     }
 }
+
+private fun normalizeUrlInput(input: String): String =
+    input.replace(FULL_WIDTH_PERIOD, HALF_WIDTH_PERIOD)
+        .replace(HALF_WIDTH_SPACE, HALF_WIDTH_PERIOD)
+        .replace(FULL_WIDTH_SPACE, HALF_WIDTH_PERIOD)
 
 private fun displayedUrlSuffix(url: String): String = when {
     url.isEmpty() -> ""
