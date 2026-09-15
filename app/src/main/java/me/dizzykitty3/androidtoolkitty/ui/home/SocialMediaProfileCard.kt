@@ -60,9 +60,7 @@ internal fun SocialMediaProfile() {
     }
 
     LaunchedEffect(state.lastSelectedPlatformIndex) {
-        val platformIndex = state.lastSelectedPlatformIndex.coerceIn(
-            0, URLUtils.Platform.entries.lastIndex
-        )
+        val platformIndex = normalizedPlatformIndex(state.lastSelectedPlatformIndex)
         if (lastSelectedPlatformIndex != platformIndex) {
             Timber.d("state.lastSelectedPlatformIndex = ${state.lastSelectedPlatformIndex}")
             lastSelectedPlatformIndex = platformIndex
@@ -162,6 +160,9 @@ internal fun SocialMediaProfile() {
         )
     }
 }
+
+private fun normalizedPlatformIndex(index: Int): Int =
+    index.coerceIn(0, URLUtils.Platform.entries.lastIndex)
 
 private fun View.visitProfileOrShowError(
     username: String,
