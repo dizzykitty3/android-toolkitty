@@ -165,6 +165,12 @@
     <string name="accessibility_settings">Accessibility</string>
     <string name="no_options_enabled">Pinned options will be shown here</string>
     <string name="device_info">Device info</string>
+    <string name="manufacturer">Manufacturer</string>
+    <string name="model">Model</string>
+    <string name="device">Device</string>
+    <string name="os_version">OS version</string>
+    <string name="locale">Locale</string>
+    <string name="time_zone">Time zone</string>
     <string name="customize_system_settings_card">Pin options that appear on Home screen</string>
     <string name="hide_all_options">Hide all options</string>
     <string name="sys_settings_tip">Up to 4 options you can pin on Home screen</string>

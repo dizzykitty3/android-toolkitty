@@ -74,12 +74,12 @@ private fun SystemShortcutsComposable() {
 
     BaseCard(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
-            LabelAndValueTextRow("manufacturer", StringUtils.manufacturer)
-            LabelAndValueTextRow("model", StringUtils.model)
-            LabelAndValueTextRow("device", StringUtils.device)
+            LabelAndValueTextRow(R.string.manufacturer, StringUtils.manufacturer)
+            LabelAndValueTextRow(R.string.model, StringUtils.model)
+            LabelAndValueTextRow(R.string.device, StringUtils.device)
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(0.4F)) {
-                    LabelText("os_ver")
+                    LabelText(R.string.os_version)
                 }
                 Row(Modifier.weight(0.6F)) {
                     Box(Modifier.horizontalScroll(rememberScrollState())) {
@@ -92,8 +92,8 @@ private fun SystemShortcutsComposable() {
                     }
                 }
             }
-            LabelAndValueTextRow("locale", StringUtils.sysLocale)
-            LabelAndValueTextRow("time_zone", DateUtils.sysTimeZone)
+            LabelAndValueTextRow(R.string.locale, StringUtils.sysLocale)
+            LabelAndValueTextRow(R.string.time_zone, DateUtils.sysTimeZone)
             SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
