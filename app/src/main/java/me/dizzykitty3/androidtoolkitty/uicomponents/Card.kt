@@ -103,7 +103,7 @@ fun BaseCard(
                     } else { // onClick == null. (for development)
                         FilledTonalButton(onClick = {
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                            view.showSnackbar("haven't set up")
+                            view.showSnackbar(R.string.not_set_up)
                         }) {
                             Icon(
                                 imageVector = Icons.Outlined.MoreHoriz,

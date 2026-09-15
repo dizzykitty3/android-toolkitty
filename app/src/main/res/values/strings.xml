@@ -21,6 +21,7 @@
     <string name="general">General</string>
     <string name="back">back</string>
     <string name="save">Save</string>
+    <string name="not_set_up">Not set up yet.</string>
 
     <!-- Home > Top bar -->
     <string name="battery">Battery</string>
