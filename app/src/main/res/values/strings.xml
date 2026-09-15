@@ -172,7 +172,7 @@
     <string name="os_version">OS version</string>
     <string name="locale">Locale</string>
     <string name="time_zone">Time zone</string>
-    <string name="customize_system_settings_card">Pin options that appear on Home screen</string>
+    <string name="customize_system_shortcuts">Customize system shortcuts</string>
     <string name="hide_all_options">Hide all options</string>
     <string name="sys_settings_tip">Up to 4 options you can pin on Home screen</string>
     <string name="device_and_app_notifications">Notification read, reply &amp; control</string>

@@ -106,13 +106,6 @@ private fun SystemShortcutsComposable() {
     SystemSettingsGroup(
         R.string.debugging, settings.subList(debuggingStartIndex, settingsEndIndex)
     )
-
-    Button(onClick = {
-        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        context.openScreen(SystemShortcutsCustomizeActivity::class.java)
-    }) { Text(stringResource(R.string.customize_system_settings_card)) }
-
-    SpacerPadding()
 }
 
 @Composable

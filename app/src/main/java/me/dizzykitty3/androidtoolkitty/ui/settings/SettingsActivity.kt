@@ -15,6 +15,7 @@ import androidx.compose.material.icons.outlined.FileCopy
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.SettingsApplications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +43,7 @@ import me.dizzykitty3.androidtoolkitty.SOURCE_CODE_URL
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.HomeCardId
+import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsCustomizeActivity
 import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
@@ -135,6 +137,15 @@ private fun General() {
             }
         )
     }
+
+    SettingsLinkRow(
+        icon = Icons.Outlined.Settings,
+        title = R.string.customize_system_shortcuts,
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            context.openScreen(SystemShortcutsCustomizeActivity::class.java)
+        }
+    )
 
     // edit home
     SettingsLinkRow(

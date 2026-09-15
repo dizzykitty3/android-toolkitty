@@ -41,7 +41,7 @@ class SystemShortcutsCustomizeActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 ToolkitScreen(
-                    title = R.string.customize_system_settings_card,
+                    title = R.string.customize_system_shortcuts,
                     dynamicColor = state.dynamicColor
                 ) {
                     SystemShortcutsPinOptionsComposable()
@@ -56,7 +56,7 @@ private fun SystemShortcutsPinOptionsComposable() {
     val vm = LocalSettingsViewModel.current
     val state by vm.settingsState.collectAsStateWithLifecycle()
 
-    BaseCard(R.string.customize_system_settings_card) {
+    BaseCard(R.string.customize_system_shortcuts) {
         val haptic = LocalHapticFeedback.current
 
         Tip(R.string.sys_settings_tip)
