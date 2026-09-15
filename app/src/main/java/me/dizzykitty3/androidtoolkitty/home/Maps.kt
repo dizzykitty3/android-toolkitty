@@ -165,33 +165,30 @@ private fun Context.onClickOpenGoogleMapsButton(latitude: String, longitude: Str
     this.checkOnGoogleMaps(latitude, longitude)
 }
 
-private fun String.getLatitudeSuffix(): String {
-    try {
-        val input = this.toFloat()
-        if (input > 0F && input <= 90F) return "N"
-        if (input < 0F && input >= -90F) return "S"
-    } catch (_: NumberFormatException) {
+private fun String.getLatitudeSuffix(): String =
+    getCoordinateDirection(maximum = 90F, positive = "N", negative = "S")
+
+private fun String.getLongitudeSuffix(): String =
+    getCoordinateDirection(maximum = 180F, positive = "E", negative = "W")
+
+private fun String.getCoordinateDirection(
+    maximum: Float,
+    positive: String,
+    negative: String,
+): String {
+    val value = toFloatOrNull() ?: return ""
+    return when {
+        value > 0F && value <= maximum -> positive
+        value < 0F && value >= -maximum -> negative
+        else -> ""
     }
-    return ""
 }
 
-private fun String.getLongitudeSuffix(): String {
-    try {
-        val input = this.toFloat()
-        if (input > 0F && input <= 180F) return "E"
-        if (input < 0F && input >= -180F) return "W"
-    } catch (_: NumberFormatException) {
-    }
-    return ""
-}
+private fun String.errorLatitude(): Boolean =
+    isNotBlank() && getLatitudeSuffix().isEmpty()
 
-private fun String.errorLatitude(): Boolean {
-    return !(this.isBlank() || this.getLatitudeSuffix() == "N" || this.getLatitudeSuffix() == "S")
-}
-
-private fun String.errorLongitude(): Boolean {
-    return !(this.isBlank() || this.getLongitudeSuffix() == "E" || this.getLongitudeSuffix() == "W")
-}
+private fun String.errorLongitude(): Boolean =
+    isNotBlank() && getLongitudeSuffix().isEmpty()
 
 private fun sanitizeCoordinateInput(input: String): String {
     return buildString {
