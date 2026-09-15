@@ -86,15 +86,13 @@ private fun Appearance() {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
 
-    if (OSVersion.android12()) {
-        CustomSwitchRow(
-            icon = Icons.Outlined.ColorLens,
-            title = R.string.dynamic_color,
-            checked = state.dynamicColor
-        ) {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            viewModel.toggleDynamicColor(it)
-        }
+    CustomSwitchRow(
+        icon = Icons.Outlined.ColorLens,
+        title = R.string.dynamic_color,
+        checked = state.dynamicColor
+    ) {
+        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+        viewModel.toggleDynamicColor(it)
     }
 
     // change app lang
