@@ -38,7 +38,6 @@ import timber.log.Timber
 fun CodesOfCharacters() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-
     BaseCard(
         title = R.string.codes_of_characters,
         icon = Icons.AutoMirrored.Outlined.Notes,
@@ -58,6 +57,14 @@ fun Unicode() {
     val view = LocalView.current
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
+    val convertUnicode = {
+        focus.clearFocus()
+        view.onClickConvertButton(unicode, { characters = it }, true)
+    }
+    val convertCharacters = {
+        focus.clearFocus()
+        view.onClickConvertButton(characters, { unicode = it }, false)
+    }
 
     OutlinedTextField(
         value = unicode,
@@ -80,10 +87,7 @@ fun Unicode() {
         },
         keyboardActions = KeyboardActions(
             onDone = {
-                if (isUnicodeInput) {
-                    focus.clearFocus()
-                    view.onClickConvertButton(unicode, { characters = it }, true)
-                }
+                if (isUnicodeInput) convertUnicode()
             }),
         trailingIcon = {
             ClearInput(unicode) {
@@ -108,10 +112,7 @@ fun Unicode() {
         ),
         keyboardActions = KeyboardActions(
             onDone = {
-                if (isCharacterInput) {
-                    focus.clearFocus()
-                    view.onClickConvertButton(characters, { unicode = it }, false)
-                }
+                if (isCharacterInput) convertCharacters()
             }),
         trailingIcon = {
             ClearInput(characters) {
@@ -124,9 +125,9 @@ fun Unicode() {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
         focus.clearFocus()
         if (isUnicodeInput) {
-            view.onClickConvertButton(unicode, { characters = it }, true)
+            convertUnicode()
         } else if (isCharacterInput) {
-            view.onClickConvertButton(characters, { unicode = it }, false)
+            convertCharacters()
         }
     }) { Text(stringResource(R.string.convert)) }
 }
