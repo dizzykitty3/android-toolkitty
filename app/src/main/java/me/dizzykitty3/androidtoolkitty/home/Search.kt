@@ -64,26 +64,26 @@ private fun SearchComposable() {
     val view = LocalView.current
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
-    var query by remember { mutableStateOf("") }
+    var searchQuery by remember { mutableStateOf("") }
     val search = {
         focus.clearFocus()
-        view.context.onTapSearchButton(query, state.searchEngine)
+        view.context.onTapSearchButton(searchQuery, state.searchEngine)
     }
     val searchVideos = {
         focus.clearFocus()
-        view.context.onTapVideoSearchButton(query, state.videoSearchEngine)
+        view.context.onTapVideoSearchButton(searchQuery, state.videoSearchEngine)
     }
 
     LaunchedEffect(state.typingContents) {
-        if (query != state.typingContents) {
-            query = state.typingContents
+        if (searchQuery != state.typingContents) {
+            searchQuery = state.typingContents
         }
     }
 
     OutlinedTextField(
-        value = query,
+        value = searchQuery,
         onValueChange = {
-            query = it
+            searchQuery = it
             vm.updateTypingContents(it)
         },
         label = { Text(stringResource(R.string.query)) },
@@ -94,9 +94,9 @@ private fun SearchComposable() {
         keyboardActions = KeyboardActions(
             onDone = { search() }),
         trailingIcon = {
-            ClearInput(query) {
+            ClearInput(searchQuery) {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                query = ""
+                searchQuery = ""
                 vm.updateTypingContents("")
             }
         },
@@ -142,19 +142,19 @@ private fun videoSearchButtonLabel(videoSearchEngine: VideoSearchEngine): Int =
     }
 
 private fun Context.onTapSearchButton(
-    query: String,
+    searchQuery: String,
     searchEngine: SearchEngine = SearchEngine.GOOGLE,
 ) {
-    if (query.isBlank()) return
+    if (searchQuery.isBlank()) return
     Timber.d("onTapSearchButton $searchEngine")
-    this.openSearch(query, searchEngine)
+    this.openSearch(searchQuery, searchEngine)
 }
 
 private fun Context.onTapVideoSearchButton(
-    query: String,
+    searchQuery: String,
     videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
 ) {
-    if (query.isBlank()) return
+    if (searchQuery.isBlank()) return
     Timber.d("onTapVideoSearchButton $videoSearchEngine")
-    this.searchOnVideoPlatform(query, videoSearchEngine)
+    this.searchOnVideoPlatform(searchQuery, videoSearchEngine)
 }
