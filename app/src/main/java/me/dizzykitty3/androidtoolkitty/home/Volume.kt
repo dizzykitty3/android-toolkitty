@@ -72,11 +72,15 @@ fun MediaVolume(isHome: Boolean) {
     val maxVolume = view.context.maxMediaVolumeIndex
     val offAllCap = stringResource(R.string.off_all_cap)
     val addLabel = stringResource(R.string.add)
-    val options = remember(offAllCap, addLabel, state.customVolume) {
+    val fortyPercentLabel = stringResource(R.string.volume_forty_percent)
+    val sixtyPercentLabel = stringResource(R.string.volume_sixty_percent)
+    val options = remember(
+        offAllCap, fortyPercentLabel, sixtyPercentLabel, addLabel, state.customVolume
+    ) {
         listOf(
             offAllCap,
-            "40%",
-            "60%",
+            fortyPercentLabel,
+            sixtyPercentLabel,
             state.customVolume?.takeIf { it > 0 }?.let { it.toString() + "%" } ?: addLabel,
         )
     }
