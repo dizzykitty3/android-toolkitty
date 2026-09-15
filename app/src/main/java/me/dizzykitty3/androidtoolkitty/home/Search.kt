@@ -40,7 +40,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ButtonDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnYouTube
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import timber.log.Timber
@@ -118,7 +118,7 @@ private fun SearchComposable() {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             focus.clearFocus()
-            view.context.onTapCheckOnYouTubeButton(query, state.videoSearchEngine)
+            view.context.onTapVideoSearchButton(query, state.videoSearchEngine)
         }) {
             Text(stringResource(videoSearchButtonLabel(state.videoSearchEngine)))
             Icon(
@@ -147,11 +147,11 @@ private fun Context.onTapSearchButton(
     this.openSearch(query, searchEngine)
 }
 
-private fun Context.onTapCheckOnYouTubeButton(
+private fun Context.onTapVideoSearchButton(
     query: String,
     videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
 ) {
     if (query.isBlank()) return
-    Timber.d("onTapCheckOnYouTubeButton $videoSearchEngine")
-    this.searchOnYouTube(query, videoSearchEngine)
+    Timber.d("onTapVideoSearchButton $videoSearchEngine")
+    this.searchOnVideoPlatform(query, videoSearchEngine)
 }

@@ -78,10 +78,10 @@ object IntentUtils {
         }
     }
 
-    fun Context.searchOnYouTube(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
+    fun Context.searchOnVideoPlatform(query: String, videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE) {
         if (query.isBlank()) return
 
-        Timber.d("searchOnYouTube, videoSearchEngine = $videoSearchEngine")
+        Timber.d("searchOnVideoPlatform, videoSearchEngine = $videoSearchEngine")
         val intent = Intent(
             Intent.ACTION_VIEW,
             when (videoSearchEngine) {
