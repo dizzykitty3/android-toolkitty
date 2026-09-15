@@ -4,12 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.EventNote
 import androidx.compose.material.icons.outlined.ArrowOutward
@@ -24,7 +18,6 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SettingsApplications
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -52,7 +45,6 @@ import me.dizzykitty3.androidtoolkitty.ui.home.HomeCardId
 import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
-import me.dizzykitty3.androidtoolkitty.uicomponents.IconAndTextPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
@@ -163,26 +155,10 @@ private fun OtherSettings() {
     val haptic = LocalHapticFeedback.current
     var isLoggingEnabled by remember { mutableStateOf(LoggingPreferences.isEnabled) }
 
-    Surface(
-        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-        color = MaterialTheme.colorScheme.surfaceBright
-    ) {
-        Column(
-            Modifier
-                .requiredHeightIn(min = dimensionResource(R.dimen.height_setting_row))
-                .fillMaxWidth(), verticalArrangement = Arrangement.Center
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Row(Modifier.weight(1F), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Outlined.Info, contentDescription = null
-                    )
-                    IconAndTextPadding()
-                    Text(view.context.versionName)
-                }
-            }
-        }
-    }
+    SettingsInfoRow(
+        icon = Icons.Outlined.Info,
+        text = view.context.versionName,
+    )
 
     val isDebugBuild = BuildConfig.DEBUG
     CustomSwitchRow(

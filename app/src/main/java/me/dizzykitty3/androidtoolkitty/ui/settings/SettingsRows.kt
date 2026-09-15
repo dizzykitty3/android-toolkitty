@@ -60,3 +60,29 @@ internal fun SettingsLinkRow(
         }
     }
 }
+
+@Composable
+internal fun SettingsInfoRow(
+    icon: ImageVector,
+    text: String,
+) {
+    Surface(
+        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
+        color = MaterialTheme.colorScheme.surfaceBright,
+    ) {
+        Column(
+            Modifier
+                .requiredHeightIn(min = dimensionResource(R.dimen.height_setting_row))
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.weight(1F), verticalAlignment = Alignment.CenterVertically) {
+                    Icon(imageVector = icon, contentDescription = null)
+                    IconAndTextPadding()
+                    Text(text)
+                }
+            }
+        }
+    }
+}
