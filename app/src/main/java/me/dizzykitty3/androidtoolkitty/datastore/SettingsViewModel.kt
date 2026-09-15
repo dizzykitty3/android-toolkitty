@@ -30,9 +30,7 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.update() }
     }
 
-    fun getShownState(card: String): Boolean {
-        return settingsState.value.isShown(card)
-    }
+    fun getShownState(card: String): Boolean = settingsState.value.isShown(card)
 
     fun saveShownState(card: String, isShown: Boolean) {
         updateSettings { saveShownState(card, isShown) }
