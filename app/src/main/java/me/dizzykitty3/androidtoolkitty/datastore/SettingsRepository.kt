@@ -78,25 +78,25 @@ class SettingsRepository @Inject constructor(
         )
     }
 
+    private suspend fun <T> setPreference(key: Preferences.Key<T>, value: T) {
+        dataStore.edit { it[key] = value }
+    }
+
     suspend fun saveShownState(itemKey: String, isShown: Boolean) {
-        dataStore.edit { it[booleanPreferencesKey(itemKey)] = isShown }
+        setPreference(booleanPreferencesKey(itemKey), isShown)
     }
 
-    suspend fun toggleDynamicColor(enabled: Boolean) {
-        dataStore.edit { it[Keys.DYNAMIC_COLOR] = enabled }
-    }
+    suspend fun toggleDynamicColor(enabled: Boolean) =
+        setPreference(Keys.DYNAMIC_COLOR, enabled)
 
-    suspend fun toggleAutoClearClipboard(enabled: Boolean) {
-        dataStore.edit { it[Keys.AUTO_CLEAR_CLIPBOARD] = enabled }
-    }
+    suspend fun toggleAutoClearClipboard(enabled: Boolean) =
+        setPreference(Keys.AUTO_CLEAR_CLIPBOARD, enabled)
 
-    suspend fun setSearchEngine(engine: SearchEngine) {
-        dataStore.edit { it[Keys.SEARCH_ENGINE] = engine.name }
-    }
+    suspend fun setSearchEngine(engine: SearchEngine) =
+        setPreference(Keys.SEARCH_ENGINE, engine.name)
 
-    suspend fun setVideoSearchEngine(engine: VideoSearchEngine) {
-        dataStore.edit { it[Keys.VIDEO_SEARCH_ENGINE] = engine.name }
-    }
+    suspend fun setVideoSearchEngine(engine: VideoSearchEngine) =
+        setPreference(Keys.VIDEO_SEARCH_ENGINE, engine.name)
 
     suspend fun setDoNotRememberLastSearch(enabled: Boolean) {
         dataStore.edit { preferences ->
@@ -105,9 +105,8 @@ class SettingsRepository @Inject constructor(
         }
     }
 
-    suspend fun updateLastSelectedPlatformIndex(index: Int) {
-        dataStore.edit { it[Keys.LAST_SELECTED_PLATFORM_INDEX] = index }
-    }
+    suspend fun updateLastSelectedPlatformIndex(index: Int) =
+        setPreference(Keys.LAST_SELECTED_PLATFORM_INDEX, index)
 
     suspend fun updateTypingContents(contents: String) {
         dataStore.edit { preferences ->
@@ -119,21 +118,17 @@ class SettingsRepository @Inject constructor(
         }
     }
 
-    suspend fun updateLatitude(latitude: String) {
-        dataStore.edit { it[Keys.LATITUDE] = latitude }
-    }
+    suspend fun updateLatitude(latitude: String) =
+        setPreference(Keys.LATITUDE, latitude)
 
-    suspend fun updateLongitude(longitude: String) {
-        dataStore.edit { it[Keys.LONGITUDE] = longitude }
-    }
+    suspend fun updateLongitude(longitude: String) =
+        setPreference(Keys.LONGITUDE, longitude)
 
-    suspend fun toggleHaveTappedAddButton(haveTapped: Boolean) {
-        dataStore.edit { it[Keys.HAVE_TAPPED_ADD_BUTTON] = haveTapped }
-    }
+    suspend fun toggleHaveTappedAddButton(haveTapped: Boolean) =
+        setPreference(Keys.HAVE_TAPPED_ADD_BUTTON, haveTapped)
 
-    suspend fun updateCustomVolume(value: Int) {
-        dataStore.edit { it[Keys.CUSTOM_VOLUME] = value }
-    }
+    suspend fun updateCustomVolume(value: Int) =
+        setPreference(Keys.CUSTOM_VOLUME, value)
 
     suspend fun increaseVolumeButtonTapCount() {
         dataStore.edit { preferences ->
@@ -142,9 +137,8 @@ class SettingsRepository @Inject constructor(
         }
     }
 
-    suspend fun updateWheelOfFortuneItems(items: String) {
-        dataStore.edit { it[Keys.WHEEL_OF_FORTUNE_ITEMS] = items }
-    }
+    suspend fun updateWheelOfFortuneItems(items: String) =
+        setPreference(Keys.WHEEL_OF_FORTUNE_ITEMS, items)
 }
 
 data class UserSettings(
