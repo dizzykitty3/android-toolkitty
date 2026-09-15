@@ -42,6 +42,10 @@ internal fun CheckAppOnMarket() {
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
     var packageName by remember { mutableStateOf("") }
+    val checkMarket = { isGooglePlay: Boolean ->
+        focus.clearFocus()
+        view.context.checkOnMarket(packageName, isGooglePlay)
+    }
 
     LaunchedEffect(state.typingContents) {
         if (packageName != state.typingContents) {
@@ -59,10 +63,7 @@ internal fun CheckAppOnMarket() {
         modifier = Modifier.fillMaxWidth(),
         keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
         keyboardActions = KeyboardActions(
-            onDone = {
-                focus.clearFocus()
-                view.context.checkOnMarket(packageName)
-            }
+            onDone = { checkMarket(true) }
         ),
         trailingIcon = {
             ClearInput(packageName) {
@@ -79,8 +80,7 @@ internal fun CheckAppOnMarket() {
     ) {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            focus.clearFocus()
-            view.context.checkOnMarket(packageName)
+            checkMarket(true)
         }) {
             Text(stringResource(R.string.open_on_google_play))
             Icon(
@@ -93,8 +93,7 @@ internal fun CheckAppOnMarket() {
         ButtonDivider()
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            focus.clearFocus()
-            view.context.checkOnMarket(packageName, false)
+            checkMarket(false)
         }) {
             Text(stringResource(R.string.open_on_other_markets))
             Icon(
