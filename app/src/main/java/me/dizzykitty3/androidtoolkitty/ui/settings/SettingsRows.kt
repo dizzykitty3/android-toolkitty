@@ -1,5 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.ui.settings
 
+import androidx.annotation.StringRes
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.IconAndTextPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
@@ -60,6 +63,21 @@ internal fun SettingsLinkRow(
         }
     }
 }
+
+@Composable
+internal fun SettingsLinkRow(
+    icon: ImageVector,
+    @StringRes title: Int,
+    onClick: () -> Unit,
+    trailingIcon: ImageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+    trailingContentDescription: String? = null,
+) = SettingsLinkRow(
+    icon = icon,
+    title = stringResource(title),
+    onClick = onClick,
+    trailingIcon = trailingIcon,
+    trailingContentDescription = trailingContentDescription,
+)
 
 @Composable
 internal fun SettingsInfoRow(

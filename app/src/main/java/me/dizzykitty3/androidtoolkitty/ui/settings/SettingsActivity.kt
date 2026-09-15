@@ -99,7 +99,7 @@ private fun Appearance() {
     if (OSVersion.android13()) {
         SettingsLinkRow(
             icon = Icons.Outlined.Language,
-            title = stringResource(R.string.language),
+            title = R.string.language,
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 view.context.openAppLanguageSetting()
@@ -128,7 +128,7 @@ private fun General() {
     if (isSearchCardShown) {
         SettingsLinkRow(
             icon = Icons.Outlined.Search,
-            title = stringResource(R.string.search_settings),
+            title = R.string.search_settings,
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 context.openScreen(SearchSettingsActivity::class.java)
@@ -139,7 +139,7 @@ private fun General() {
     // edit home
     SettingsLinkRow(
         icon = Icons.Outlined.Edit,
-        title = stringResource(R.string.customize_home),
+        title = R.string.customize_home,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(CustomizeHomeActivity::class.java)
@@ -179,7 +179,7 @@ private fun OtherSettings() {
 
     SettingsLinkRow(
         icon = Icons.Outlined.Code,
-        title = stringResource(R.string.view_source_code),
+        title = R.string.view_source_code,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             view.context.openURL(SOURCE_CODE_URL)
@@ -190,7 +190,7 @@ private fun OtherSettings() {
 
     SettingsLinkRow(
         icon = Icons.Outlined.FileCopy,
-        title = stringResource(R.string.licenses),
+        title = R.string.licenses,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             view.context.openScreen(LicensesActivity::class.java)
@@ -199,7 +199,7 @@ private fun OtherSettings() {
 
     SettingsLinkRow(
         icon = Icons.Outlined.SettingsApplications,
-        title = stringResource(R.string.app_settings),
+        title = R.string.app_settings,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             view.context.openAppDetailSettings()
