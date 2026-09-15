@@ -141,7 +141,9 @@ private enum class ConversionDirection {
 }
 
 private fun View.onClickConvertButton(
-    input: String, updateResult: (String) -> Unit, direction: ConversionDirection
+    input: String,
+    updateResult: (String) -> Unit,
+    direction: ConversionDirection,
 ) {
     if (input.isBlank()) return
 
@@ -156,7 +158,7 @@ private fun View.onClickConvertButton(
         updateResult(result)
         context.copyToClipboard(result)
         this.showSnackbar("$result ${context.getString(R.string.copied)}")
-    } catch (e: Exception) {
+    } catch (e: IllegalArgumentException) {
         e.message?.let { this.showSnackbar(it) }
     }
 }
