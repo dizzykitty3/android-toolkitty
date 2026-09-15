@@ -2,9 +2,9 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 
 import android.app.Activity
 import android.os.Bundle
-import android.widget.Toast
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
+import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
 import timber.log.Timber
 
 class ClearClipboardActivity : Activity() {
@@ -20,14 +20,13 @@ class ClearClipboardActivity : Activity() {
             Timber.d("hasFocus")
             if (clearClipboard()) {
                 Timber.i("clipboard cleared")
-                toast(getString(R.string.clipboard_cleared))
+                showToast(getString(R.string.clipboard_cleared))
             } else {
                 Timber.i("clipboard is empty")
-                toast(getString(R.string.clipboard_is_empty))
+                showToast(getString(R.string.clipboard_is_empty))
             }
             finish()
         }
     }
 
-    private fun toast(s: String) = Toast.makeText(this, s, Toast.LENGTH_SHORT).show()
 }
