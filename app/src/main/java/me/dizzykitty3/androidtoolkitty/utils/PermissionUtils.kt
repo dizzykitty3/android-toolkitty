@@ -15,9 +15,9 @@ object PermissionUtils {
 
     /**
      * Remember to use Activity Context to check/request permissions.
-     * DO NOT use AppContext.check(_) which will cause a ClassCastException.
+     * DO NOT use AppContext.isPermissionDenied(_) which will cause a ClassCastException.
      */
-    private fun Context.check(permission: String): Boolean =
+    private fun Context.isPermissionDenied(permission: String): Boolean =
         ActivityCompat.checkSelfPermission(this, permission) != GRANTED
 
     private fun Activity.request(permission: Array<String>) =
@@ -28,7 +28,7 @@ object PermissionUtils {
      */
     @CheckResult
     fun Context.noBluetoothPermission(): Boolean =
-        bluetoothPermissions().any { check(it) }
+        bluetoothPermissions().any { isPermissionDenied(it) }
 
     fun Activity.requestBluetoothPermission() =
         request(bluetoothPermissions())
@@ -41,7 +41,7 @@ object PermissionUtils {
      */
     @CheckResult
     fun Context.noNotificationPermission(): Boolean =
-        this.check(POST_NOTIFICATIONS)
+        isPermissionDenied(POST_NOTIFICATIONS)
 
     fun Activity.requestNotificationPermission() =
         this.request(arrayOf(POST_NOTIFICATIONS))
