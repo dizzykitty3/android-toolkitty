@@ -79,6 +79,16 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
+private const val DEFAULT_WHEEL_ITEM_COUNT = 4
+private const val WHEEL_TEXT_SIZE = 40f
+private const val WHEEL_SIZE_DP = 250
+private const val SPIN_BASE_ROTATIONS = 3
+private const val ARROW_BASE_OFFSET = 15f
+private const val ARROW_POINT_OFFSET = 30f
+private const val ARROW_HALF_WIDTH = 10f
+private const val WHEEL_OUTLINE_WIDTH = 4f
+private const val MAX_EDITABLE_LIST_HEIGHT_DP = 200
+
 @Composable
 fun WheelOfFortune() {
     val context = LocalContext.current
@@ -110,7 +120,7 @@ fun TheWheel(withEditableList: Boolean = false) {
         Paint().apply {
             color = textColor
             textAlign = Paint.Align.CENTER
-            textSize = 40f
+            textSize = WHEEL_TEXT_SIZE
         }
     }
     var hasRotated by remember { mutableStateOf(false) }
@@ -170,7 +180,7 @@ fun TheWheel(withEditableList: Boolean = false) {
 
         Canvas(
             modifier = Modifier
-                .size(250.dp)
+                .size(WHEEL_SIZE_DP.dp)
                 .aspectRatio(1F)
         ) {
             val center = Offset(size.width / 2, size.height / 2)
@@ -208,14 +218,14 @@ fun TheWheel(withEditableList: Boolean = false) {
                 )
             }
             val arrowPath = Path().apply {
-                moveTo(center.x, center.y - radius - 15)
-                lineTo(center.x - 10, center.y - radius - 30)
-                lineTo(center.x + 10, center.y - radius - 30)
+                moveTo(center.x, center.y - radius - ARROW_BASE_OFFSET)
+                lineTo(center.x - ARROW_HALF_WIDTH, center.y - radius - ARROW_POINT_OFFSET)
+                lineTo(center.x + ARROW_HALF_WIDTH, center.y - radius - ARROW_POINT_OFFSET)
                 close()
             }
             drawPath(arrowPath, primary)
             drawCircle(
-                color = Color.Black, radius = radius, center = center, style = Stroke(width = 4f)
+                color = Color.Black, radius = radius, center = center, style = Stroke(width = WHEEL_OUTLINE_WIDTH)
             )
         }
 
@@ -232,7 +242,7 @@ fun TheWheel(withEditableList: Boolean = false) {
                     }
                     isSpinning = true
                     hasRotated = true
-                    val randomBaseCircles = 3
+                    val randomBaseCircles = SPIN_BASE_ROTATIONS
                     val fineTunedAngle = Random.nextInt(360)
                     targetRotationDegrees += (360 * randomBaseCircles) + fineTunedAngle
                 }
@@ -251,7 +261,7 @@ fun TheWheel(withEditableList: Boolean = false) {
 }
 
 private fun decodeWheelItems(itemsJson: String?, itemLabel: String): List<String> {
-    val defaultItems = List(4) { index -> "$itemLabel ${index + 1}" }
+    val defaultItems = List(DEFAULT_WHEEL_ITEM_COUNT) { index -> "$itemLabel ${index + 1}" }
     if (itemsJson.isNullOrEmpty()) return defaultItems
 
     return try {
@@ -321,7 +331,7 @@ private fun ExpandableList(
         AnimatedVisibility(visible = expanded) {
             val item = stringResource(R.string.item)
             Column {
-                LazyColumn(state = listState, modifier = Modifier.heightIn(max = 200.dp)) {
+                LazyColumn(state = listState, modifier = Modifier.heightIn(max = MAX_EDITABLE_LIST_HEIGHT_DP.dp)) {
                     itemsIndexed(items) { index, item ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
