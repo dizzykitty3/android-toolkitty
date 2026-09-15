@@ -37,20 +37,26 @@ internal fun toProfileFullURL(platform: URLUtils.Platform, username: String): St
         else -> "${platform.prefix}${username.dropSpaces()}"
     }
 
+private val numbersOnlyPlatforms = setOf(
+    URLUtils.Platform.BILIBILI_UUID,
+    URLUtils.Platform.BILIBILI_AV,
+    URLUtils.Platform.PIXIV_ARTWORK,
+    URLUtils.Platform.PIXIV_UUID,
+    URLUtils.Platform.STEAM_UUID,
+    URLUtils.Platform.WEIBO_UUID,
+    URLUtils.Platform.GOOGLE_ISSUE_TRACKER,
+)
+
 private fun numbersOnlyPlatform(platform: URLUtils.Platform): Boolean =
-    platform == URLUtils.Platform.BILIBILI_UUID ||
-        platform == URLUtils.Platform.BILIBILI_AV ||
-        platform == URLUtils.Platform.PIXIV_ARTWORK ||
-        platform == URLUtils.Platform.PIXIV_UUID ||
-        platform == URLUtils.Platform.STEAM_UUID ||
-        platform == URLUtils.Platform.WEIBO_UUID ||
-        platform == URLUtils.Platform.GOOGLE_ISSUE_TRACKER
+    platform in numbersOnlyPlatforms
 
 internal fun isInvalidNotNumbersOnly(platform: URLUtils.Platform, username: String): Boolean =
     numbersOnlyPlatform(platform) && username.isNotBlank() && !username.dropSpaces().isDigitsOnly()
 
+private val commonRulePlatforms = setOf(URLUtils.Platform.X)
+
 private fun usesCommonRule(platform: URLUtils.Platform): Boolean =
-    platform == URLUtils.Platform.X
+    platform in commonRulePlatforms
 
 internal fun isInvalidCommonRule(platform: URLUtils.Platform, username: String): Boolean =
     usesCommonRule(platform) && username.isNotBlank() && username.dropSpaces().isInvalidUsername()
