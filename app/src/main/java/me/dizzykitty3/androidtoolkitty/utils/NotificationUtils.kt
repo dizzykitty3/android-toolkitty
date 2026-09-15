@@ -1,12 +1,9 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
-import android.Manifest
+import android.app.Activity
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.Activity
 import android.content.Context
-import android.content.pm.PackageManager
-import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.getSystemService
@@ -42,10 +39,7 @@ object NotificationUtils {
             .setContentText("text_content_$count").setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(context)) {
-            if (ActivityCompat.checkSelfPermission(
-                    context, Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
+            if (context.noNotificationPermission()) {
                 return@with
             }
             notify(count, builder.build())
