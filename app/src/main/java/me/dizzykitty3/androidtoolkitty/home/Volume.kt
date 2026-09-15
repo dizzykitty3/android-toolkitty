@@ -105,19 +105,11 @@ fun MediaVolume(isHome: Boolean) {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     selectedIndex = index
                     when (index) {
-                        0 -> {
-                            view.setVolume(0)
-                            vm.increaseVolumeButtonTapCount()
-                        }
-
-                        1 -> {
-                            view.setVolume(0.4 * maxVolume)
-                            vm.increaseVolumeButtonTapCount()
-                        }
-
-                        2 -> {
-                            view.setVolume(0.6 * maxVolume)
-                            vm.increaseVolumeButtonTapCount()
+                        0, 1, 2 -> {
+                            presetVolume(index, maxVolume)?.let { volume ->
+                                view.setVolume(volume)
+                                vm.increaseVolumeButtonTapCount()
+                            }
                         }
 
                         3 -> {
@@ -173,6 +165,13 @@ fun MediaVolume(isHome: Boolean) {
             }
         }
     }
+}
+
+private fun presetVolume(index: Int, maxVolume: Int): Double? = when (index) {
+    0 -> 0.0
+    1 -> 0.4 * maxVolume
+    2 -> 0.6 * maxVolume
+    else -> null
 }
 
 private fun selectedVolumeIndex(
