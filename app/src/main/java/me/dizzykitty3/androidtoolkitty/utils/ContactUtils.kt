@@ -5,9 +5,9 @@ import android.content.Intent
 import android.provider.ContactsContract
 
 object ContactUtils {
-    private const val TEST = "test"
-    private const val TEL_MOBILE = "+86 100 0000 00"
-    private const val MAIL_HOME = "@gmail.com"
+    private const val CONTACT_NAME_PREFIX = "test"
+    private const val MOBILE_NUMBER_PREFIX = "+86 100 0000 00"
+    private const val HOME_EMAIL_DOMAIN = "@gmail.com"
     private var count = 0
 
     fun createContact(activity: Activity?) {
@@ -20,21 +20,24 @@ object ContactUtils {
             type = ContactsContract.Contacts.CONTENT_TYPE
 
             // name
-            putExtra(ContactsContract.Intents.Insert.NAME, "$TEST $number")
+            putExtra(ContactsContract.Intents.Insert.NAME, "$CONTACT_NAME_PREFIX $number")
 
             // number
-            if (number >= 10) {
-                putExtra(ContactsContract.Intents.Insert.PHONE, "$TEL_MOBILE$number")
-            } else {
-                putExtra(ContactsContract.Intents.Insert.PHONE, "${TEL_MOBILE}0$number")
-            }
+            val formattedNumber = number.toString().padStart(2, '0')
+            putExtra(
+                ContactsContract.Intents.Insert.PHONE,
+                "$MOBILE_NUMBER_PREFIX$formattedNumber"
+            )
             putExtra(
                 ContactsContract.Intents.Insert.PHONE_TYPE,
                 ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE
             )
 
             // email
-            putExtra(ContactsContract.Intents.Insert.EMAIL, "$TEST$count$MAIL_HOME")
+            putExtra(
+                ContactsContract.Intents.Insert.EMAIL,
+                "$CONTACT_NAME_PREFIX$count$HOME_EMAIL_DOMAIN"
+            )
             putExtra(
                 ContactsContract.Intents.Insert.EMAIL_TYPE,
                 ContactsContract.CommonDataKinds.Email.TYPE_HOME
