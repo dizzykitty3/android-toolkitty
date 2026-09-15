@@ -60,7 +60,7 @@ fun HomeStatusBar(isTablet: Boolean = false) {
     val context = LocalContext.current
     var batteryLevel by remember { mutableIntStateOf(context.batteryLevel()) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(context) {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 batteryLevel = context.batteryLevel()
@@ -140,7 +140,7 @@ private fun NetworkState() {
     val context = LocalContext.current
     var networkState by remember { mutableIntStateOf(context.networkState()) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(context) {
         fun refreshNetworkState() {
             networkState = context.networkState()
         }
