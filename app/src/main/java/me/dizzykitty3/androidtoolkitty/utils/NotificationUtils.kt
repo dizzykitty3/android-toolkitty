@@ -37,8 +37,8 @@ object NotificationUtils {
     fun sendNotification(context: Context) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
-            .setContentTitle("text_title_$notificationId")
-            .setContentText("text_content_$notificationId")
+            .setContentTitle(context.getString(R.string.notification_title, notificationId))
+            .setContentText(context.getString(R.string.notification_content, notificationId))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
 
         with(NotificationManagerCompat.from(context)) {
