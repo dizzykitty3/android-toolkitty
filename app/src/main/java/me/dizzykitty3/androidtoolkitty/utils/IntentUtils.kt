@@ -18,6 +18,8 @@ import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addURLScheme
 import timber.log.Timber
 
 object IntentUtils {
+    private const val BILIBILI_SEARCH_URI_PREFIX = "bilibili://search?keyword="
+    private const val BILIBILI_SEARCH_WEB_PREFIX = "https://m.bilibili.com/search?keyword="
     // Didn't use StartActivity as the name because a custom extension function is needed.
     private fun Context.launch(intent: Intent) {
         var msg: String
@@ -28,12 +30,11 @@ object IntentUtils {
             this.startActivity(intent)
             return
         } catch (e: ActivityNotFoundException) {
-            if (intent.data.toString().startsWith("bilibili://search?keyword=")) {
+            val data = intent.dataString
+            if (data?.startsWith(BILIBILI_SEARCH_URI_PREFIX) == true) {
                 // Handle bilibili search
                 this.openURL(
-                    "m.bilibili.com/search?keyword=${
-                        intent.data.toString().removePrefix("bilibili://search?keyword=")
-                    }"
+                    BILIBILI_SEARCH_WEB_PREFIX + data.removePrefix(BILIBILI_SEARCH_URI_PREFIX)
                 )
                 return
             } else {
@@ -86,7 +87,7 @@ object IntentUtils {
             Intent.ACTION_VIEW,
             when (videoSearchEngine) {
                 VideoSearchEngine.YOUTUBE -> "https://youtube.com/results?search_query=$query".toUri()
-                VideoSearchEngine.BILIBILI -> "bilibili://search?keyword=$query".toUri()
+                VideoSearchEngine.BILIBILI -> (BILIBILI_SEARCH_URI_PREFIX + query).toUri()
             }
         )
         this.launch(intent)
