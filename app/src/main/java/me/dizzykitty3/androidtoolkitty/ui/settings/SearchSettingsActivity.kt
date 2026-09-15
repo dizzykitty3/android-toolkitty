@@ -65,7 +65,7 @@ private fun SearchSettings() {
 
     BaseCard(R.string.search_engine) {
         SearchEngine.entries.forEach { engine ->
-            SearchEngineRadioRow(
+            SettingsRadioRow(
                 title = stringResource(engine.title),
                 selected = state.searchEngine == engine,
                 onClick = { viewModel.setSearchEngine(engine) },
@@ -75,7 +75,7 @@ private fun SearchSettings() {
 
     BaseCard(R.string.video_search_engine) {
         VideoSearchEngine.entries.forEach { engine ->
-            SearchEngineRadioRow(
+            SettingsRadioRow(
                 title = stringResource(engine.title),
                 selected = state.videoSearchEngine == engine,
                 onClick = { viewModel.setVideoSearchEngine(engine) },
@@ -95,7 +95,7 @@ private fun SearchSettings() {
 }
 
 @Composable
-private fun SearchEngineRadioRow(
+private fun SettingsRadioRow(
     title: String,
     selected: Boolean,
     onClick: () -> Unit,
