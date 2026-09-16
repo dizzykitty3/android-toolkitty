@@ -67,11 +67,11 @@ private fun SearchComposable() {
     var searchQuery by remember { mutableStateOf("") }
     val performSearch = {
         focus.clearFocus()
-        view.context.onTapSearchButton(searchQuery, state.searchEngine)
+        view.context.openSearchIfQueryNotBlank(searchQuery, state.searchEngine)
     }
     val performVideoSearch = {
         focus.clearFocus()
-        view.context.onTapVideoSearchButton(searchQuery, state.videoSearchEngine)
+        view.context.openVideoSearchIfQueryNotBlank(searchQuery, state.videoSearchEngine)
     }
 
     LaunchedEffect(state.typingContents) {
@@ -141,20 +141,20 @@ private fun videoSearchButtonLabel(videoSearchEngine: VideoSearchEngine): Int =
         VideoSearchEngine.BILIBILI -> R.string.search_on_bilibili
     }
 
-private fun Context.onTapSearchButton(
+private fun Context.openSearchIfQueryNotBlank(
     searchQuery: String,
-    searchEngine: SearchEngine = SearchEngine.GOOGLE,
+    searchEngine: SearchEngine,
 ) {
     if (searchQuery.isBlank()) return
-    Timber.d("onTapSearchButton $searchEngine")
+    Timber.d("openSearchIfQueryNotBlank $searchEngine")
     this.openSearch(searchQuery, searchEngine)
 }
 
-private fun Context.onTapVideoSearchButton(
+private fun Context.openVideoSearchIfQueryNotBlank(
     searchQuery: String,
-    videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
+    videoSearchEngine: VideoSearchEngine,
 ) {
     if (searchQuery.isBlank()) return
-    Timber.d("onTapVideoSearchButton $videoSearchEngine")
+    Timber.d("openVideoSearchIfQueryNotBlank $videoSearchEngine")
     this.searchOnVideoPlatform(searchQuery, videoSearchEngine)
 }
