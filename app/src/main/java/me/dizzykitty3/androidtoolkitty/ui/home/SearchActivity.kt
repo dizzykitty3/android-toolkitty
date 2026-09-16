@@ -87,7 +87,7 @@ private fun Webpage() {
     var url by remember { mutableStateOf("") }
     val visitUrl = {
         focus.clearFocus()
-        view.context.onTapVisitURLButton(url)
+        view.context.openUrlIfNotBlank(url)
     }
 
     LaunchedEffect(state.typingContents) {
@@ -165,8 +165,8 @@ private fun displayedUrlSuffix(url: String): String = when {
     else -> url.removeTrailingPeriod().getSuffix()
 }
 
-private fun Context.onTapVisitURLButton(url: String) {
+private fun Context.openUrlIfNotBlank(url: String) {
     if (url.isBlank()) return
-    Timber.d("onTapVisitURLButton")
+    Timber.d("openUrlIfNotBlank")
     this.openURL(url.removeTrailingPeriod().addSuffix())
 }
