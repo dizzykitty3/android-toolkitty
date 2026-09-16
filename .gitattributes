@@ -1,0 +1,6 @@
+# Use LF for text files across platforms.
+* text=auto eol=lf
+
+# Windows command scripts require CRLF line endings.
+*.bat text eol=crlf
+*.cmd text eol=crlf
