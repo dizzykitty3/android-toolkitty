@@ -25,16 +25,16 @@ object IntentUtils {
     private const val ECOSIA_SEARCH_PREFIX = "https://www.ecosia.org/search?q="
     private const val YOUTUBE_SEARCH_PREFIX = "https://youtube.com/results?search_query="
 
-    private fun SearchEngine.buildSearchUrl(query: String): String? = when (this) {
+    private fun SearchEngine.buildSearchUrl(searchQuery: String): String? = when (this) {
         SearchEngine.GOOGLE -> null
-        SearchEngine.BING -> BING_SEARCH_PREFIX + query
-        SearchEngine.DUCKDUCKGO -> DUCKDUCKGO_SEARCH_PREFIX + query
-        SearchEngine.ECOSIA -> ECOSIA_SEARCH_PREFIX + query
+        SearchEngine.BING -> BING_SEARCH_PREFIX + searchQuery
+        SearchEngine.DUCKDUCKGO -> DUCKDUCKGO_SEARCH_PREFIX + searchQuery
+        SearchEngine.ECOSIA -> ECOSIA_SEARCH_PREFIX + searchQuery
     }
 
-    private fun VideoSearchEngine.buildSearchUri(query: String): Uri = when (this) {
-        VideoSearchEngine.YOUTUBE -> (YOUTUBE_SEARCH_PREFIX + query).toUri()
-        VideoSearchEngine.BILIBILI -> (BILIBILI_SEARCH_URI_PREFIX + query).toUri()
+    private fun VideoSearchEngine.buildSearchUri(searchQuery: String): Uri = when (this) {
+        VideoSearchEngine.YOUTUBE -> (YOUTUBE_SEARCH_PREFIX + searchQuery).toUri()
+        VideoSearchEngine.BILIBILI -> (BILIBILI_SEARCH_URI_PREFIX + searchQuery).toUri()
     }
     // Didn't use StartActivity as the name because a custom extension function is needed.
     private fun Context.launch(intent: Intent) {
@@ -86,28 +86,31 @@ object IntentUtils {
         launch(Intent(this, screen))
     }
 
-    fun Context.openSearch(query: String, searchEngine: SearchEngine = SearchEngine.GOOGLE) {
-        if (query.isBlank()) return
+    fun Context.openSearch(
+        searchQuery: String,
+        searchEngine: SearchEngine = SearchEngine.GOOGLE,
+    ) {
+        if (searchQuery.isBlank()) return
 
         Timber.d("openSearch, searchEngine = $searchEngine")
-        val searchUrl = searchEngine.buildSearchUrl(query)
+        val searchUrl = searchEngine.buildSearchUrl(searchQuery)
         if (searchUrl != null) {
             this.openURL(searchUrl)
         } else {
             val intent = Intent(Intent.ACTION_WEB_SEARCH)
-            intent.putExtra(SearchManager.QUERY, query)
+            intent.putExtra(SearchManager.QUERY, searchQuery)
             this.launch(intent)
         }
     }
 
     fun Context.searchOnVideoPlatform(
-        query: String,
+        searchQuery: String,
         videoSearchEngine: VideoSearchEngine = VideoSearchEngine.YOUTUBE,
     ) {
-        if (query.isBlank()) return
+        if (searchQuery.isBlank()) return
 
         Timber.d("searchOnVideoPlatform, videoSearchEngine = $videoSearchEngine")
-        this.launchView(videoSearchEngine.buildSearchUri(query))
+        this.launchView(videoSearchEngine.buildSearchUri(searchQuery))
     }
 
     fun Context.openURL(url: String) {
