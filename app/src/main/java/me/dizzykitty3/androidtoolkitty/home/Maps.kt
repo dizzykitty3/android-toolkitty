@@ -52,6 +52,10 @@ fun Maps() {
         val focusRequester2 = remember { FocusRequester() }
         var latitude by remember { mutableStateOf("") }
         var longitude by remember { mutableStateOf("") }
+        val openMaps = {
+            focus.clearFocus()
+            view.context.openGoogleMapsIfValid(latitude, longitude)
+        }
 
         LaunchedEffect(state.latitude) {
             if (latitude != state.latitude) {
@@ -86,8 +90,7 @@ fun Maps() {
                     if (longitude.isBlank()) {
                         focusRequester2.requestFocus()
                     } else {
-                        focus.clearFocus()
-                        view.context.openGoogleMapsIfValid(latitude, longitude)
+                        openMaps()
                     }
                 }),
             trailingIcon = {
@@ -132,8 +135,7 @@ fun Maps() {
                     if (latitude.isBlank()) {
                         focusRequester1.requestFocus()
                     } else {
-                        focus.clearFocus()
-                        view.context.openGoogleMapsIfValid(latitude, longitude)
+                        openMaps()
                     }
                 }),
             trailingIcon = {
@@ -147,8 +149,7 @@ fun Maps() {
 
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            focus.clearFocus()
-            view.context.openGoogleMapsIfValid(latitude, longitude)
+            openMaps()
         }) {
             Text(stringResource(R.string.google_maps))
             Icon(
