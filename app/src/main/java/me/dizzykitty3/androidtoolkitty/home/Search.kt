@@ -65,11 +65,11 @@ private fun SearchComposable() {
     val focus = LocalFocusManager.current
     val haptic = LocalHapticFeedback.current
     var searchQuery by remember { mutableStateOf("") }
-    val search = {
+    val performSearch = {
         focus.clearFocus()
         view.context.onTapSearchButton(searchQuery, state.searchEngine)
     }
-    val searchVideos = {
+    val performVideoSearch = {
         focus.clearFocus()
         view.context.onTapVideoSearchButton(searchQuery, state.videoSearchEngine)
     }
@@ -92,7 +92,7 @@ private fun SearchComposable() {
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
-            onDone = { search() }),
+            onDone = { performSearch() }),
         trailingIcon = {
             ClearInput(searchQuery) {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -108,7 +108,7 @@ private fun SearchComposable() {
     ) {
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            search()
+            performSearch()
         }) {
             Text(stringResource(R.string.search))
             Icon(
@@ -121,7 +121,7 @@ private fun SearchComposable() {
         ButtonDivider()
         TextButton({
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            searchVideos()
+            performVideoSearch()
         }) {
             Text(stringResource(videoSearchButtonLabel(state.videoSearchEngine)))
             Icon(
