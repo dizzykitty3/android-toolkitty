@@ -58,11 +58,19 @@ fun Unicode() {
     val haptic = LocalHapticFeedback.current
     val convertUnicode = {
         focus.clearFocus()
-        view.onClickConvertButton(unicode, { characters = it }, ConversionDirection.UNICODE_TO_CHARACTER)
+        view.convertAndCopyIfInputNotBlank(
+            unicode,
+            { characters = it },
+            ConversionDirection.UNICODE_TO_CHARACTER,
+        )
     }
     val convertCharacters = {
         focus.clearFocus()
-        view.onClickConvertButton(characters, { unicode = it }, ConversionDirection.CHARACTER_TO_UNICODE)
+        view.convertAndCopyIfInputNotBlank(
+            characters,
+            { unicode = it },
+            ConversionDirection.CHARACTER_TO_UNICODE,
+        )
     }
 
     OutlinedTextField(
@@ -140,14 +148,14 @@ private enum class ConversionDirection {
     CHARACTER_TO_UNICODE,
 }
 
-private fun View.onClickConvertButton(
+private fun View.convertAndCopyIfInputNotBlank(
     input: String,
     updateResult: (String) -> Unit,
     direction: ConversionDirection,
 ) {
     if (input.isBlank()) return
 
-    Timber.d("onClickConvertButton")
+    Timber.d("convertAndCopyIfInputNotBlank")
 
     try {
         val result = when (direction) {
