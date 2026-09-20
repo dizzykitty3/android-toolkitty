@@ -104,6 +104,28 @@ class SettingsRepositoryTest {
         assertEquals("remember this", repository.settingsFlow.first().typingContents)
     }
 
+    @Test
+    fun remainingUserInputs_arePersistedWithoutAffectingOtherSettings() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+        val wheelItems = "{\"items\":[\"Tea\",\"Coffee\"]}"
+
+        repository.updateLastSelectedPlatformIndex(4)
+        repository.updateLatitude("25.0330")
+        repository.updateLongitude("121.5654")
+        repository.toggleHaveTappedAddButton(true)
+        repository.updateWheelOfFortuneItems(wheelItems)
+
+        val settings = repository.settingsFlow.first { it.wheelOfFortuneItems == wheelItems }
+        assertEquals(4, settings.lastSelectedPlatformIndex)
+        assertEquals("25.0330", settings.latitude)
+        assertEquals("121.5654", settings.longitude)
+        assertEquals(true, settings.haveTappedAddButton)
+        assertEquals(wheelItems, settings.wheelOfFortuneItems)
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-settings-", ".preferences_pb").apply {
             delete()

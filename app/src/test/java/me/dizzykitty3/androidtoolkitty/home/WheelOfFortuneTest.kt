@@ -29,4 +29,12 @@ class WheelOfFortuneTest {
             decodeWheelItems(null, "Item"),
         )
     }
+
+    @Test
+    fun decodeWheelItems_fallsBackToDefaultsForMalformedJson() {
+        assertEquals(
+            listOf("Item 1", "Item 2", "Item 3", "Item 4"),
+            decodeWheelItems("not valid json", "Item"),
+        )
+    }
 }
