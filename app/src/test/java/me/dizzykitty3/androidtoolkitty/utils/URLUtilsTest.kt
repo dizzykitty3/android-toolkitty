@@ -22,4 +22,13 @@ class URLUtilsTest {
         assertEquals("", "already.has.domain".getSuffix())
         assertEquals("https://bbc.co.uk", "bbc".addSuffix())
     }
+
+    @Test
+    fun suffixResolution_handlesRepresentativeSpecialDomainsCaseInsensitively() {
+        assertEquals(".co.jp", "RAKUTEN".getSuffix())
+        assertEquals(".net", "pixiv".getSuffix())
+        assertEquals(".org", "telegram".getSuffix())
+        assertEquals(".us", "zoom".getSuffix())
+        assertEquals("https://pixiv.net", "pixiv".addSuffix())
+    }
 }

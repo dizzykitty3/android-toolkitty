@@ -50,4 +50,11 @@ class SocialMediaProfileRulesTest {
         assertTrue(isCaseSensitive(Platform.LIT_LINK))
         assertFalse(isCaseSensitive(Platform.GITHUB))
     }
+
+    @Test
+    fun normalizedPlatformIndex_clampsInvalidPersistedIndexes() {
+        assertEquals(0, normalizedPlatformIndex(-1))
+        assertEquals(2, normalizedPlatformIndex(2))
+        assertEquals(Platform.entries.lastIndex, normalizedPlatformIndex(Int.MAX_VALUE))
+    }
 }

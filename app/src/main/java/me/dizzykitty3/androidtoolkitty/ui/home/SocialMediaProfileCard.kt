@@ -153,7 +153,7 @@ internal fun SocialMediaProfile() {
     }
 }
 
-private fun normalizedPlatformIndex(index: Int): Int =
+internal fun normalizedPlatformIndex(index: Int): Int =
     index.coerceIn(0, URLUtils.Platform.entries.lastIndex)
 
 private fun View.visitProfileOrShowError(
