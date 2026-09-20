@@ -73,6 +73,11 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
 }
 
 androidComponents {
@@ -125,6 +130,7 @@ dependencies {
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.robolectric)
 }
 
 tasks.register("unitTest") {
