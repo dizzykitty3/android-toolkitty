@@ -259,7 +259,7 @@ fun TheWheel(withEditableList: Boolean = false) {
     }
 }
 
-private fun selectedWheelItemIndex(rotationDegrees: Float, itemCount: Int): Int {
+internal fun selectedWheelItemIndex(rotationDegrees: Float, itemCount: Int): Int {
     if (itemCount <= 0) return 0
 
     val normalizedRotationDegrees = rotationDegrees % 360
@@ -267,7 +267,7 @@ private fun selectedWheelItemIndex(rotationDegrees: Float, itemCount: Int): Int 
     return (((360 - normalizedRotationDegrees + 270) % 360) / anglePerItem).toInt() % itemCount
 }
 
-private fun decodeWheelItems(itemsJson: String?, itemLabel: String): List<String> {
+internal fun decodeWheelItems(itemsJson: String?, itemLabel: String): List<String> {
     val defaultItems = List(DEFAULT_WHEEL_ITEM_COUNT) { index -> "$itemLabel ${index + 1}" }
     if (itemsJson.isNullOrEmpty()) return defaultItems
 

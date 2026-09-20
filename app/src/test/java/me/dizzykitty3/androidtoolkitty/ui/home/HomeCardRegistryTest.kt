@@ -1,0 +1,33 @@
+package me.dizzykitty3.androidtoolkitty.ui.home
+
+import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Test
+
+class HomeCardRegistryTest {
+
+    @Test
+    fun homeCardDefinitions_containEveryCardIdExactlyOnce() {
+        val cardIds = homeCardDefinitions.map { it.id }
+
+        assertEquals(HomeCardId.entries.toList(), cardIds)
+        assertEquals(cardIds.size, cardIds.distinct().size)
+    }
+
+    @Test
+    fun visibleHomeCards_respectsPersistedVisibilityAndKeepsRegistryOrder() {
+        val settings = UserSettings.default().copy(
+            shownItemStates = mapOf(
+                HomeCardId.SEARCH.preferenceKey to false,
+                HomeCardId.MAPS.preferenceKey to false,
+            ),
+        )
+
+        val visibleIds = settings.visibleHomeCards().map { it.id }
+        assertTrue(HomeCardId.SEARCH !in visibleIds)
+        assertTrue(HomeCardId.MAPS !in visibleIds)
+        assertEquals(HomeCardId.YEAR_PROGRESS, visibleIds.first())
+        assertEquals(HomeCardId.HAPTIC_FEEDBACK, visibleIds.last())
+    }
+}
