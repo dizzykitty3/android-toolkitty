@@ -170,14 +170,14 @@ fun MediaVolume(isHome: Boolean) {
     }
 }
 
-private fun presetVolume(index: Int, maxVolume: Int): Double? = when (index) {
+internal fun presetVolume(index: Int, maxVolume: Int): Double? = when (index) {
     OFF_VOLUME_INDEX -> 0.0
     FORTY_PERCENT_VOLUME_INDEX -> FORTY_PERCENT * maxVolume
     SIXTY_PERCENT_VOLUME_INDEX -> SIXTY_PERCENT * maxVolume
     else -> null
 }
 
-private fun selectedVolumeIndex(
+internal fun selectedVolumeIndex(
     volume: Int,
     maxVolume: Int,
     customVolume: Int,
