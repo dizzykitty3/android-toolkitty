@@ -169,10 +169,10 @@ private fun Context.openGoogleMapsIfValid(latitude: String, longitude: String) {
     this.checkOnGoogleMaps(latitude, longitude)
 }
 
-private fun String.getLatitudeSuffix(): String =
+internal fun String.getLatitudeSuffix(): String =
     getCoordinateDirection(maximum = MAX_LATITUDE, positive = "N", negative = "S")
 
-private fun String.getLongitudeSuffix(): String =
+internal fun String.getLongitudeSuffix(): String =
     getCoordinateDirection(maximum = MAX_LONGITUDE, positive = "E", negative = "W")
 
 private fun String.getCoordinateDirection(
@@ -188,13 +188,13 @@ private fun String.getCoordinateDirection(
     }
 }
 
-private fun String.hasInvalidLatitude(): Boolean =
+internal fun String.hasInvalidLatitude(): Boolean =
     isNotBlank() && getLatitudeSuffix().isEmpty()
 
-private fun String.hasInvalidLongitude(): Boolean =
+internal fun String.hasInvalidLongitude(): Boolean =
     isNotBlank() && getLongitudeSuffix().isEmpty()
 
-private fun sanitizeCoordinateInput(input: String): String {
+internal fun sanitizeCoordinateInput(input: String): String {
     return buildString {
         var hasDot = false
 

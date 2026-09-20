@@ -154,12 +154,12 @@ private fun Webpage() {
     }
 }
 
-private fun normalizeUrlInput(input: String): String =
+internal fun normalizeUrlInput(input: String): String =
     input.replace(FULL_WIDTH_PERIOD, HALF_WIDTH_PERIOD)
         .replace(HALF_WIDTH_SPACE, HALF_WIDTH_PERIOD)
         .replace(FULL_WIDTH_SPACE, HALF_WIDTH_PERIOD)
 
-private fun displayedUrlSuffix(url: String): String = when {
+internal fun displayedUrlSuffix(url: String): String = when {
     url.isEmpty() -> ""
     url.endsWith(".") -> url.removeTrailingPeriod().getSuffix().removePrefix(".")
     else -> url.removeTrailingPeriod().getSuffix()
