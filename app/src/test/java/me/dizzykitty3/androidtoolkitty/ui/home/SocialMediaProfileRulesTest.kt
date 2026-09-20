@@ -22,6 +22,18 @@ class SocialMediaProfileRulesTest {
             "theo.tumblr.com",
             toProfileFullURL(Platform.TUMBLR, " theo "),
         )
+        assertEquals(
+            "bsky.app/profile/theo.example",
+            toProfileFullURL(Platform.BLUESKY, "theo.example"),
+        )
+        assertEquals(
+            "bilibili.com/video/AV123",
+            toProfileFullURL(Platform.BILIBILI_AV, "AV123"),
+        )
+        assertEquals(
+            "youtube.com/results?search_query=kotlin compose",
+            toProfileFullURL(Platform.YOUTUBE_SEARCH, " kotlin compose "),
+        )
     }
 
     @Test
