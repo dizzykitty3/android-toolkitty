@@ -18,4 +18,14 @@ class SearchEnginesTest {
         assertEquals(VideoSearchEngine.BILIBILI, VideoSearchEngine.fromStoredName("BILIBILI"))
         assertNull(VideoSearchEngine.fromStoredName("VIMEO"))
     }
+
+    @Test
+    fun everyEngine_roundTripsThroughItsStoredName() {
+        SearchEngine.entries.forEach { engine ->
+            assertEquals(engine, SearchEngine.fromStoredName(engine.name))
+        }
+        VideoSearchEngine.entries.forEach { engine ->
+            assertEquals(engine, VideoSearchEngine.fromStoredName(engine.name))
+        }
+    }
 }

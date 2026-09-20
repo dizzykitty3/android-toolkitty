@@ -46,6 +46,24 @@ class SocialMediaProfileRulesTest {
     }
 
     @Test
+    fun everyNumbersOnlyPlatform_rejectsNonNumericUsernames() {
+        val numericPlatforms = listOf(
+            Platform.BILIBILI_UUID,
+            Platform.BILIBILI_AV,
+            Platform.PIXIV_ARTWORK,
+            Platform.PIXIV_UUID,
+            Platform.STEAM_UUID,
+            Platform.WEIBO_UUID,
+            Platform.GOOGLE_ISSUE_TRACKER,
+        )
+
+        numericPlatforms.forEach { platform ->
+            assertFalse(isValid(platform, "12a"))
+            assertTrue(isValid(platform, " 123 "))
+        }
+    }
+
+    @Test
     fun caseSensitivity_isEnabledOnlyForLitLink() {
         assertTrue(isCaseSensitive(Platform.LIT_LINK))
         assertFalse(isCaseSensitive(Platform.GITHUB))

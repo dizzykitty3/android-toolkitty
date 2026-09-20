@@ -15,6 +15,13 @@ class WheelOfFortuneTest {
     }
 
     @Test
+    fun selectedWheelItemIndex_supportsNonFourItemWheels() {
+        assertEquals(2, selectedWheelItemIndex(rotationDegrees = 0f, itemCount = 3))
+        assertEquals(1, selectedWheelItemIndex(rotationDegrees = 120f, itemCount = 3))
+        assertEquals(0, selectedWheelItemIndex(rotationDegrees = 240f, itemCount = 3))
+    }
+
+    @Test
     fun decodeWheelItems_usesSavedItemsOrGeneratesDefaults() {
         assertEquals(
             listOf("Tea", "Coffee"),
