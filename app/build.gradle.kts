@@ -122,4 +122,13 @@ dependencies {
     implementation(libs.timber)
 
     ksp(libs.google.hilt.android.compiler)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+}
+
+tasks.register("unitTest") {
+    group = "verification"
+    description = "Runs all local unit tests."
+    dependsOn("test")
 }

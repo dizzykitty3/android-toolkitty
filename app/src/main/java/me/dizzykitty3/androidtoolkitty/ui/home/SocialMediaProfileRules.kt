@@ -1,6 +1,5 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
-import androidx.core.text.isDigitsOnly
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.dropSpaces
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.isInvalidUsername
 import me.dizzykitty3.androidtoolkitty.utils.URLUtils
@@ -51,7 +50,8 @@ private fun numbersOnlyPlatform(platform: URLUtils.Platform): Boolean =
     platform in numbersOnlyPlatforms
 
 internal fun isInvalidNotNumbersOnly(platform: URLUtils.Platform, username: String): Boolean =
-    numbersOnlyPlatform(platform) && username.isNotBlank() && !username.dropSpaces().isDigitsOnly()
+    numbersOnlyPlatform(platform) && username.isNotBlank() &&
+        !username.dropSpaces().all(Char::isDigit)
 
 private val commonRulePlatforms = setOf(URLUtils.Platform.X)
 

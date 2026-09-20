@@ -6,7 +6,7 @@ import androidx.annotation.CheckResult
 import java.util.Locale
 
 object StringUtils {
-    private val whitespaceRegex = Regex("\\s")
+    private val whitespaceRegex = Regex("[\\s　]")
     private val validUsernameRegex = Regex("^[a-zA-Z0-9_]*$")
     private val supportedLocaleRegex = Regex("en|Hans|zh_CN|zh_SG|ja")
     private val englishLocaleRegex = Regex("en")

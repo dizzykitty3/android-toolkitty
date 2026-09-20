@@ -15,6 +15,7 @@ dataStore = "1.2.1"
 desugar = "2.1.5"
 gmsMaps = "20.0.0"
 hilt = "1.4.0"
+junit = "4.13.2"
 kotlin = "2.4.20"
 ksp = "2.3.11"
 leakCanary = "2.14"
@@ -46,7 +47,9 @@ androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-view
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
 google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "dagger" }
 google-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
+junit = { module = "junit:junit", version.ref = "junit" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakCanary" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
