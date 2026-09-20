@@ -66,6 +66,17 @@ class IntentUtilsTest {
     }
 
     @Test
+    fun openUrl_addsHttpsSchemeBeforeLaunchingViewIntent() {
+        val activity = activity()
+
+        activity.openURL("android-toolkitty.dev")
+
+        val intent = shadowOf(activity).nextStartedActivity
+        assertEquals(Intent.ACTION_VIEW, intent.action)
+        assertEquals(Uri.parse("https://android-toolkitty.dev"), intent.data)
+    }
+
+    @Test
     fun searchAndUrlActions_ignoreBlankInput() {
         val activity = activity()
 

@@ -2,16 +2,7 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.bluetooth.BluetoothAdapter
 import android.provider.Settings
-import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
-import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
-import me.dizzykitty3.androidtoolkitty.S_CAPTION
-import me.dizzykitty3.androidtoolkitty.S_DATE
-import me.dizzykitty3.androidtoolkitty.S_DISPLAY
-import me.dizzykitty3.androidtoolkitty.S_ENABLE_BLUETOOTH
-import me.dizzykitty3.androidtoolkitty.S_KEYBOARD
-import me.dizzykitty3.androidtoolkitty.S_LOCALE
-import me.dizzykitty3.androidtoolkitty.S_SOUND
-import me.dizzykitty3.androidtoolkitty.S_USAGE_ACCESS
+import me.dizzykitty3.androidtoolkitty.*
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -38,6 +29,29 @@ class SystemSettingsIntentTest {
             BluetoothAdapter.ACTION_REQUEST_ENABLE,
             systemSettingsIntent(S_ENABLE_BLUETOOTH)?.action,
         )
+    }
+
+    @Test
+    fun conditionalSettings_returnTheirExpectedIntentActionsOnSupportedSdk() {
+        val expectedActions = mapOf(
+            S_AUTO_ROTATE to Settings.ACTION_AUTO_ROTATE_SETTINGS,
+            S_DEFAULT_APPS to Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS,
+            S_BATTERY_OPTIMIZATION to Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS,
+            S_OVERLAY to Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            S_MODIFY_SYSTEM to Settings.ACTION_MANAGE_WRITE_SETTINGS,
+            S_NOTIFICATION_LISTENER to Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS,
+            S_DND_ACCESS to Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS,
+            S_UNKNOWN_APPS to Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES,
+            S_ALARMS to Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,
+            S_MEDIA_MANAGEMENT to Settings.ACTION_REQUEST_MANAGE_MEDIA,
+            S_APP_NOTIFICATIONS to Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS,
+            S_VPN to Settings.ACTION_VPN_SETTINGS,
+            S_SEARCH_SETTINGS to Settings.ACTION_APP_SEARCH_SETTINGS,
+        )
+
+        expectedActions.forEach { (settingType, action) ->
+            assertEquals(action, systemSettingsIntent(settingType)?.action)
+        }
     }
 
     @Test
