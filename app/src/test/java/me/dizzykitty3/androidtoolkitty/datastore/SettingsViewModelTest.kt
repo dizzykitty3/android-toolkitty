@@ -56,6 +56,47 @@ class SettingsViewModelTest {
         }
     }
 
+    @Test
+    fun remainingUpdateMethods_publishSettingsStateAndHonorPrivacyPreference() {
+        val dispatcher = UnconfinedTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                val viewModel = SettingsViewModel(repository)
+                val wheelItems = "{\"items\":[\"Tea\",\"Coffee\"]}"
+                val updatedState = async(start = CoroutineStart.UNDISPATCHED) {
+                    viewModel.settingsState.first {
+                        it.doNotRememberLastSearch &&
+                            it.customVolume == 35 &&
+                            it.latitude == "25.0330" &&
+                            it.longitude == "121.5654" &&
+                            it.wheelOfFortuneItems == wheelItems
+                    }
+                }
+
+                viewModel.setDoNotRememberLastSearch(true)
+                viewModel.updateTypingContents("must not persist")
+                viewModel.updateCustomVolume(35)
+                viewModel.updateLatitude("25.0330")
+                viewModel.updateLongitude("121.5654")
+                viewModel.updateWheelOfFortuneItems(wheelItems)
+
+                val state = updatedState.await()
+                assertEquals("", state.typingContents)
+                assertEquals(35, state.customVolume)
+                assertEquals("25.0330", state.latitude)
+                assertEquals("121.5654", state.longitude)
+                assertEquals(wheelItems, state.wheelOfFortuneItems)
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-view-model-", ".preferences_pb").apply {
             delete()
