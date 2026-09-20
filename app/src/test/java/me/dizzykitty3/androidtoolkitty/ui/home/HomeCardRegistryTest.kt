@@ -16,6 +16,13 @@ class HomeCardRegistryTest {
     }
 
     @Test
+    fun everyHomeCardId_usesTheSettingsRepositoryCardKeyConvention() {
+        HomeCardId.entries.forEach { cardId ->
+            assertTrue(cardId.preferenceKey.startsWith("card_"))
+        }
+    }
+
+    @Test
     fun visibleHomeCards_respectsPersistedVisibilityAndKeepsRegistryOrder() {
         val settings = UserSettings.default().copy(
             shownItemStates = mapOf(
