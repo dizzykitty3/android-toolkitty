@@ -51,6 +51,23 @@ class IntentUtilsTest {
     }
 
     @Test
+    fun searchActions_useTheSelectedEngineAndVideoPlatformUris() {
+        val activity = activity()
+
+        activity.openSearch("tool kitty", SearchEngine.BING)
+        val bingIntent = shadowOf(activity).nextStartedActivity
+        assertEquals(Uri.parse("https://bing.com/search?q=tool kitty"), bingIntent.data)
+
+        activity.openSearch("tool kitty", SearchEngine.ECOSIA)
+        val ecosiaIntent = shadowOf(activity).nextStartedActivity
+        assertEquals(Uri.parse("https://www.ecosia.org/search?q=tool kitty"), ecosiaIntent.data)
+
+        activity.searchOnVideoPlatform("tool kitty", VideoSearchEngine.YOUTUBE)
+        val youtubeIntent = shadowOf(activity).nextStartedActivity
+        assertEquals(Uri.parse("https://youtube.com/results?search_query=tool kitty"), youtubeIntent.data)
+    }
+
+    @Test
     fun videoSearch_marketAndMapsUseTheirExpectedUrisAndPackages() {
         val activity = activity()
 
@@ -116,6 +133,20 @@ class IntentUtilsTest {
             android.provider.Settings.ACTION_DISPLAY_SETTINGS,
             shadowOf(activity).nextStartedActivity.action,
         )
+    }
+
+    @Test
+    fun marketAndMapsActions_handleSearchAndBlankInput() {
+        val marketActivity = activity()
+        marketActivity.checkOnMarket("tool kitty", isGooglePlay = false)
+        val marketIntent = shadowOf(marketActivity).nextStartedActivity
+        assertEquals(Uri.parse("market://search?q=tool kitty"), marketIntent.data)
+        assertNull(marketIntent.`package`)
+
+        val blankActivity = activity()
+        blankActivity.checkOnMarket("", isGooglePlay = false)
+        blankActivity.checkOnGoogleMaps("", "121.5654")
+        assertNull(shadowOf(blankActivity).nextStartedActivity)
     }
 
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
