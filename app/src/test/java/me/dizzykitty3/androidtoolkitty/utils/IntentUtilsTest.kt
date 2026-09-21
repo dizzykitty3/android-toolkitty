@@ -6,9 +6,13 @@ import android.content.Intent
 import android.net.Uri
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
+import me.dizzykitty3.androidtoolkitty.S_DISPLAY
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnGoogleMaps
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnMarket
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
 import org.junit.Assert.assertEquals
@@ -85,6 +89,33 @@ class IntentUtilsTest {
         activity.openURL("\t")
 
         assertNull(shadowOf(activity).nextStartedActivity)
+    }
+
+    @Test
+    fun appSettingsActions_useTheCurrentApplicationPackage() {
+        val detailActivity = activity()
+        detailActivity.openAppDetailSettings()
+        val detailIntent = shadowOf(detailActivity).nextStartedActivity
+        assertEquals(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, detailIntent.action)
+        assertEquals(Uri.parse("package:${detailActivity.packageName}"), detailIntent.data)
+
+        val languageActivity = activity()
+        languageActivity.openAppLanguageSetting()
+        val languageIntent = shadowOf(languageActivity).nextStartedActivity
+        assertEquals(android.provider.Settings.ACTION_APP_LOCALE_SETTINGS, languageIntent.action)
+        assertEquals(Uri.parse("package:${languageActivity.packageName}"), languageIntent.data)
+    }
+
+    @Test
+    fun openSystemSettings_delegatesToTheResolvedSettingsIntent() {
+        val activity = activity()
+
+        activity.openSystemSettings(S_DISPLAY)
+
+        assertEquals(
+            android.provider.Settings.ACTION_DISPLAY_SETTINGS,
+            shadowOf(activity).nextStartedActivity.action,
+        )
     }
 
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
