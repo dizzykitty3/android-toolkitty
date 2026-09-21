@@ -23,4 +23,12 @@ class VolumeRulesTest {
         assertEquals(1, selectedVolumeIndex(volume = 6, maxVolume = 15, customVolume = 40))
         assertEquals(-1, selectedVolumeIndex(volume = 7, maxVolume = 15, customVolume = 33))
     }
+
+    @Test
+    fun volumeRules_calculateAndSelectFractionalPresetsForOtherMaxVolumes() {
+        assertEquals(2.8, requireNotNull(presetVolume(index = 1, maxVolume = 7)), 0.0001)
+        assertEquals(4.2, requireNotNull(presetVolume(index = 2, maxVolume = 7)), 0.0001)
+        assertEquals(1, selectedVolumeIndex(volume = 3, maxVolume = 7, customVolume = 50))
+        assertEquals(2, selectedVolumeIndex(volume = 4, maxVolume = 7, customVolume = 50))
+    }
 }
