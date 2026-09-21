@@ -21,4 +21,9 @@ class SystemSettingDefinitionsTest {
         assertTrue(availableSettings.all { it in systemSettingDefinitions })
         assertTrue(availableSettings.all { it.isAvailable() })
     }
+
+    @Test
+    fun currentAndroidVersion_exposesEveryDefinedSystemSetting() {
+        assertEquals(systemSettingDefinitions, availableSystemSettings())
+    }
 }
