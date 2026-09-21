@@ -30,6 +30,24 @@ class BatteryUtilsTest {
         assertEquals(-1, batteryContext(level = 50, scale = -1).batteryLevel())
     }
 
+    @Test
+    fun batteryLevel_returnsUnavailableWhenTheSystemHasNoBatteryBroadcast() {
+        val context = object : ContextWrapper(null) {
+            override fun registerReceiver(
+                receiver: BroadcastReceiver?,
+                filter: IntentFilter?,
+            ): Intent? = null
+        }
+
+        assertEquals(-1, context.batteryLevel())
+    }
+
+    @Test
+    fun batteryLevel_keepsZeroAndTruncatesFractionalPercentages() {
+        assertEquals(0, batteryContext(level = 0, scale = 100).batteryLevel())
+        assertEquals(33, batteryContext(level = 1, scale = 3).batteryLevel())
+    }
+
     private fun batteryContext(level: Int?, scale: Int?): Context = object : ContextWrapper(null) {
         override fun registerReceiver(
             receiver: BroadcastReceiver?,

@@ -31,11 +31,15 @@ class StringUtilsTest {
     fun unicodeConversions_handleValidAndInvalidInput() {
         assertEquals("00410042", StringUtils.characterToUnicode("AB"))
         assertEquals("AB", StringUtils.unicodeToCharacter("00410042"))
+        assertEquals("ab", StringUtils.unicodeToCharacter("00610062"))
         assertThrows(IllegalArgumentException::class.java) {
             StringUtils.unicodeToCharacter("004")
         }
         assertThrows(IllegalArgumentException::class.java) {
             StringUtils.unicodeToCharacter("zzzz")
+        }
+        assertThrows(IllegalArgumentException::class.java) {
+            StringUtils.characterToUnicode("")
         }
     }
 
