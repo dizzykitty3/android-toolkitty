@@ -78,11 +78,16 @@ object StringUtils {
         get() = Build.DEVICE
 
     val osVersion: String
-        get() = "Android ${Build.VERSION.RELEASE} (${Build.getMajorSdkVersion(Build.VERSION.SDK_INT_FULL)}.${
-            Build.getMinorSdkVersion(
-                Build.VERSION.SDK_INT_FULL
-            )
-        })"
+        get() {
+            val sdkVersion = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA) {
+                "${Build.getMajorSdkVersion(Build.VERSION.SDK_INT_FULL)}.${
+                    Build.getMinorSdkVersion(Build.VERSION.SDK_INT_FULL)
+                }"
+            } else {
+                Build.VERSION.SDK_INT.toString()
+            }
+            return "Android ${Build.VERSION.RELEASE} ($sdkVersion)"
+        }
 
     // BuildConfig.VERSION_NAME may not have the updated value at compile time. (I guess)
     val Context.versionName: String
