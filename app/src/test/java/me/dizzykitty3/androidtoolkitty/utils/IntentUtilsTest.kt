@@ -2,8 +2,10 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.app.Activity
 import android.app.SearchManager
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
+import me.dizzykitty3.androidtoolkitty.appcomponents.ClearClipboardActivity
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
 import me.dizzykitty3.androidtoolkitty.S_DISPLAY
@@ -12,6 +14,7 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnMarket
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
@@ -132,6 +135,18 @@ class IntentUtilsTest {
         assertEquals(
             android.provider.Settings.ACTION_DISPLAY_SETTINGS,
             shadowOf(activity).nextStartedActivity.action,
+        )
+    }
+
+    @Test
+    fun openScreen_startsTheRequestedActivityComponent() {
+        val activity = activity()
+
+        activity.openScreen(ClearClipboardActivity::class.java)
+
+        assertEquals(
+            ComponentName(activity, ClearClipboardActivity::class.java),
+            shadowOf(activity).nextStartedActivity.component,
         )
     }
 
