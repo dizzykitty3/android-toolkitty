@@ -1,11 +1,21 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
+import android.content.Context
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [35])
 class HomeCardRegistryTest {
+
+    private val context: Context
+        get() = RuntimeEnvironment.getApplication()
 
     @Test
     fun homeCardDefinitions_containEveryCardIdExactlyOnce() {
@@ -19,6 +29,13 @@ class HomeCardRegistryTest {
     fun everyHomeCardId_usesTheSettingsRepositoryCardKeyConvention() {
         HomeCardId.entries.forEach { cardId ->
             assertTrue(cardId.preferenceKey.startsWith("card_"))
+        }
+    }
+
+    @Test
+    fun everyHomeCardId_hasANonBlankTitleResource() {
+        HomeCardId.entries.forEach { cardId ->
+            assertTrue(context.getString(cardId.title).isNotBlank())
         }
     }
 
