@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
 import android.app.Activity
+import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
@@ -46,5 +47,20 @@ class NotificationUtilsTest {
         NotificationUtils.sendNotification(context)
 
         assertNull(shadowOf(manager).getNotification(1))
+    }
+
+    @Test
+    fun sendNotification_postsTheExpectedNotificationWhenPermissionIsGranted() {
+        shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(POST_NOTIFICATIONS)
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        NotificationUtils.sendNotification(context)
+
+        val notification = shadowOf(manager).getNotification(1)
+        assertNotNull(notification)
+        assertEquals(
+            context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_title, 1),
+            notification?.extras?.getCharSequence(Notification.EXTRA_TITLE),
+        )
     }
 }
