@@ -3,6 +3,7 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 import android.content.ClipboardManager
 import android.content.Context
 import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -37,5 +38,17 @@ class ClearClipboardActivityTest {
 
         assertFalse(clipboard.hasPrimaryClip())
         assertTrue(activity.isFinishing)
+    }
+
+    @Test
+    fun losingFocus_doesNotClearClipboardOrFinish() {
+        val activity = Robolectric.buildActivity(ClearClipboardActivity::class.java).setup().get()
+        activity.copyToClipboard("keep me")
+
+        activity.onWindowFocusChanged(false)
+
+        val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        assertEquals("keep me", clipboard.primaryClip?.getItemAt(0)?.text)
+        assertFalse(activity.isFinishing)
     }
 }

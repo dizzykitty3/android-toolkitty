@@ -66,4 +66,26 @@ class ShareActivitiesTest {
         assertTrue(searchActivity.isFinishing)
         assertNull(shadowOf(searchActivity).nextStartedActivity)
     }
+
+    @Test
+    fun shareActivities_handleEmptySharedTextWithoutLaunchingSearch() {
+        val clipboardActivity = Robolectric.buildActivity(
+            ShareToClipboardActivity::class.java,
+            Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_TEXT, ""),
+        )
+            .setup()
+            .get()
+        val searchActivity = Robolectric.buildActivity(
+            ShareToSearchActivity::class.java,
+            Intent(Intent.ACTION_SEND).putExtra(Intent.EXTRA_TEXT, ""),
+        )
+            .setup()
+            .get()
+
+        val clipboard = clipboardActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        assertEquals("", clipboard.primaryClip?.getItemAt(0)?.text)
+        assertTrue(clipboardActivity.isFinishing)
+        assertTrue(searchActivity.isFinishing)
+        assertNull(shadowOf(searchActivity).nextStartedActivity)
+    }
 }
