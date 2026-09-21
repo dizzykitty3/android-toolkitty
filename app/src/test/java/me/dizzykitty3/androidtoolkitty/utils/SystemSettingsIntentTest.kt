@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
 import android.bluetooth.BluetoothAdapter
+import android.content.Intent
 import android.provider.Settings
 import me.dizzykitty3.androidtoolkitty.*
 import org.junit.Assert.assertEquals
@@ -16,6 +17,7 @@ class SystemSettingsIntentTest {
 
     @Test
     fun alwaysSupportedSettings_returnTheirExpectedIntentActions() {
+        assertEquals(Settings.ACTION_DEVICE_INFO_SETTINGS, systemSettingsIntent(S_ABOUT_PHONE)?.action)
         assertEquals(Settings.ACTION_DISPLAY_SETTINGS, systemSettingsIntent(S_DISPLAY)?.action)
         assertEquals(Settings.ACTION_BLUETOOTH_SETTINGS, systemSettingsIntent(S_BLUETOOTH)?.action)
         assertEquals(Settings.ACTION_CAPTIONING_SETTINGS, systemSettingsIntent(S_CAPTION)?.action)
@@ -25,6 +27,14 @@ class SystemSettingsIntentTest {
         assertEquals(Settings.ACTION_SOUND_SETTINGS, systemSettingsIntent(S_SOUND)?.action)
         assertEquals(Settings.ACTION_ACCESSIBILITY_SETTINGS, systemSettingsIntent(S_ACCESSIBILITY)?.action)
         assertEquals(Settings.ACTION_INPUT_METHOD_SETTINGS, systemSettingsIntent(S_KEYBOARD)?.action)
+        assertEquals(
+            Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS,
+            systemSettingsIntent(S_DEVELOPER)?.action,
+        )
+        assertEquals(Settings.ACTION_WIFI_SETTINGS, systemSettingsIntent(S_WIFI)?.action)
+        assertEquals(Intent.ACTION_POWER_USAGE_SUMMARY, systemSettingsIntent(S_BATTERY)?.action)
+        assertEquals(Settings.ACTION_SYNC_SETTINGS, systemSettingsIntent(S_ACCOUNTS)?.action)
+        assertEquals(Settings.ACTION_NFC_SETTINGS, systemSettingsIntent(S_NFC)?.action)
         assertEquals(
             BluetoothAdapter.ACTION_REQUEST_ENABLE,
             systemSettingsIntent(S_ENABLE_BLUETOOTH)?.action,
