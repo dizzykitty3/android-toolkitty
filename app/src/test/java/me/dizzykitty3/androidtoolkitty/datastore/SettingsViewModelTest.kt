@@ -71,25 +71,37 @@ class SettingsViewModelTest {
                 val updatedState = async(start = CoroutineStart.UNDISPATCHED) {
                     viewModel.settingsState.first {
                         it.doNotRememberLastSearch &&
+                            it.autoClearClipboard &&
+                            it.lastSelectedPlatformIndex == 4 &&
                             it.customVolume == 35 &&
                             it.latitude == "25.0330" &&
                             it.longitude == "121.5654" &&
+                            it.haveTappedAddButton &&
+                            it.volumeButtonTapCount == 1 &&
                             it.wheelOfFortuneItems == wheelItems
                     }
                 }
 
                 viewModel.setDoNotRememberLastSearch(true)
                 viewModel.updateTypingContents("must not persist")
+                viewModel.toggleAutoClearClipboard(true)
+                viewModel.updateLastSelectedPlatformIndex(4)
                 viewModel.updateCustomVolume(35)
                 viewModel.updateLatitude("25.0330")
                 viewModel.updateLongitude("121.5654")
+                viewModel.toggleHaveTappedAddButton(true)
+                viewModel.increaseVolumeButtonTapCount()
                 viewModel.updateWheelOfFortuneItems(wheelItems)
 
                 val state = updatedState.await()
                 assertEquals("", state.typingContents)
+                assertEquals(true, state.autoClearClipboard)
+                assertEquals(4, state.lastSelectedPlatformIndex)
                 assertEquals(35, state.customVolume)
                 assertEquals("25.0330", state.latitude)
                 assertEquals("121.5654", state.longitude)
+                assertEquals(true, state.haveTappedAddButton)
+                assertEquals(1, state.volumeButtonTapCount)
                 assertEquals(wheelItems, state.wheelOfFortuneItems)
             }
         } finally {
