@@ -151,7 +151,7 @@ private fun ManuallyGrant() {
 /**
  * @see android.bluetooth.BluetoothDevice.DEVICE_TYPE_CLASSIC
  */
-private fun Int.toTypeName(): String = when (this) {
+internal fun Int.toTypeName(): String = when (this) {
     BluetoothDevice.DEVICE_TYPE_CLASSIC -> "BT"
     BluetoothDevice.DEVICE_TYPE_LE -> "BLE"
     BluetoothDevice.DEVICE_TYPE_DUAL -> "Dual"
