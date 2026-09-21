@@ -24,4 +24,15 @@ class AudioUtilsTest {
 
         assertEquals(targetVolume, context.voiceCallVolume)
     }
+
+    @Test
+    fun mediaVolume_readsAndUpdatesTheMediaStream() {
+        val context: Context = RuntimeEnvironment.getApplication()
+        val targetVolume = 1
+
+        assertTrue(context.maxMediaVolumeIndex >= targetVolume)
+        context.setMediaVolume(targetVolume)
+
+        assertEquals(targetVolume, context.mediaVolume)
+    }
 }

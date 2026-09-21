@@ -32,7 +32,7 @@ private fun Context.setAudioStreamVolume(streamType: Int, volume: Int) =
         AudioManager.FLAG_SHOW_UI
     )
 
-private fun Context.setMediaVolume(volume: Int) =
+internal fun Context.setMediaVolume(volume: Int) =
     setAudioStreamVolume(AudioManager.STREAM_MUSIC, volume)
 
 fun Context.setVoiceCallVolume(volume: Int) =
