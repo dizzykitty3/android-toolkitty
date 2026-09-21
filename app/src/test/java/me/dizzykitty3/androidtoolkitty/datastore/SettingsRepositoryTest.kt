@@ -105,6 +105,24 @@ class SettingsRepositoryTest {
     }
 
     @Test
+    fun reEnablingSearchHistory_allowsTypingContentsToBeSavedAgain() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+
+        repository.setDoNotRememberLastSearch(true)
+        repository.setDoNotRememberLastSearch(false)
+        repository.updateTypingContents("remember again")
+        repository.toggleAutoClearClipboard(true)
+
+        val settings = repository.settingsFlow.first { it.typingContents == "remember again" }
+        assertFalse(settings.doNotRememberLastSearch)
+        assertEquals("remember again", settings.typingContents)
+        assertEquals(true, settings.autoClearClipboard)
+    }
+
+    @Test
     fun remainingUserInputs_arePersistedWithoutAffectingOtherSettings() = runTest {
         val file = newPreferencesFile()
         val repository = SettingsRepository(

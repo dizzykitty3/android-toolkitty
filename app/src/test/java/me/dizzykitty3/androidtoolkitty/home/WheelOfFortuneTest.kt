@@ -22,6 +22,18 @@ class WheelOfFortuneTest {
     }
 
     @Test
+    fun selectedWheelItemIndex_treatsNegativeAndFullCircleRotationsAsEquivalent() {
+        assertEquals(
+            selectedWheelItemIndex(rotationDegrees = 270f, itemCount = 4),
+            selectedWheelItemIndex(rotationDegrees = -90f, itemCount = 4),
+        )
+        assertEquals(
+            selectedWheelItemIndex(rotationDegrees = 120f, itemCount = 3),
+            selectedWheelItemIndex(rotationDegrees = 840f, itemCount = 3),
+        )
+    }
+
+    @Test
     fun decodeWheelItems_usesSavedItemsOrGeneratesDefaults() {
         assertEquals(
             listOf("Tea", "Coffee"),
