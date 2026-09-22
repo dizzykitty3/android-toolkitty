@@ -236,6 +236,20 @@ class IntentUtilsTest {
         )
     }
 
+    @Test
+    fun genericViewIntent_showsAnOemErrorWhenNoHandlerIsAvailable() {
+        val context = GooglePlayUnavailableContext(RuntimeEnvironment.getApplication())
+
+        context.openURL("toolkitty.example")
+
+        assertEquals(1, context.startedIntents.size)
+        assertEquals(Uri.parse("https://toolkitty.example"), context.startedIntents.single().data)
+        assertEquals(
+            context.getString(R.string.oem_removed, StringUtils.manufacturer),
+            ShadowToast.getTextOfLatestToast(),
+        )
+    }
+
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
 
     private class BilibiliUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
