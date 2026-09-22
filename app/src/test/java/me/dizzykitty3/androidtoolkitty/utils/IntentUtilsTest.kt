@@ -101,6 +101,23 @@ class IntentUtilsTest {
     }
 
     @Test
+    fun openUrl_preservesExistingSchemeAndMarketDetailsDropWhitespace() {
+        val urlActivity = activity()
+        urlActivity.openURL("custom://toolkitty")
+        assertEquals(
+            Uri.parse("custom://toolkitty"),
+            shadowOf(urlActivity).nextStartedActivity.data,
+        )
+
+        val marketActivity = activity()
+        marketActivity.checkOnMarket(" me. dizzy kitty ")
+        assertEquals(
+            Uri.parse("market://details?id=me.dizzykitty"),
+            shadowOf(marketActivity).nextStartedActivity.data,
+        )
+    }
+
+    @Test
     fun searchAndUrlActions_ignoreBlankInput() {
         val activity = activity()
 
