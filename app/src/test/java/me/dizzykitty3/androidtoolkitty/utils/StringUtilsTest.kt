@@ -32,6 +32,8 @@ class StringUtilsTest {
         assertEquals("00410042", StringUtils.characterToUnicode("AB"))
         assertEquals("AB", StringUtils.unicodeToCharacter("00410042"))
         assertEquals("ab", StringUtils.unicodeToCharacter("00610062"))
+        assertEquals("d83ddc31", StringUtils.characterToUnicode("🐱"))
+        assertEquals("🐱", StringUtils.unicodeToCharacter("d83ddc31"))
         assertThrows(IllegalArgumentException::class.java) {
             StringUtils.unicodeToCharacter("004")
         }
