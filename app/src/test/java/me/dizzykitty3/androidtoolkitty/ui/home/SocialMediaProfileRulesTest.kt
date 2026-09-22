@@ -37,6 +37,13 @@ class SocialMediaProfileRulesTest {
     }
 
     @Test
+    fun profileUrl_keepsPlatformBaseUrlForBlankUsernames() {
+        assertEquals("bsky.app/profile/", toProfileFullURL(Platform.BLUESKY, ""))
+        assertEquals(".fanbox.cc", toProfileFullURL(Platform.FANBOX, ""))
+        assertEquals("bilibili.com/video/av", toProfileFullURL(Platform.BILIBILI_AV, ""))
+    }
+
+    @Test
     fun validation_appliesNumericAndCommonRulesOnlyToRelevantPlatforms() {
         assertFalse(isValid(Platform.BILIBILI_UUID, "12ab"))
         assertTrue(isValid(Platform.BILIBILI_UUID, " 123 "))
