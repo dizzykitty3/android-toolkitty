@@ -1,7 +1,9 @@
 package me.dizzykitty3.androidtoolkitty.home
 
 import android.content.Context
+import me.dizzykitty3.androidtoolkitty.utils.systemSettingsIntent
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,6 +38,13 @@ class SystemSettingDefinitionsTest {
     fun definitions_referenceNonBlankTitleResources() {
         systemSettingDefinitions.forEach { setting ->
             assertTrue(context.getString(setting.title).isNotBlank())
+        }
+    }
+
+    @Test
+    fun availableSettings_allResolveToSystemIntents() {
+        availableSystemSettings().forEach { setting ->
+            assertNotNull(systemSettingsIntent(setting.settingType))
         }
     }
 }
