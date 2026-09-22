@@ -93,6 +93,22 @@ class SettingsRepositoryTest {
     }
 
     @Test
+    fun saveShownState_keepsRecognizedKeysAndFiltersUnrelatedKeys() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+
+        repository.saveShownState("setting_vpn", false)
+        repository.saveShownState("unrelated_key", false)
+
+        val settings = repository.settingsFlow.first { !it.isShown("setting_vpn") }
+        assertFalse(settings.isShown("setting_vpn"))
+        assertEquals(mapOf("setting_vpn" to false), settings.shownItemStates)
+        assertEquals(true, settings.isShown("unrelated_key"))
+    }
+
+    @Test
     fun typingContents_arePersistedWhenRememberingLastSearchIsEnabled() = runTest {
         val file = newPreferencesFile()
         val repository = SettingsRepository(
