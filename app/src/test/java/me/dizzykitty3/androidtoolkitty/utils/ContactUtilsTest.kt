@@ -39,4 +39,24 @@ class ContactUtilsTest {
             intent.getIntExtra(ContactsContract.Intents.Insert.EMAIL_TYPE, -1),
         )
     }
+
+    @Test
+    fun createContact_incrementsTheGeneratedContactIndex() {
+        val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+
+        ContactUtils.createContact(activity)
+        val firstName = requireNotNull(
+            shadowOf(activity).nextStartedActivity
+                .getStringExtra(ContactsContract.Intents.Insert.NAME),
+        )
+        ContactUtils.createContact(activity)
+        val secondName = requireNotNull(
+            shadowOf(activity).nextStartedActivity
+                .getStringExtra(ContactsContract.Intents.Insert.NAME),
+        )
+
+        val firstIndex = firstName.removePrefix("test ").toInt()
+        val secondIndex = secondName.removePrefix("test ").toInt()
+        assertEquals(firstIndex + 1, secondIndex)
+    }
 }
