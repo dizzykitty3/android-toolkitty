@@ -11,6 +11,7 @@ import android.net.Uri
 import me.dizzykitty3.androidtoolkitty.appcomponents.ClearClipboardActivity
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
+import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.S_DISPLAY
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnGoogleMaps
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnMarket
@@ -23,6 +24,7 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -30,10 +32,16 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowToast
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
 class IntentUtilsTest {
+
+    @After
+    fun resetToasts() {
+        ShadowToast.reset()
+    }
 
     @Test
     fun openSearch_usesWebSearchIntentForGoogle() {
@@ -214,6 +222,20 @@ class IntentUtilsTest {
         assertEquals(GOOGLE_PLAY, context.startedIntents.last().`package`)
     }
 
+    @Test
+    fun marketIntent_showsAnErrorWhenGooglePlayIsUnavailable() {
+        val context = GooglePlayUnavailableContext(RuntimeEnvironment.getApplication())
+
+        context.checkOnMarket("me.dizzykitty3.androidtoolkitty")
+
+        assertEquals(1, context.startedIntents.size)
+        assertEquals(GOOGLE_PLAY, context.startedIntents.single().`package`)
+        assertEquals(
+            context.getString(R.string.google_play_not_installed),
+            ShadowToast.getTextOfLatestToast(),
+        )
+    }
+
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
 
     private class BilibiliUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
@@ -235,6 +257,15 @@ class IntentUtilsTest {
         override fun startActivity(intent: Intent) {
             startedIntents += Intent(intent)
             if (intent.`package` == GOOGLE_MAPS) throw ActivityNotFoundException()
+        }
+    }
+
+    private class GooglePlayUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
+        val startedIntents = mutableListOf<Intent>()
+
+        override fun startActivity(intent: Intent) {
+            startedIntents += Intent(intent)
+            throw ActivityNotFoundException()
         }
     }
 }
