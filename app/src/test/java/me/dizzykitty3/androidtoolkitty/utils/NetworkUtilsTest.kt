@@ -94,6 +94,28 @@ class NetworkUtilsTest {
         assertEquals(NetworkUtil.STATE_CODE_UNKNOWN, context.networkState())
     }
 
+    @Test
+    fun networkState_reportsUnknownWhenTheActiveNetworkHasNoCapabilities() {
+        val context: Context = RuntimeEnvironment.getApplication()
+        val connectivityManager = requireNotNull(context.getSystemService<ConnectivityManager>())
+        val shadowConnectivityManager = shadowOf(connectivityManager)
+        shadowConnectivityManager.setActiveNetworkInfo(
+            ShadowNetworkInfo.newInstance(
+                NetworkInfo.DetailedState.CONNECTED,
+                ConnectivityManager.TYPE_WIFI,
+                0,
+                true,
+                true,
+            ),
+        )
+        shadowConnectivityManager.setNetworkCapabilities(
+            requireNotNull(connectivityManager.activeNetwork),
+            null,
+        )
+
+        assertEquals(NetworkUtil.STATE_CODE_UNKNOWN, context.networkState())
+    }
+
     private fun networkCapabilitiesFor(transportType: Int): NetworkCapabilities =
         ShadowNetworkCapabilities.newInstance().also { capabilities ->
             shadowOf(capabilities).addTransportType(transportType)
