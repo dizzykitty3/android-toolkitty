@@ -89,13 +89,13 @@ private fun VersionName(version: AndroidVersion) {
     }
 }
 
-private data class AndroidVersion(
+internal data class AndroidVersion(
     val api: Int,
     val name: String,
     val codename: String,
 )
 
-private val androidVersions = listOf(
+internal val androidVersions = listOf(
     AndroidVersion(37, "17", "CinnamonBun"),
     AndroidVersion(36, "16", "Baklava"),
     AndroidVersion(35, "15", "VanillaIceCream"),
