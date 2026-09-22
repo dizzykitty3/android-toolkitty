@@ -199,6 +199,21 @@ class IntentUtilsTest {
         )
     }
 
+    @Test
+    fun mapsIntent_fallsBackToTheGooglePlayListingWhenMapsIsUnavailable() {
+        val context = MapsUnavailableContext(RuntimeEnvironment.getApplication())
+
+        context.checkOnGoogleMaps("25.0330", "121.5654")
+
+        assertEquals(2, context.startedIntents.size)
+        assertEquals(GOOGLE_MAPS, context.startedIntents.first().`package`)
+        assertEquals(
+            Uri.parse("market://details?id=$GOOGLE_MAPS"),
+            context.startedIntents.last().data,
+        )
+        assertEquals(GOOGLE_PLAY, context.startedIntents.last().`package`)
+    }
+
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
 
     private class BilibiliUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
@@ -211,6 +226,15 @@ class IntentUtilsTest {
             startActivityCallCount++
             if (startActivityCallCount == 1) throw ActivityNotFoundException()
             fallbackIntent = Intent(intent)
+        }
+    }
+
+    private class MapsUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
+        val startedIntents = mutableListOf<Intent>()
+
+        override fun startActivity(intent: Intent) {
+            startedIntents += Intent(intent)
+            if (intent.`package` == GOOGLE_MAPS) throw ActivityNotFoundException()
         }
     }
 }
