@@ -37,6 +37,11 @@ class NotificationUtilsTest {
             context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_channel_name),
             channel?.name,
         )
+        assertEquals(
+            context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_channel_description),
+            channel?.description,
+        )
+        assertEquals(NotificationManager.IMPORTANCE_DEFAULT, channel?.importance)
     }
 
     @Test
@@ -61,6 +66,10 @@ class NotificationUtilsTest {
         assertEquals(
             context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_title, 1),
             notification?.extras?.getCharSequence(Notification.EXTRA_TITLE),
+        )
+        assertEquals(
+            context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_content, 1),
+            notification?.extras?.getCharSequence(Notification.EXTRA_TEXT),
         )
     }
 }
