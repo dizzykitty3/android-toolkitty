@@ -2,7 +2,10 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.app.Activity
 import android.app.SearchManager
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import me.dizzykitty3.androidtoolkitty.appcomponents.ClearClipboardActivity
@@ -24,6 +27,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 
@@ -181,5 +185,32 @@ class IntentUtilsTest {
         assertNull(shadowOf(blankActivity).nextStartedActivity)
     }
 
+    @Test
+    fun bilibiliSearch_fallsBackToWebWhenTheAppIntentCannotBeHandled() {
+        val context = BilibiliUnavailableContext(RuntimeEnvironment.getApplication())
+
+        context.searchOnVideoPlatform("tool kitty", VideoSearchEngine.BILIBILI)
+
+        assertEquals(2, context.startActivityCallCount)
+        assertEquals(Intent.ACTION_VIEW, context.fallbackIntent?.action)
+        assertEquals(
+            Uri.parse("https://m.bilibili.com/search?keyword=tool kitty"),
+            context.fallbackIntent?.data,
+        )
+    }
+
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+
+    private class BilibiliUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
+        var startActivityCallCount = 0
+            private set
+        var fallbackIntent: Intent? = null
+            private set
+
+        override fun startActivity(intent: Intent) {
+            startActivityCallCount++
+            if (startActivityCallCount == 1) throw ActivityNotFoundException()
+            fallbackIntent = Intent(intent)
+        }
+    }
 }
