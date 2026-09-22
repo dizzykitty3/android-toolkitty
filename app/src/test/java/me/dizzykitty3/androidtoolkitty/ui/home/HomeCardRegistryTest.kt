@@ -59,4 +59,13 @@ class HomeCardRegistryTest {
     fun visibleHomeCards_returnsTheFullRegistryForDefaultSettings() {
         assertEquals(homeCardDefinitions, UserSettings.default().visibleHomeCards())
     }
+
+    @Test
+    fun visibleHomeCards_returnsNoCardsWhenEveryCardIsHidden() {
+        val settings = UserSettings.default().copy(
+            shownItemStates = HomeCardId.entries.associate { it.preferenceKey to false },
+        )
+
+        assertTrue(settings.visibleHomeCards().isEmpty())
+    }
 }
