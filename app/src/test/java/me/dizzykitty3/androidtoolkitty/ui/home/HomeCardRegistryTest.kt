@@ -54,4 +54,9 @@ class HomeCardRegistryTest {
         assertEquals(HomeCardId.YEAR_PROGRESS, visibleIds.first())
         assertEquals(HomeCardId.HAPTIC_FEEDBACK, visibleIds.last())
     }
+
+    @Test
+    fun visibleHomeCards_returnsTheFullRegistryForDefaultSettings() {
+        assertEquals(homeCardDefinitions, UserSettings.default().visibleHomeCards())
+    }
 }

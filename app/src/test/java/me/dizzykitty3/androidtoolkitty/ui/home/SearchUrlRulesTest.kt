@@ -9,6 +9,7 @@ class SearchUrlRulesTest {
     fun normalizeUrlInput_convertsPeriodsAndWhitespaceToPeriods() {
         assertEquals("example.com.profile", normalizeUrlInput("example。com profile"))
         assertEquals("example.com.profile", normalizeUrlInput("example.com　profile"))
+        assertEquals("a..b", normalizeUrlInput("a 。b"))
     }
 
     @Test
@@ -16,6 +17,7 @@ class SearchUrlRulesTest {
         assertEquals("", displayedUrlSuffix(""))
         assertEquals(".co.uk", displayedUrlSuffix("bbc"))
         assertEquals("co.uk", displayedUrlSuffix("bbc."))
+        assertEquals("co.uk", displayedUrlSuffix("bbc..."))
         assertEquals("", displayedUrlSuffix("example.com..."))
     }
 }
