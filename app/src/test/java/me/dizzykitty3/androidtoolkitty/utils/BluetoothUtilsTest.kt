@@ -1,5 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.utils
 
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothProfile
 import android.content.Context
 import me.dizzykitty3.androidtoolkitty.BT_CONNECT
 import org.junit.Assert.assertFalse
@@ -30,5 +32,19 @@ class BluetoothUtilsTest {
         shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(BT_CONNECT)
 
         assertNotNull(context.bluetoothAdapter())
+    }
+
+    @Test
+    fun headsetStatus_reportsConnectedWhenTheHeadsetProfileIsConnected() {
+        val context: Context = RuntimeEnvironment.getApplication()
+        shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(BT_CONNECT)
+        val adapter = requireNotNull(context.bluetoothAdapter())
+        shadowOf(adapter).setProfileConnectionState(
+            BluetoothProfile.HEADSET,
+            BluetoothAdapter.STATE_CONNECTED,
+        )
+
+        assertTrue(context.isHeadsetConnected())
+        assertFalse(context.headsetNotConnected())
     }
 }
