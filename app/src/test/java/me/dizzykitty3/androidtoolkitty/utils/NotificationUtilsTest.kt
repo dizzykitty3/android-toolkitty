@@ -5,6 +5,7 @@ import android.app.Notification
 import android.app.NotificationManager
 import android.content.Context
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
+import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -51,6 +52,21 @@ class NotificationUtilsTest {
             channel?.description,
         )
         assertEquals(NotificationManager.IMPORTANCE_DEFAULT, channel?.importance)
+    }
+
+    @Test
+    fun createNotificationChannel_requestsPermissionWhenItIsDenied() {
+        shadowOf(RuntimeEnvironment.getApplication()).denyPermissions(POST_NOTIFICATIONS)
+        val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+
+        NotificationUtils.createNotificationChannel(activity)
+
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        assertNotNull(manager.getNotificationChannel("test_channel"))
+        assertArrayEquals(
+            arrayOf(POST_NOTIFICATIONS),
+            requireNotNull(shadowOf(activity).lastRequestedPermission).requestedPermissions,
+        )
     }
 
     @Test
