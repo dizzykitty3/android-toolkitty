@@ -240,6 +240,30 @@ class SettingsRepositoryTest {
         )
     }
 
+    @Test
+    fun concurrentSearchUpdates_doNotRetainTextWhenPrivacyIsEnabled() = runTest {
+        val file = newPreferencesFile()
+        val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
+        val repository = SettingsRepository(dataStore)
+        repository.updateTypingContents("previous search")
+        repository.updateLatitude("25.0330")
+
+        val writersBefore = List(10) { index ->
+            launch { repository.updateTypingContents("before $index") }
+        }
+        val enablePrivacy = launch { repository.setDoNotRememberLastSearch(true) }
+        val writersAfter = List(10) { index ->
+            launch { repository.updateTypingContents("after $index") }
+        }
+        (writersBefore + enablePrivacy + writersAfter).joinAll()
+
+        val settings = repository.settingsFlow.first()
+        assertEquals(true, settings.doNotRememberLastSearch)
+        assertEquals("", settings.typingContents)
+        assertEquals("25.0330", settings.latitude)
+        assertNull(dataStore.data.first()[stringPreferencesKey("typing_contents")])
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-settings-", ".preferences_pb").apply {
             delete()
