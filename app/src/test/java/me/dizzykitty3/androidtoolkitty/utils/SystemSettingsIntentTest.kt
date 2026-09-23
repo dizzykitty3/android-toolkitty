@@ -65,6 +65,33 @@ class SystemSettingsIntentTest {
     }
 
     @Test
+    @Config(sdk = [30])
+    fun android11_omitsSettingsIntroducedInAndroid12And13() {
+        listOf(S_AUTO_ROTATE, S_ALARMS, S_MEDIA_MANAGEMENT, S_APP_NOTIFICATIONS).forEach {
+            assertNull("Unsupported setting: $it", systemSettingsIntent(it))
+        }
+        assertEquals(Settings.ACTION_APP_SEARCH_SETTINGS, systemSettingsIntent(S_SEARCH_SETTINGS)?.action)
+    }
+
+    @Test
+    @Config(sdk = [31])
+    fun android12_enablesItsSettingsButNotAndroid13Notifications() {
+        assertEquals(Settings.ACTION_AUTO_ROTATE_SETTINGS, systemSettingsIntent(S_AUTO_ROTATE)?.action)
+        assertEquals(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, systemSettingsIntent(S_ALARMS)?.action)
+        assertEquals(Settings.ACTION_REQUEST_MANAGE_MEDIA, systemSettingsIntent(S_MEDIA_MANAGEMENT)?.action)
+        assertNull(systemSettingsIntent(S_APP_NOTIFICATIONS))
+    }
+
+    @Test
+    @Config(sdk = [33])
+    fun android13_enablesAllAppNotificationSettings() {
+        assertEquals(
+            Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS,
+            systemSettingsIntent(S_APP_NOTIFICATIONS)?.action,
+        )
+    }
+
+    @Test
     fun unknownSetting_returnsNoIntent() {
         assertNull(systemSettingsIntent("setting_unknown"))
     }
