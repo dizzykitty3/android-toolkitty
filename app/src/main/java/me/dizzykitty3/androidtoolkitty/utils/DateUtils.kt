@@ -10,7 +10,10 @@ import java.util.TimeZone
 object DateUtils {
 
     @StringRes
-    fun greeting(): Int = when (LocalTime.now().hour) {
+    fun greeting(): Int = greeting(LocalTime.now())
+
+    @StringRes
+    internal fun greeting(time: LocalTime): Int = when (time.hour) {
         in 6..11 -> R.string.good_morning
         in 12..18 -> R.string.good_afternoon
         in 19..22 -> R.string.good_evening
@@ -18,13 +21,14 @@ object DateUtils {
     }
 
     val yearProgress: Float
-        get() {
-            val today = LocalDate.now()
-            val daysPassed = daysFromStartOfYear(today)
-            val totalDaysInYear =
-                daysFromStartOfYear(LocalDate.of(today.year, 12, 31)) + 1
-            return daysPassed.toFloat() / totalDaysInYear.toFloat()
-        }
+        get() = yearProgress(LocalDate.now())
+
+    internal fun yearProgress(today: LocalDate): Float {
+        val daysPassed = daysFromStartOfYear(today)
+        val totalDaysInYear =
+            daysFromStartOfYear(LocalDate.of(today.year, 12, 31)) + 1
+        return daysPassed.toFloat() / totalDaysInYear.toFloat()
+    }
 
     private fun daysFromStartOfYear(endDate: LocalDate): Long =
         LocalDate.of(endDate.year, 1, 1).until(endDate, ChronoUnit.DAYS)
