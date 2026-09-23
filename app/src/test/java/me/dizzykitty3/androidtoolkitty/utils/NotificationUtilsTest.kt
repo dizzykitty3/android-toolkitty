@@ -80,6 +80,39 @@ class NotificationUtilsTest {
     }
 
     @Test
+    fun sendNotification_resumesWithoutSkippingIdsAfterPermissionChanges() {
+        val application = shadowOf(RuntimeEnvironment.getApplication())
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val notifications = shadowOf(manager)
+
+        application.denyPermissions(POST_NOTIFICATIONS)
+        NotificationUtils.sendNotification(context)
+        assertNull(notifications.getNotification(1))
+
+        application.grantPermissions(POST_NOTIFICATIONS)
+        NotificationUtils.sendNotification(context)
+        val first = requireNotNull(notifications.getNotification(1))
+
+        application.denyPermissions(POST_NOTIFICATIONS)
+        NotificationUtils.sendNotification(context)
+        assertNull(notifications.getNotification(2))
+
+        application.grantPermissions(POST_NOTIFICATIONS)
+        NotificationUtils.sendNotification(context)
+        val second = requireNotNull(notifications.getNotification(2))
+
+        assertEquals(
+            context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_title, 1),
+            first.extras.getCharSequence(Notification.EXTRA_TITLE),
+        )
+        assertEquals(
+            context.getString(me.dizzykitty3.androidtoolkitty.R.string.notification_title, 2),
+            second.extras.getCharSequence(Notification.EXTRA_TITLE),
+        )
+        assertEquals(2, manager.activeNotifications.size)
+    }
+
+    @Test
     fun sendNotification_postsTheExpectedNotificationWhenPermissionIsGranted() {
         shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(POST_NOTIFICATIONS)
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
