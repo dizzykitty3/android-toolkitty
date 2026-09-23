@@ -6,6 +6,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import java.io.File
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
@@ -179,6 +182,62 @@ class SettingsRepositoryTest {
         val settings = repository.settingsFlow.first()
         assertEquals(107, settings.volumeButtonTapCount)
         assertEquals("keep this search", settings.typingContents)
+    }
+
+    @Test
+    fun settings_surviveClosingAndReopeningTheDataStore() = runTest {
+        val file = newPreferencesFile()
+        val writerJob = Job()
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(
+                scope = CoroutineScope(coroutineContext + writerJob),
+            ) { file },
+        )
+        val expected = UserSettings.default().copy(
+            searchEngine = SearchEngine.ECOSIA,
+            typingContents = "saved search",
+            customVolume = 42,
+            shownItemStates = mapOf("card_search" to false),
+        )
+        try {
+            repository.setSearchEngine(SearchEngine.ECOSIA)
+            repository.updateTypingContents("saved search")
+            repository.updateCustomVolume(42)
+            repository.saveShownState("card_search", false)
+        } finally {
+            writerJob.cancelAndJoin()
+        }
+
+        val reopened = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+        assertEquals(expected, reopened.settingsFlow.first())
+    }
+
+    @Test
+    fun disabledSearchHistory_staysClearedAfterReopeningTheDataStore() = runTest {
+        val file = newPreferencesFile()
+        val writerJob = Job()
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(
+                scope = CoroutineScope(coroutineContext + writerJob),
+            ) { file },
+        )
+        try {
+            repository.updateTypingContents("private search")
+            repository.setDoNotRememberLastSearch(true)
+            repository.updateTypingContents("must not survive restart")
+        } finally {
+            writerJob.cancelAndJoin()
+        }
+
+        val reopened = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+        assertEquals(
+            UserSettings.default().copy(doNotRememberLastSearch = true),
+            reopened.settingsFlow.first(),
+        )
     }
 
     private fun newPreferencesFile(): File =
