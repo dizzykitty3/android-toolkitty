@@ -2,6 +2,8 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.app.Activity
 import android.app.Application
+import me.dizzykitty3.androidtoolkitty.BT
+import me.dizzykitty3.androidtoolkitty.BT_ADMIN
 import me.dizzykitty3.androidtoolkitty.BT_CONNECT
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
 import me.dizzykitty3.androidtoolkitty.utils.PermissionUtils.noBluetoothPermission
@@ -66,6 +68,37 @@ class PermissionUtilsTest {
         val request = requireNotNull(shadowOf(activity).lastRequestedPermission)
         assertEquals(1, request.requestCode)
         assertArrayEquals(arrayOf(BT_CONNECT), request.requestedPermissions)
+    }
+
+    @Test
+    @Config(sdk = [30])
+    fun bluetoothPermission_onAndroid11_requiresBothLegacyPermissions() {
+        val application = application()
+        val permissions = shadowOf(application)
+        permissions.denyPermissions(BT, BT_ADMIN, BT_CONNECT)
+        assertTrue(application.noBluetoothPermission())
+
+        permissions.grantPermissions(BT)
+        assertTrue(application.noBluetoothPermission())
+
+        permissions.denyPermissions(BT)
+        permissions.grantPermissions(BT_ADMIN)
+        assertTrue(application.noBluetoothPermission())
+
+        permissions.grantPermissions(BT)
+        assertFalse(application.noBluetoothPermission())
+    }
+
+    @Test
+    @Config(sdk = [30])
+    fun requestBluetoothPermission_onAndroid11_requestsBothLegacyPermissions() {
+        val activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+
+        activity.requestBluetoothPermission()
+
+        val request = requireNotNull(shadowOf(activity).lastRequestedPermission)
+        assertEquals(1, request.requestCode)
+        assertArrayEquals(arrayOf(BT, BT_ADMIN), request.requestedPermissions)
     }
 
     private fun application(): Application = RuntimeEnvironment.getApplication()
