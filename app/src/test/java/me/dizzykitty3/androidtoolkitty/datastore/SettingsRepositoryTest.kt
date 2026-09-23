@@ -6,6 +6,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import java.io.File
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
@@ -158,6 +160,25 @@ class SettingsRepositoryTest {
         assertEquals("121.5654", settings.longitude)
         assertEquals(true, settings.haveTappedAddButton)
         assertEquals(wheelItems, settings.wheelOfFortuneItems)
+    }
+
+    @Test
+    fun concurrentTapCountUpdates_preserveEveryIncrementAndExistingSettings() = runTest {
+        val file = newPreferencesFile()
+        val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
+        val repository = SettingsRepository(dataStore)
+        dataStore.edit { preferences ->
+            preferences[intPreferencesKey("have_tapped_volume_button")] = 7
+        }
+        repository.updateTypingContents("keep this search")
+
+        List(100) {
+            launch { repository.increaseVolumeButtonTapCount() }
+        }.joinAll()
+
+        val settings = repository.settingsFlow.first()
+        assertEquals(107, settings.volumeButtonTapCount)
+        assertEquals("keep this search", settings.typingContents)
     }
 
     private fun newPreferencesFile(): File =
