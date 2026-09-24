@@ -1,14 +1,19 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.lifecycle.viewModelScope
 import java.io.File
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
@@ -103,6 +108,78 @@ class SettingsViewModelTest {
                 assertEquals(true, state.haveTappedAddButton)
                 assertEquals(1, state.volumeButtonTapCount)
                 assertEquals(wheelItems, state.wheelOfFortuneItems)
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun settingsState_resubscribingAfterTimeoutLoadsLatestPersistedSettings() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                repository.updateCustomVolume(25)
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    assertEquals(25, viewModel.settingsState.first { it.customVolume == 25 }.customVolume)
+
+                    // The first collector has finished; let WhileSubscribed stop its upstream.
+                    runCurrent()
+                    advanceTimeBy(5_001)
+                    runCurrent()
+
+                    repository.updateCustomVolume(70)
+                    assertEquals(70, repository.settingsFlow.first().customVolume)
+                    runCurrent()
+                    assertEquals(25, viewModel.settingsState.value.customVolume)
+
+                    assertEquals(70, viewModel.settingsState.first { it.customVolume == 70 }.customVolume)
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun updateWithoutSubscribers_persistsAndIsAvailableToANewViewModel() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
+                val repository = SettingsRepository(dataStore)
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    // Never collect settingsState on the writer ViewModel.
+                    viewModel.updateCustomVolume(65)
+                    viewModel.toggleDynamicColor(false)
+                    val persisted = repository.settingsFlow.first {
+                        it.customVolume == 65 && !it.dynamicColor
+                    }
+                    assertEquals(65, persisted.customVolume)
+                    assertFalse(persisted.dynamicColor)
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+
+                val restoredViewModel = SettingsViewModel(SettingsRepository(dataStore))
+                try {
+                    val restored = restoredViewModel.settingsState.first { it.customVolume == 65 }
+                    assertEquals(65, restored.customVolume)
+                    assertFalse(restored.dynamicColor)
+                } finally {
+                    restoredViewModel.viewModelScope.cancel()
+                }
             }
         } finally {
             Dispatchers.resetMain()
