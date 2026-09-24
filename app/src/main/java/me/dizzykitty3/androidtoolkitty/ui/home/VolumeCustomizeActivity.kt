@@ -98,10 +98,7 @@ private fun VolumeCustomizeComposable() {
                 newCustomVolume = it
             },
         )
-        Text(
-            "${newCustomVolume.roundToInt()}% -> " +
-                "${(newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt()}/$maxVolume"
-        )
+        Text(customVolumeLabel(newCustomVolume, maxVolume))
 
         SpacerPadding()
         SpacerPadding()
@@ -119,7 +116,7 @@ private fun VolumeCustomizeComposable() {
                 Button(
                     {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        if ((newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt() == 0) {
+                        if (customVolumeIndex(newCustomVolume, maxVolume) == 0) {
                             if (newCustomVolume.roundToInt() != 0) {
                                 view.showSnackbar(R.string.volume_steps_limited)
                             }
@@ -133,3 +130,9 @@ private fun VolumeCustomizeComposable() {
         }
     }
 }
+
+internal fun customVolumeIndex(percent: Float, maxVolume: Int): Int =
+    (percent * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt()
+
+internal fun customVolumeLabel(percent: Float, maxVolume: Int): String =
+    "${percent.roundToInt()}% -> ${customVolumeIndex(percent, maxVolume)}/$maxVolume"
