@@ -8,7 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
@@ -179,6 +182,79 @@ class SettingsViewModelTest {
                     assertFalse(restored.dynamicColor)
                 } finally {
                     restoredViewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun settingsState_keepsReceivingUpdatesDuringSubscriptionGracePeriod() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                repository.updateCustomVolume(25)
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    viewModel.settingsState.first { it.customVolume == 25 }
+                    runCurrent()
+                    advanceTimeBy(4_999)
+                    runCurrent()
+
+                    // No collectors remain, but the five-second grace period is still active.
+                    repository.updateCustomVolume(60)
+                    runCurrent()
+                    assertEquals(60, viewModel.settingsState.value.customVolume)
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun settingsState_keepsUpdatingWhileAnotherSubscriberRemains() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                repository.updateCustomVolume(25)
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    val firstSubscriber = backgroundScope.launch {
+                        viewModel.settingsState.collect()
+                    }
+                    val observedVolumes = mutableListOf<Int?>()
+                    val remainingSubscriber = backgroundScope.launch {
+                        viewModel.settingsState.collect { observedVolumes.add(it.customVolume) }
+                    }
+                    viewModel.settingsState.first { it.customVolume == 25 }
+                    runCurrent()
+                    assertEquals(25, observedVolumes.last())
+
+                    firstSubscriber.cancelAndJoin()
+                    advanceTimeBy(5_001)
+                    runCurrent()
+                    repository.updateCustomVolume(80)
+                    runCurrent()
+
+                    assertEquals(80, observedVolumes.last())
+                    assertEquals(80, viewModel.settingsState.value.customVolume)
+                    remainingSubscriber.cancelAndJoin()
+                } finally {
+                    viewModel.viewModelScope.cancel()
                 }
             }
         } finally {
