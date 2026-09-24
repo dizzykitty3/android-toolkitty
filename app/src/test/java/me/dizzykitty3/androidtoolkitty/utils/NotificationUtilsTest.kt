@@ -2,6 +2,7 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.app.Activity
 import android.app.Notification
+import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import me.dizzykitty3.androidtoolkitty.POST_NOTIFICATIONS
@@ -67,6 +68,51 @@ class NotificationUtilsTest {
             arrayOf(POST_NOTIFICATIONS),
             requireNotNull(shadowOf(activity).lastRequestedPermission).requestedPermissions,
         )
+    }
+
+    @Test
+    fun createNotificationChannel_repeatedInitializationPreservesExistingImportance() {
+        shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(POST_NOTIFICATIONS)
+        val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(
+            NotificationChannel("test_channel", "Existing channel", NotificationManager.IMPORTANCE_LOW),
+        )
+        val controller = Robolectric.buildActivity(Activity::class.java)
+        try {
+            val activity = controller.setup().get()
+
+            repeat(2) { NotificationUtils.createNotificationChannel(activity) }
+
+            assertEquals(1, manager.notificationChannels.size)
+            assertEquals(
+                NotificationManager.IMPORTANCE_LOW,
+                manager.getNotificationChannel("test_channel").importance,
+            )
+            assertNull(shadowOf(activity).lastRequestedPermission)
+        } finally {
+            controller.pause().stop().destroy()
+        }
+    }
+
+    @Test
+    fun sendNotification_usesRegisteredChannelAndValidSmallIcon() {
+        shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(POST_NOTIFICATIONS)
+        val controller = Robolectric.buildActivity(Activity::class.java)
+        try {
+            val activity = controller.setup().get()
+            NotificationUtils.createNotificationChannel(activity)
+
+            NotificationUtils.sendNotification(context)
+
+            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notification = requireNotNull(shadowOf(manager).getNotification(1))
+            assertEquals("test_channel", notification.channelId)
+            assertNotNull(manager.getNotificationChannel(notification.channelId))
+            assertNotNull(notification.smallIcon)
+            assertEquals(android.R.drawable.ic_dialog_info, notification.smallIcon.resId)
+        } finally {
+            controller.pause().stop().destroy()
+        }
     }
 
     @Test
