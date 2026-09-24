@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -75,10 +76,20 @@ private fun VolumeCustomizeComposable() {
     var newCustomVolume by remember {
         mutableFloatStateOf(state.customVolume?.toFloat() ?: 0f)
     }
+    val sliderSteps = if (morePreciseSlider) 0 else COARSE_SLIDER_STEPS
+    val sliderState = remember(sliderSteps) {
+        SliderState(
+            value = newCustomVolume,
+            steps = sliderSteps,
+            trackRange = 0f..MAX_VOLUME_PERCENT,
+        )
+    }
+    sliderState.value = newCustomVolume
 
     BaseCard(R.string.edit) {
         Slider(
-            value = newCustomVolume, onValueChange = {
+            state = sliderState,
+            onValueChange = {
                 if (morePreciseSlider) {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 } else {
@@ -86,12 +97,10 @@ private fun VolumeCustomizeComposable() {
                 }
                 newCustomVolume = it
             },
-            valueRange = 0f..MAX_VOLUME_PERCENT,
-            steps = if (morePreciseSlider) 0 else COARSE_SLIDER_STEPS
         )
         Text(
             "${newCustomVolume.roundToInt()}% -> " +
-                "${(newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt()}/"
+                "${(newCustomVolume * PERCENT_TO_VOLUME_RATIO * maxVolume).roundToInt()}/$maxVolume"
         )
 
         SpacerPadding()
