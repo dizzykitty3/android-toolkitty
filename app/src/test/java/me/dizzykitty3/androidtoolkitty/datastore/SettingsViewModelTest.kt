@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import java.io.File
 import kotlinx.coroutines.CoroutineStart
@@ -255,6 +256,76 @@ class SettingsViewModelTest {
                     remainingSubscriber.cancelAndJoin()
                 } finally {
                     viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun clearingViewModelStore_stopsSettingsUpdatesEvenWithAnActiveCollector() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                repository.updateCustomVolume(25)
+                val viewModel = SettingsViewModel(repository)
+                val store = ViewModelStore().apply { put("settings", viewModel) }
+                try {
+                    val observedVolumes = mutableListOf<Int?>()
+                    backgroundScope.launch {
+                        viewModel.settingsState.collect { observedVolumes.add(it.customVolume) }
+                    }
+                    viewModel.settingsState.first { it.customVolume == 25 }
+                    runCurrent()
+                    val observationsBeforeClear = observedVolumes.toList()
+
+                    store.clear()
+                    repository.updateCustomVolume(80)
+                    runCurrent()
+
+                    assertEquals(80, repository.settingsFlow.first().customVolume)
+                    assertEquals(25, viewModel.settingsState.value.customVolume)
+                    assertEquals(observationsBeforeClear, observedVolumes)
+                } finally {
+                    store.clear()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun clearingViewModelStore_cancelsQueuedWritesAndIgnoresLaterUpdates() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                repository.updateCustomVolume(25)
+                val viewModel = SettingsViewModel(repository)
+                val store = ViewModelStore().apply { put("settings", viewModel) }
+                try {
+                    // StandardTestDispatcher keeps this write queued until the scheduler runs.
+                    viewModel.updateCustomVolume(60)
+                    store.clear()
+                    runCurrent()
+                    assertEquals(25, repository.settingsFlow.first().customVolume)
+
+                    viewModel.updateCustomVolume(90)
+                    runCurrent()
+                    assertEquals(25, repository.settingsFlow.first().customVolume)
+                } finally {
+                    store.clear()
                 }
             }
         } finally {
