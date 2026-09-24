@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.preferences
 
 import android.content.Context
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
@@ -37,5 +38,37 @@ class LoggingPreferencesTest {
         LoggingPreferences.initialize(context)
 
         assertTrue(LoggingPreferences.isEnabled)
+    }
+
+    @Test
+    fun initialize_readsTheLegacyLoggingPreferenceWithoutOverwritingIt() {
+        val legacyPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        assertTrue(legacyPreferences.edit().putBoolean("is_logging_enabled", true).commit())
+
+        LoggingPreferences.initialize(context)
+
+        assertTrue(LoggingPreferences.isEnabled)
+        assertEquals(mapOf("is_logging_enabled" to true), legacyPreferences.all)
+    }
+
+    @Test
+    fun disablingLogging_updatesTheLegacyKeyAndPreservesOtherPreferences() {
+        val legacyPreferences = context.getSharedPreferences("Settings", Context.MODE_PRIVATE)
+        assertTrue(
+            legacyPreferences.edit()
+                .putBoolean("is_logging_enabled", true)
+                .putString("unrelated_setting", "preserve me")
+                .commit(),
+        )
+        LoggingPreferences.initialize(context)
+
+        LoggingPreferences.isEnabled = false
+        LoggingPreferences.initialize(context)
+
+        assertFalse(LoggingPreferences.isEnabled)
+        assertEquals(
+            mapOf("is_logging_enabled" to false, "unrelated_setting" to "preserve me"),
+            legacyPreferences.all,
+        )
     }
 }
