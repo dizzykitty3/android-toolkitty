@@ -5,6 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
+import androidx.compose.runtime.key
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TextButton
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -26,6 +33,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.homeCardDefinitions
+import me.dizzykitty3.androidtoolkitty.ui.home.orderedHomeCards
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
@@ -60,19 +68,53 @@ private fun CustomizeHomeComposable() {
     BaseCard(R.string.customize_home) {
         val haptic = LocalHapticFeedback.current
 
-        homeCardDefinitions.forEach { card ->
-            CustomHideCardSettingSwitch(
-                text = card.id.title,
-                isChecked = state.isShown(card.id.preferenceKey)
-            ) { newState ->
-                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                vm.saveShownState(card.id.preferenceKey, newState)
+        Text(stringResource(R.string.home_card_order_hint))
+        val cards = state.orderedHomeCards()
+        val defaultOrder = homeCardDefinitions.map { it.id.preferenceKey }
+        cards.forEachIndexed { index, card ->
+            key(card.id) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Box(Modifier.weight(1f)) {
+                        CustomHideCardSettingSwitch(
+                            text = card.id.title,
+                            isChecked = state.isShown(card.id.preferenceKey)
+                        ) { newState ->
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            vm.saveShownState(card.id.preferenceKey, newState)
+                        }
+                    }
+                    IconButton(
+                        enabled = index > 0,
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            vm.moveHomeCard(card.id.preferenceKey, -1, defaultOrder)
+                        },
+                    ) {
+                        Icon(Icons.Outlined.KeyboardArrowUp,
+                            contentDescription = stringResource(R.string.move_card_up, stringResource(card.id.title)))
+                    }
+                    IconButton(
+                        enabled = index < cards.lastIndex,
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            vm.moveHomeCard(card.id.preferenceKey, 1, defaultOrder)
+                        },
+                    ) {
+                        Icon(Icons.Outlined.KeyboardArrowDown,
+                            contentDescription = stringResource(R.string.move_card_down, stringResource(card.id.title)))
+                    }
+                }
             }
         }
 
+        Button(onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            vm.resetHomeCardOrder()
+        }) { Text(stringResource(R.string.reset_home_card_order)) }
+
         SpacerPadding()
 
-        Button(
+        TextButton(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, false) }
@@ -87,7 +129,7 @@ private fun CustomizeHomeComposable() {
             Text(stringResource(R.string.hide_all_cards))
         }
 
-        Button(
+        TextButton(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, true) }

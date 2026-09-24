@@ -23,6 +23,26 @@ import org.junit.Test
 class SettingsRepositoryTest {
 
     @Test
+    fun homeCardOrder_movesAtomicallyAndResetPreservesVisibility() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val defaults = listOf("card_a", "card_b", "card_c", "card_d")
+        repository.saveShownState("card_d", false)
+        List(3) { launch { repository.moveHomeCard("card_d", -1, defaults) } }.joinAll()
+        assertEquals(listOf("card_d", "card_a", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        repository.moveHomeCard("card_d", -1, defaults)
+        repository.moveHomeCard("missing", 1, defaults)
+        repository.moveHomeCard("card_d", 2, defaults)
+        assertEquals(listOf("card_d", "card_a", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        repository.moveHomeCard("card_d", 1, defaults)
+        assertEquals(listOf("card_a", "card_d", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+
+        repository.resetHomeCardOrder()
+        assertEquals(emptyList<String>(), repository.settingsFlow.first().homeCardOrder)
+        assertFalse(repository.settingsFlow.first().isShown("card_d"))
+    }
+
+    @Test
     fun settingsFlow_returnsDefaultsForANewDataStore() = runTest {
         val file = newPreferencesFile()
         val repository = SettingsRepository(
@@ -198,12 +218,14 @@ class SettingsRepositoryTest {
             typingContents = "saved search",
             customVolume = 42,
             shownItemStates = mapOf("card_search" to false),
+            homeCardOrder = listOf("card_maps", "card_search"),
         )
         try {
             repository.setSearchEngine(SearchEngine.ECOSIA)
             repository.updateTypingContents("saved search")
             repository.updateCustomVolume(42)
             repository.saveShownState("card_search", false)
+            repository.moveHomeCard("card_maps", -1, listOf("card_search", "card_maps"))
         } finally {
             writerJob.cancelAndJoin()
         }

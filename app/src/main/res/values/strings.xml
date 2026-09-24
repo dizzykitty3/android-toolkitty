@@ -285,4 +285,8 @@
     <string name="request_permission">Request permission</string>
     <string name="bluetooth_connect">To check paired bluetooth devices, grant the Nearby Devices permission.</string>
     <string name="missed_sys_popup">Missed the system permission popup?</string>
+    <string name="home_card_order_hint">Use the arrows to reorder cards. Changes are saved automatically.</string>
+    <string name="move_card_up">Move %1$s up</string>
+    <string name="move_card_down">Move %1$s down</string>
+    <string name="reset_home_card_order">Restore default order</string>
 </resources>

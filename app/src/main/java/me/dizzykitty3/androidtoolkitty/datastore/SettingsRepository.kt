@@ -46,6 +46,7 @@ class SettingsRepository @Inject constructor(
         val CUSTOM_VOLUME = intPreferencesKey("custom_volume")
         val HAVE_TAPPED_VOLUME_BUTTON = intPreferencesKey("have_tapped_volume_button")
         val WHEEL_OF_FORTUNE_ITEMS = stringPreferencesKey("wheel_of_fortune_items")
+        val HOME_CARD_ORDER = stringPreferencesKey("home_card_order")
     }
 
     val settingsFlow: Flow<UserSettings> = dataStore.data.map { preferences ->
@@ -77,6 +78,7 @@ class SettingsRepository @Inject constructor(
             wheelOfFortuneItems = preferences[PreferenceKeys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
             shownItemStates = preferences.shownItemStates(),
+            homeCardOrder = preferences[PreferenceKeys.HOME_CARD_ORDER]?.split(',') ?: emptyList(),
         )
     }
 
@@ -86,6 +88,26 @@ class SettingsRepository @Inject constructor(
 
     suspend fun saveShownState(itemKey: String, isShown: Boolean) {
         setPreference(booleanPreferencesKey(itemKey), isShown)
+    }
+
+    suspend fun moveHomeCard(key: String, offset: Int, defaultOrder: List<String>) {
+        if (offset != -1 && offset != 1) return
+        dataStore.edit { preferences ->
+            val order = normalizedHomeCardOrder(
+                preferences[PreferenceKeys.HOME_CARD_ORDER]?.split(',') ?: emptyList(),
+                defaultOrder,
+            ).toMutableList()
+            val index = order.indexOf(key)
+            val destination = index + offset
+            if (index >= 0 && destination in order.indices) {
+                order.add(destination, order.removeAt(index))
+                preferences[PreferenceKeys.HOME_CARD_ORDER] = order.joinToString(",")
+            }
+        }
+    }
+
+    suspend fun resetHomeCardOrder() {
+        dataStore.edit { it.remove(PreferenceKeys.HOME_CARD_ORDER) }
     }
 
     suspend fun toggleDynamicColor(enabled: Boolean) =
@@ -158,6 +180,7 @@ data class UserSettings(
     val volumeButtonTapCount: Int,
     val wheelOfFortuneItems: String?,
     val shownItemStates: Map<String, Boolean>,
+    val homeCardOrder: List<String> = emptyList(),
 ) {
     fun isShown(itemKey: String): Boolean = shownItemStates[itemKey] ?: true
 

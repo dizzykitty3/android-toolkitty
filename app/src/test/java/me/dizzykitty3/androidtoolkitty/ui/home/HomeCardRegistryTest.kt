@@ -18,6 +18,26 @@ class HomeCardRegistryTest {
         get() = RuntimeEnvironment.getApplication()
 
     @Test
+    fun orderedHomeCards_ignoresUnknownAndDuplicateKeysAndAppendsMissingCards() {
+        val maps = HomeCardId.MAPS.preferenceKey
+        val settings = UserSettings.default().copy(homeCardOrder = listOf("removed_card", maps, maps))
+        assertEquals(
+            listOf(HomeCardId.MAPS) + HomeCardId.entries.filter { it != HomeCardId.MAPS },
+            settings.orderedHomeCards().map { it.id },
+        )
+    }
+
+    @Test
+    fun visibleHomeCards_hidingAndRestoringCardPreservesCustomPosition() {
+        val order = HomeCardId.entries.reversed().map { it.preferenceKey }
+        val settings = UserSettings.default().copy(homeCardOrder = order)
+        val hidden = settings.copy(shownItemStates = mapOf(HomeCardId.MAPS.preferenceKey to false))
+        assertEquals(order.filter { it != HomeCardId.MAPS.preferenceKey },
+            hidden.visibleHomeCards().map { it.id.preferenceKey })
+        assertEquals(order, hidden.copy(shownItemStates = emptyMap()).visibleHomeCards().map { it.id.preferenceKey })
+    }
+
+    @Test
     fun homeCardDefinitions_containEveryCardIdExactlyOnce() {
         val cardIds = homeCardDefinitions.map { it.id }
 

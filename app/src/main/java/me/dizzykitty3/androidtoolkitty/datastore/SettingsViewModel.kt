@@ -34,6 +34,14 @@ class SettingsViewModel @Inject constructor(
         updateSettings { saveShownState(itemKey, isShown) }
     }
 
+    fun moveHomeCard(key: String, offset: Int, defaultOrder: List<String>) {
+        updateSettings { moveHomeCard(key, offset, defaultOrder) }
+    }
+
+    fun resetHomeCardOrder() {
+        updateSettings { resetHomeCardOrder() }
+    }
+
     fun toggleDynamicColor(enabled: Boolean) {
         updateSettings { toggleDynamicColor(enabled) }
     }

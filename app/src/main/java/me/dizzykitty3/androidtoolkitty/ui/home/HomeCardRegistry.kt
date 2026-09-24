@@ -4,6 +4,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
+import me.dizzykitty3.androidtoolkitty.datastore.normalizedHomeCardOrder
 import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
 import me.dizzykitty3.androidtoolkitty.home.Clipboard
 import me.dizzykitty3.androidtoolkitty.home.CodesOfCharacters
@@ -61,5 +62,10 @@ val homeCardDefinitions = listOf(
     HomeCardDefinition(HomeCardId.HAPTIC_FEEDBACK) { HapticFeedback() },
 )
 
+fun UserSettings.orderedHomeCards(): List<HomeCardDefinition> {
+    val byKey = homeCardDefinitions.associateBy { it.id.preferenceKey }
+    return normalizedHomeCardOrder(homeCardOrder, byKey.keys.toList()).map { byKey.getValue(it) }
+}
+
 fun UserSettings.visibleHomeCards(): List<HomeCardDefinition> =
-    homeCardDefinitions.filter { card -> isShown(card.id.preferenceKey) }
+    orderedHomeCards().filter { card -> isShown(card.id.preferenceKey) }

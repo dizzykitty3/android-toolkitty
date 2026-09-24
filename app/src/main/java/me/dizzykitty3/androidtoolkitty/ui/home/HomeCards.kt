@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.ui.res.dimensionResource
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.dizzykitty3.androidtoolkitty.R
@@ -15,7 +16,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 fun HomeCards(viewModel: SettingsViewModel) {
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     state.visibleHomeCards().forEach { card ->
-        card.content()
+        key(card.id) { card.content() }
     }
 }
 
