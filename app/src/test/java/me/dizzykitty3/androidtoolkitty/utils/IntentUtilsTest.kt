@@ -224,7 +224,7 @@ class IntentUtilsTest {
 
     @Test
     fun marketIntent_showsAnErrorWhenGooglePlayIsUnavailable() {
-        val context = GooglePlayUnavailableContext(RuntimeEnvironment.getApplication())
+        val context = UnavailableActivitiesContext(RuntimeEnvironment.getApplication())
 
         context.checkOnMarket("me.dizzykitty3.androidtoolkitty")
 
@@ -238,7 +238,7 @@ class IntentUtilsTest {
 
     @Test
     fun genericViewIntent_showsAnOemErrorWhenNoHandlerIsAvailable() {
-        val context = GooglePlayUnavailableContext(RuntimeEnvironment.getApplication())
+        val context = UnavailableActivitiesContext(RuntimeEnvironment.getApplication())
 
         context.openURL("toolkitty.example")
 
@@ -251,6 +251,42 @@ class IntentUtilsTest {
     }
 
     private fun activity(): Activity = Robolectric.buildActivity(Activity::class.java).setup().get()
+
+    @Test
+    fun mapsIntent_stopsAfterMarketFallbackFailsAndShowsMapsError() {
+        val context = UnavailableActivitiesContext(RuntimeEnvironment.getApplication())
+
+        context.checkOnGoogleMaps("25.0330", "121.5654")
+
+        assertEquals(listOf(GOOGLE_MAPS, GOOGLE_PLAY), context.startedIntents.map { it.`package` })
+        assertEquals(
+            Uri.parse("market://details?id=$GOOGLE_MAPS"),
+            context.startedIntents.last().data,
+        )
+        assertEquals(
+            context.getString(R.string.google_maps_not_installed),
+            ShadowToast.getTextOfLatestToast(),
+        )
+    }
+
+    @Test
+    fun bilibiliSearch_stopsAfterWebFallbackFailsAndShowsError() {
+        val context = UnavailableActivitiesContext(RuntimeEnvironment.getApplication())
+
+        context.searchOnVideoPlatform("tool kitty", VideoSearchEngine.BILIBILI)
+
+        assertEquals(
+            listOf(
+                "bilibili://search?keyword=tool kitty",
+                "https://m.bilibili.com/search?keyword=tool kitty",
+            ),
+            context.startedIntents.map { it.dataString },
+        )
+        assertEquals(
+            context.getString(R.string.oem_removed, StringUtils.manufacturer),
+            ShadowToast.getTextOfLatestToast(),
+        )
+    }
 
     private class BilibiliUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
         var startActivityCallCount = 0
@@ -274,7 +310,7 @@ class IntentUtilsTest {
         }
     }
 
-    private class GooglePlayUnavailableContext(baseContext: Context) : ContextWrapper(baseContext) {
+    private class UnavailableActivitiesContext(baseContext: Context) : ContextWrapper(baseContext) {
         val startedIntents = mutableListOf<Intent>()
 
         override fun startActivity(intent: Intent) {
