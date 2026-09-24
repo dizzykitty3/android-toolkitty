@@ -116,6 +116,36 @@ class NetworkUtilsTest {
         assertEquals(NetworkUtil.STATE_CODE_UNKNOWN, context.networkState())
     }
 
+    @Test
+    fun networkState_tracksActiveNetworkSwitchesAndReconnection() {
+        val context: Context = RuntimeEnvironment.getApplication()
+        val manager = requireNotNull(context.getSystemService<ConnectivityManager>())
+        val networks = shadowOf(manager)
+
+        fun connect(type: Int, transport: Int) {
+            networks.setActiveNetworkInfo(
+                ShadowNetworkInfo.newInstance(NetworkInfo.DetailedState.CONNECTED, type, 0, true, true),
+            )
+            networks.setNetworkCapabilities(
+                requireNotNull(manager.activeNetwork),
+                networkCapabilitiesFor(transport),
+            )
+        }
+
+        connect(ConnectivityManager.TYPE_WIFI, NetworkCapabilities.TRANSPORT_WIFI)
+        assertEquals(NetworkUtil.STATE_CODE_WIFI, context.networkState())
+
+        // Keep Wi-Fi registered: classification must follow the new active network.
+        connect(ConnectivityManager.TYPE_MOBILE, NetworkCapabilities.TRANSPORT_CELLULAR)
+        assertEquals(NetworkUtil.STATE_CODE_MOBILE, context.networkState())
+
+        networks.setActiveNetworkInfo(null)
+        assertEquals(NetworkUtil.STATE_CODE_OFFLINE, context.networkState())
+
+        connect(ConnectivityManager.TYPE_WIFI, NetworkCapabilities.TRANSPORT_WIFI)
+        assertEquals(NetworkUtil.STATE_CODE_WIFI, context.networkState())
+    }
+
     private fun networkCapabilitiesFor(transportType: Int): NetworkCapabilities =
         ShadowNetworkCapabilities.newInstance().also { capabilities ->
             shadowOf(capabilities).addTransportType(transportType)
