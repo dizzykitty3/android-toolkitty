@@ -23,6 +23,47 @@ import org.junit.Test
 class SettingsRepositoryTest {
 
     @Test
+    fun homeCardOrder_movesUseLatestVisibilityAfterHidingAndShowingNeighbours() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val defaults = listOf("card_a", "card_b", "card_c", "card_d")
+
+        repository.moveHomeCard("card_d", -1, defaults)
+        assertEquals(listOf("card_a", "card_b", "card_d", "card_c"), repository.settingsFlow.first().homeCardOrder)
+
+        repository.saveShownState("card_b", false)
+        repository.moveHomeCard("card_d", -1, defaults)
+        assertEquals(listOf("card_d", "card_b", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+
+        repository.saveShownState("card_b", true)
+        repository.moveHomeCard("card_d", 1, defaults)
+        assertEquals(listOf("card_b", "card_d", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+
+        repository.saveShownState("card_d", false)
+        repository.moveHomeCard("card_d", 1, defaults)
+        assertEquals(listOf("card_b", "card_d", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+    }
+
+    @Test
+    fun homeCardOrder_hidingAllAndShowingAllPreservesCustomOrder() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val defaults = listOf("card_a", "card_b", "card_c")
+        repository.moveHomeCard("card_c", -1, defaults)
+        val expectedOrder = listOf("card_a", "card_c", "card_b")
+
+        defaults.map { key -> launch { repository.saveShownState(key, false) } }.joinAll()
+        val hidden = repository.settingsFlow.first()
+        assertEquals(expectedOrder, hidden.homeCardOrder)
+        assertEquals(emptyList<String>(), hidden.homeCardOrder.filter { hidden.isShown(it) })
+
+        defaults.map { key -> launch { repository.saveShownState(key, true) } }.joinAll()
+        val shown = repository.settingsFlow.first()
+        assertEquals(expectedOrder, shown.homeCardOrder)
+        assertEquals(expectedOrder, shown.homeCardOrder.filter { shown.isShown(it) })
+    }
+
+    @Test
     fun homeCardOrder_movingRepairsLegacyOrderAndIncludesNewCards() = runTest {
         val file = newPreferencesFile()
         val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
