@@ -290,7 +290,7 @@
     <string name="move_card_up">Move %1$s up</string>
     <string name="move_card_down">Move %1$s down</string>
     <string name="reset_home_card_order">Restore default order</string>
-    <string name="order_mode_on">Order mode: On</string>
-    <string name="order_mode_off">Order mode: Off</string>
-    <string name="home_card_order_empty">No visible cards to reorder. Turn off order mode and enable some cards first.</string>
+    <string name="home_card_order">Order</string>
+    <string name="home_card_visibility">Visibility</string>
+    <string name="home_card_order_empty">No visible cards to reorder. Switch to Visibility and enable some cards first.</string>
 </resources>

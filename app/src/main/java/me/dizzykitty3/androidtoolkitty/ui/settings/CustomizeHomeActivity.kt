@@ -7,11 +7,14 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.key
 import androidx.compose.material.icons.outlined.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.TextButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
@@ -73,12 +76,26 @@ private fun CustomizeHomeComposable() {
     BaseCard(R.string.customize_home) {
         val haptic = LocalHapticFeedback.current
 
-        TextButton(onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            orderMode = !orderMode
-        }) {
-            Text(stringResource(if (orderMode) R.string.order_mode_on else R.string.order_mode_off))
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier.fillMaxWidth(),
+            space = SegmentedButtonDefaults.BorderWidth,
+        ) {
+            listOf(R.string.home_card_visibility, R.string.home_card_order).forEachIndexed { index, label ->
+                SegmentedButton(
+                    selected = orderMode == (index == 1),
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        orderMode = index == 1
+                    },
+                    shape = SegmentedButtonDefaults.itemShape(index = index, count = 2),
+                    colors = SegmentedButtonDefaults.colors()
+                        .copy(inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+                ) {
+                    Text(stringResource(label))
+                }
+            }
         }
+        SpacerPadding()
         val cards = if (orderMode) state.visibleHomeCards() else state.orderedHomeCards()
         if (orderMode) {
             Text(stringResource(
