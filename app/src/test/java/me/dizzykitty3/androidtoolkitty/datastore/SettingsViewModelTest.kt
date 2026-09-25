@@ -371,6 +371,71 @@ class SettingsViewModelTest {
         }
     }
 
+    @Test
+    fun queuedVisibilityAndMove_skipTheNewlyHiddenCard() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    // Queue both actions without waiting for a settingsState emission between them.
+                    viewModel.saveShownState("card_b", false)
+                    viewModel.moveHomeCard("card_c", -1, listOf("card_a", "card_b", "card_c"))
+
+                    val state = viewModel.settingsState.first { it.homeCardOrder.isNotEmpty() }
+                    assertEquals(listOf("card_c", "card_b", "card_a"), state.homeCardOrder)
+                    assertFalse(state.isShown("card_b"))
+                    assertEquals(state, repository.settingsFlow.first())
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun queuedResetAndMove_usesDefaultOrderInsteadOfPreviousCustomOrder() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                val defaults = listOf("card_a", "card_b", "card_c", "card_d")
+                repository.moveHomeCard("card_d", -1, defaults)
+                repository.moveHomeCard("card_d", -1, defaults)
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    viewModel.settingsState.first {
+                        it.homeCardOrder == listOf("card_a", "card_d", "card_b", "card_c")
+                    }
+
+                    viewModel.resetHomeCardOrder()
+                    viewModel.moveHomeCard("card_b", -1, defaults)
+                    // This unrelated write serves as a completion marker for the queued actions.
+                    viewModel.updateCustomVolume(37)
+
+                    val state = viewModel.settingsState.first { it.customVolume == 37 }
+                    assertEquals(listOf("card_b", "card_a", "card_c", "card_d"), state.homeCardOrder)
+                    assertEquals(state, repository.settingsFlow.first())
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-view-model-", ".preferences_pb").apply {
             delete()
