@@ -23,11 +23,37 @@ import org.junit.Test
 class SettingsRepositoryTest {
 
     @Test
+    fun homeCardOrder_movesBetweenVisibleNeighboursAndKeepsHiddenSlots() = runTest {
+        val file = newPreferencesFile()
+        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val defaults = listOf("card_a", "card_b", "card_c", "card_d")
+        repository.saveShownState("card_b", false)
+        repository.saveShownState("card_d", false)
+
+        repository.moveHomeCard("card_c", -1, defaults)
+        assertEquals(listOf("card_c", "card_b", "card_a", "card_d"), repository.settingsFlow.first().homeCardOrder)
+        repository.moveHomeCard("card_a", 1, defaults)
+        repository.moveHomeCard("card_b", -1, defaults)
+        assertEquals(listOf("card_c", "card_b", "card_a", "card_d"), repository.settingsFlow.first().homeCardOrder)
+
+        repository.moveHomeCard("card_c", 1, defaults)
+        assertEquals(defaults, repository.settingsFlow.first().homeCardOrder)
+        assertFalse(repository.settingsFlow.first().isShown("card_b"))
+        assertFalse(repository.settingsFlow.first().isShown("card_d"))
+
+        repository.saveShownState("card_a", false)
+        repository.moveHomeCard("card_c", -1, defaults)
+        assertEquals(defaults, repository.settingsFlow.first().homeCardOrder)
+        repository.saveShownState("card_c", false)
+        repository.moveHomeCard("card_c", 1, defaults)
+        assertEquals(defaults, repository.settingsFlow.first().homeCardOrder)
+    }
+
+    @Test
     fun homeCardOrder_movesAtomicallyAndResetPreservesVisibility() = runTest {
         val file = newPreferencesFile()
         val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c", "card_d")
-        repository.saveShownState("card_d", false)
         List(3) { launch { repository.moveHomeCard("card_d", -1, defaults) } }.joinAll()
         assertEquals(listOf("card_d", "card_a", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
         repository.moveHomeCard("card_d", -1, defaults)
@@ -37,6 +63,7 @@ class SettingsRepositoryTest {
         repository.moveHomeCard("card_d", 1, defaults)
         assertEquals(listOf("card_a", "card_d", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
 
+        repository.saveShownState("card_d", false)
         repository.resetHomeCardOrder()
         assertEquals(emptyList<String>(), repository.settingsFlow.first().homeCardOrder)
         assertFalse(repository.settingsFlow.first().isShown("card_d"))
@@ -224,8 +251,8 @@ class SettingsRepositoryTest {
             repository.setSearchEngine(SearchEngine.ECOSIA)
             repository.updateTypingContents("saved search")
             repository.updateCustomVolume(42)
-            repository.saveShownState("card_search", false)
             repository.moveHomeCard("card_maps", -1, listOf("card_search", "card_maps"))
+            repository.saveShownState("card_search", false)
         } finally {
             writerJob.cancelAndJoin()
         }

@@ -97,10 +97,15 @@ class SettingsRepository @Inject constructor(
                 preferences[PreferenceKeys.HOME_CARD_ORDER]?.split(',') ?: emptyList(),
                 defaultOrder,
             ).toMutableList()
-            val index = order.indexOf(key)
+            val visibleOrder = order.filter { preferences[booleanPreferencesKey(it)] != false }
+            val index = visibleOrder.indexOf(key)
             val destination = index + offset
-            if (index >= 0 && destination in order.indices) {
-                order.add(destination, order.removeAt(index))
+            if (index >= 0 && destination in visibleOrder.indices) {
+                // Swap visible neighbours without moving hidden cards out of their saved slots.
+                val sourceSlot = order.indexOf(key)
+                val destinationSlot = order.indexOf(visibleOrder[destination])
+                order[sourceSlot] = visibleOrder[destination]
+                order[destinationSlot] = key
                 preferences[PreferenceKeys.HOME_CARD_ORDER] = order.joinToString(",")
             }
         }
