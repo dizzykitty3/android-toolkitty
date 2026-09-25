@@ -1,10 +1,17 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
 import android.content.Context
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
+import java.io.File
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.test.runTest
+import me.dizzykitty3.androidtoolkitty.datastore.SettingsRepository
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
@@ -13,6 +20,43 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
 class HomeCardRegistryTest {
+
+    @get:Rule
+    val temporaryFolder = TemporaryFolder()
+
+    @Test
+    fun persistedCardCustomization_drivesHomeListAndResetKeepsVisibility() = runTest {
+        val file = File(temporaryFolder.root, "home.preferences_pb")
+        val repository = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+        val defaults = homeCardDefinitions.map { it.id.preferenceKey }
+        repository.saveShownState(HomeCardId.VOLUME.preferenceKey, false)
+        repository.saveShownState(HomeCardId.CLIPBOARD.preferenceKey, false)
+        repository.moveHomeCard(HomeCardId.SEARCH.preferenceKey, -1, defaults)
+
+        val moved = repository.settingsFlow.first()
+        val expectedOrder = listOf(
+            HomeCardId.SEARCH, HomeCardId.VOLUME, HomeCardId.CLIPBOARD, HomeCardId.YEAR_PROGRESS,
+        ) + HomeCardId.entries.drop(4)
+        assertEquals(expectedOrder, moved.orderedHomeCards().map { it.id })
+        assertEquals(
+            listOf(HomeCardId.SEARCH, HomeCardId.YEAR_PROGRESS) + HomeCardId.entries.drop(4),
+            moved.visibleHomeCards().map { it.id },
+        )
+
+        repository.resetHomeCardOrder()
+        val reset = repository.settingsFlow.first()
+        assertEquals(homeCardDefinitions, reset.orderedHomeCards())
+        assertEquals(
+            HomeCardId.entries.filter { it != HomeCardId.VOLUME && it != HomeCardId.CLIPBOARD },
+            reset.visibleHomeCards().map { it.id },
+        )
+
+        repository.saveShownState(HomeCardId.VOLUME.preferenceKey, true)
+        repository.saveShownState(HomeCardId.CLIPBOARD.preferenceKey, true)
+        assertEquals(homeCardDefinitions, repository.settingsFlow.first().visibleHomeCards())
+    }
 
     private val context: Context
         get() = RuntimeEnvironment.getApplication()
