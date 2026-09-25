@@ -313,6 +313,41 @@ class SettingsRepositoryTest {
         assertNull(dataStore.data.first()[stringPreferencesKey("typing_contents")])
     }
 
+    @Test
+    fun resetHomeCardOrder_staysResetAfterReopeningAndPreservesOtherSettings() = runTest {
+        val file = newPreferencesFile()
+        val writerJob = Job()
+        val dataStore = PreferenceDataStoreFactory.create(
+            scope = CoroutineScope(coroutineContext + writerJob),
+        ) { file }
+        val repository = SettingsRepository(dataStore)
+        val expected = UserSettings.default().copy(
+            shownItemStates = mapOf("card_b" to false),
+            customVolume = 45,
+        )
+        try {
+            repository.saveShownState("card_b", false)
+            repository.updateCustomVolume(45)
+            repository.moveHomeCard("card_c", -1, listOf("card_a", "card_b", "card_c"))
+            assertEquals(listOf("card_c", "card_b", "card_a"), repository.settingsFlow.first().homeCardOrder)
+
+            repository.resetHomeCardOrder()
+            assertNull(dataStore.data.first()[stringPreferencesKey("home_card_order")])
+        } finally {
+            writerJob.cancelAndJoin()
+        }
+
+        val reopened = SettingsRepository(
+            PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+        )
+        val restored = reopened.settingsFlow.first()
+        assertEquals(expected, restored)
+        assertEquals(
+            listOf("card_a", "card_b", "card_c"),
+            normalizedHomeCardOrder(restored.homeCardOrder, listOf("card_a", "card_b", "card_c")),
+        )
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-settings-", ".preferences_pb").apply {
             delete()

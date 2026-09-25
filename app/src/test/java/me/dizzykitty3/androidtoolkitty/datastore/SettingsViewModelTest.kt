@@ -333,6 +333,44 @@ class SettingsViewModelTest {
         }
     }
 
+    @Test
+    fun homeCardOrdering_publishesMovesAndResetWithoutChangingOtherSettings() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                val defaults = listOf("card_a", "card_b", "card_c")
+                repository.saveShownState("card_b", false)
+                repository.updateCustomVolume(45)
+                val initial = repository.settingsFlow.first()
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    viewModel.moveHomeCard("card_c", -1, defaults)
+                    val moved = viewModel.settingsState.first {
+                        it.homeCardOrder == listOf("card_c", "card_b", "card_a")
+                    }
+                    assertEquals(initial.copy(homeCardOrder = listOf("card_c", "card_b", "card_a")), moved)
+
+                    // Keep collecting before reset so the initial empty order cannot satisfy the assertion.
+                    val reset = async(start = CoroutineStart.UNDISPATCHED) {
+                        viewModel.settingsState.first { it.homeCardOrder.isEmpty() }
+                    }
+                    viewModel.resetHomeCardOrder()
+                    assertEquals(initial, reset.await())
+                    assertEquals(initial, repository.settingsFlow.first())
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-view-model-", ".preferences_pb").apply {
             delete()
