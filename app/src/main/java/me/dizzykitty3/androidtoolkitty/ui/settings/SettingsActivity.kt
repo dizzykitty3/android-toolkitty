@@ -117,6 +117,7 @@ private fun General() {
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
     val isSearchCardShown = state.isShown(HomeCardId.SEARCH.preferenceKey)
+    val isSystemSettingsCardShown = state.isShown(HomeCardId.SYSTEM_SETTINGS.preferenceKey)
 
     CustomSwitchRow(
         icon = Icons.Outlined.ClearAll,
@@ -138,14 +139,16 @@ private fun General() {
         )
     }
 
-    SettingsLinkRow(
-        icon = Icons.Outlined.Settings,
-        title = R.string.customize_system_shortcuts,
-        onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            context.openScreen(SystemShortcutsCustomizeActivity::class.java)
-        }
-    )
+    if (isSystemSettingsCardShown) {
+        SettingsLinkRow(
+            icon = Icons.Outlined.Settings,
+            title = R.string.customize_system_shortcuts,
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                context.openScreen(SystemShortcutsCustomizeActivity::class.java)
+            }
+        )
+    }
 
     // edit home
     SettingsLinkRow(
