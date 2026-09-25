@@ -54,7 +54,8 @@
     <string name="voice_call_volume">Voice call volume</string>
     <string name="max_out_voice_call_volume">Max out voice call volume</string>
     <string name="edit_custom_volume">Edit custom volume</string>
-    <string name="precise_switch">Precise on/off</string>
+    <string name="precise_on">Precise: On</string>
+    <string name="precise_off">Precise: Off</string>
 
     <!-- Home > Clipboard -->
     <string name="clipboard">Clipboard</string>

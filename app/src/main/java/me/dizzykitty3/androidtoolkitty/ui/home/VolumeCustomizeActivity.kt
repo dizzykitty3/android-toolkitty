@@ -107,7 +107,7 @@ private fun VolumeCustomizeComposable() {
             Row(Modifier.weight(1F)) {
                 TextButton(onClick = { morePreciseSlider = !morePreciseSlider }) {
                     Text(
-                        text = stringResource(R.string.precise_switch),
+                        text = stringResource(if (morePreciseSlider) R.string.precise_on else R.string.precise_off),
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
