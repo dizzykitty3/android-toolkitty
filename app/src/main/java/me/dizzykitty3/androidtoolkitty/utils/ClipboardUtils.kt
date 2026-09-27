@@ -3,6 +3,7 @@ package me.dizzykitty3.androidtoolkitty.utils
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.os.Build
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
 
@@ -10,7 +11,7 @@ import androidx.core.content.getSystemService
 fun Context.clearClipboard(): Boolean {
     val clipboard = getSystemService<ClipboardManager>() ?: return false
     if (!clipboard.hasPrimaryClip()) return false
-    if (OSVersion.android9()) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
         clipboard.clearPrimaryClip()
         return true
     }

@@ -2,6 +2,7 @@ package me.dizzykitty3.androidtoolkitty.home
 
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
+import android.os.Build
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.icons.Icons
@@ -42,7 +43,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 private const val MANUAL_PERMISSION_HINT_THRESHOLD = 2
@@ -60,7 +60,7 @@ fun BluetoothDevice() {
         val legacyBTPermissionState = rememberMultiplePermissionsState(listOf(BT, BT_ADMIN))
         var clickCount by remember { mutableIntStateOf(0) }
 
-        if ((OSVersion.android12() && btPermissionState.status.isGranted) || (!OSVersion.android12() && legacyBTPermissionState.allPermissionsGranted)) {
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && btPermissionState.status.isGranted) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.S && legacyBTPermissionState.allPermissionsGranted)) {
             OutlinedButton(onClick = {
                 // Get system service
                 val adapter = view.context.bluetoothAdapter()
@@ -94,7 +94,7 @@ fun BluetoothDevice() {
                 Button(onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     clickCount++
-                    if (OSVersion.android12()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         btPermissionState.launchPermissionRequest()
                     } else {
                         legacyBTPermissionState.launchMultiplePermissionRequest()

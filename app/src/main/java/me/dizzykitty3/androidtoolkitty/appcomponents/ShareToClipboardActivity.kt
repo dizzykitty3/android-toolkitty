@@ -2,10 +2,10 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
 import timber.log.Timber
 
@@ -20,7 +20,7 @@ class ShareToClipboardActivity : Activity() {
         if (sharedText != null) {
             Timber.i("onCreate sharedText non null")
             copyToClipboard(sharedText)
-            if (!OSVersion.android13()) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
                 showToast(R.string.copied)
             }
         }

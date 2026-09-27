@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import android.provider.Settings
+import android.os.Build
 import androidx.core.net.toUri
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
@@ -163,7 +164,7 @@ object IntentUtils {
     }
 
     fun Context.openAppLanguageSetting() {
-        if (!OSVersion.android13()) return
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
 
         Timber.d("openAppLanguageSetting")
         val intent = Intent(Settings.ACTION_APP_LOCALE_SETTINGS)

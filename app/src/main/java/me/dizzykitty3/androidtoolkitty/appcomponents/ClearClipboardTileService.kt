@@ -3,17 +3,17 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
+import android.os.Build
 import android.os.IBinder
 import android.service.quicksettings.Tile
 import android.service.quicksettings.TileService
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
 import timber.log.Timber
 
 class ClearClipboardTileService : TileService() {
     private fun isSupported(): Boolean {
-        if (OSVersion.android7()) return true
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return true
         Timber.w("TileService unsupported")
         return false
     }
@@ -46,7 +46,7 @@ class ClearClipboardTileService : TileService() {
             val intent = Intent(this@ClearClipboardTileService, ClearClipboardActivity::class.java)
             intent.flags =
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
-            if (OSVersion.android14()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 Timber.i("Android 14")
                 val pendingIntent = PendingIntent.getActivity(
                     this@ClearClipboardTileService,

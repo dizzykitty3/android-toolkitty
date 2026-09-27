@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -48,7 +49,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.batteryLevel
 import me.dizzykitty3.androidtoolkitty.utils.headsetNotConnected
 import me.dizzykitty3.androidtoolkitty.utils.isHeadsetConnected
@@ -145,7 +145,7 @@ private fun NetworkState() {
             networkState = context.networkState()
         }
 
-        if (OSVersion.android7()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             val connectivityManager = context.getSystemService<ConnectivityManager>()
                 ?: return@LaunchedEffect
             val callback = object : ConnectivityManager.NetworkCallback() {

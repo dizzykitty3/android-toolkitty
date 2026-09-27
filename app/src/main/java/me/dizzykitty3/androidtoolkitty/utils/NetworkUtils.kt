@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.ConnectivityManager.TYPE_MOBILE
 import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
+import android.os.Build
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
 
@@ -19,7 +20,7 @@ internal object NetworkUtil {
 fun Context.networkState(): Int {
     val connectivityManager = getSystemService<ConnectivityManager>()
         ?: return NetworkUtil.STATE_CODE_OFFLINE
-    if (!OSVersion.android6()) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
         val activeNetwork = connectivityManager.activeNetworkInfo
             ?: return NetworkUtil.STATE_CODE_OFFLINE
         return when (activeNetwork.type) {

@@ -1,5 +1,6 @@
 package me.dizzykitty3.androidtoolkitty.ui.settings
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -52,7 +53,6 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.versionName
 import timber.log.Timber
 
@@ -70,7 +70,7 @@ class SettingsActivity : ComponentActivity() {
                     title = R.string.settings,
                     dynamicColor = state.dynamicColor
                 ) {
-                    if (OSVersion.android12()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         BaseCard(R.string.appearance) { Appearance() }
                     }
                     BaseCard(R.string.general) { General() }
@@ -98,7 +98,7 @@ private fun Appearance() {
     }
 
     // change app lang
-    if (OSVersion.android13()) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         SettingsLinkRow(
             icon = Icons.Outlined.Language,
             title = R.string.language,

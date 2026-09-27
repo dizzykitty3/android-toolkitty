@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.theme
 
 import android.app.Activity
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +17,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
-import me.dizzykitty3.androidtoolkitty.utils.OSVersion
 
 private val lightScheme = lightColorScheme(
     primary = primaryLight,
@@ -264,13 +264,13 @@ fun AppTheme(
     content: @Composable () -> Unit
 ) {
     @Composable
-    fun OSVersion.colorScheme(
+    fun colorScheme(
         darkTheme: Boolean,
         dynamicColor: Boolean,
         context: android.content.Context,
     ): ColorScheme {
         return when {
-            this.android12() && dynamicColor ->
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicColor ->
                 if (darkTheme) dynamicDarkColorScheme(context)
                 else dynamicLightColorScheme(context)
 
@@ -282,7 +282,7 @@ fun AppTheme(
     val darkTheme = isSystemInDarkTheme()
     val context = LocalContext.current
 
-    val colorScheme = OSVersion.colorScheme(darkTheme, dynamicColor, context)
+    val colorScheme = colorScheme(darkTheme, dynamicColor, context)
 
     val view = LocalView.current
     if (!view.isInEditMode) {
