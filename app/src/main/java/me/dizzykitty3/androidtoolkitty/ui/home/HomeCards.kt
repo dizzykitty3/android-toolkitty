@@ -14,12 +14,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 
 @Composable
 fun HomeCards(viewModel: SettingsViewModel) {
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
-    state.visibleHomeCards().forEach { card ->
-        key(card.id) { card.content() }
+    state.visibleHomeCards().forEachIndexed { index, card ->
+        key(card.id) {
+            if (index > 0) CardSpacePadding()
+            card.content()
+        }
     }
 }
 

@@ -20,6 +20,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.MediaVolume
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.maxVoiceCallVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.setVoiceCallVolume
@@ -44,6 +45,7 @@ class VolumeActivity : ComponentActivity() {
                     val haptic = LocalHapticFeedback.current
 
                     BaseCard(R.string.media_volume) { MediaVolume(isHome = false) }
+                    CardSpacePadding()
                     BaseCard(R.string.voice_call_volume) {
                         OutlinedButton({
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

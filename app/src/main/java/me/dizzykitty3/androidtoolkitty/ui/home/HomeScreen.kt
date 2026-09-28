@@ -128,6 +128,7 @@ fun HomeScreen(onAutoClearClipboardChanged: (Boolean) -> Unit) {
 
 @Composable
 private fun MobileLayout(viewModel: SettingsViewModel, listState: LazyListState) {
+    val settings by viewModel.settingsState.collectAsStateWithLifecycle()
     val screenPadding = dimensionResource(R.dimen.padding_screen)
     val debug = BuildConfig.DEBUG
 
@@ -149,7 +150,10 @@ private fun MobileLayout(viewModel: SettingsViewModel, listState: LazyListState)
                 CardSpacePadding()
                 Test()
             }
-            item { HomeCards(viewModel) }
+            item {
+                if (debug && settings.visibleHomeCards().isNotEmpty()) CardSpacePadding()
+                HomeCards(viewModel)
+            }
             item { BottomPadding() }
         }
     }

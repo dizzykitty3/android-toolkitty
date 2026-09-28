@@ -47,6 +47,7 @@ import me.dizzykitty3.androidtoolkitty.ui.home.HomeCardId
 import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsCustomizeActivity
 import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
@@ -72,8 +73,10 @@ class SettingsActivity : ComponentActivity() {
                 ) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                         BaseCard(R.string.appearance) { Appearance() }
+                        CardSpacePadding()
                     }
                     BaseCard(R.string.general) { General() }
+                    CardSpacePadding()
                     BaseCard(R.string.app_info) { OtherSettings() }
                 }
             }

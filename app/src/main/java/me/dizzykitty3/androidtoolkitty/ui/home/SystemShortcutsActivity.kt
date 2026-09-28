@@ -34,6 +34,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Setting
 import me.dizzykitty3.androidtoolkitty.home.availableSystemSettings
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
@@ -97,12 +98,15 @@ private fun SystemShortcutsComposable() {
             SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
+    CardSpacePadding()
     SystemSettingsGroup(
         R.string.general, settings.subList(0, permissionsStartIndex)
     )
+    CardSpacePadding()
     SystemSettingsGroup(
         R.string.permissions, settings.subList(permissionsStartIndex, debuggingStartIndex)
     )
+    CardSpacePadding()
     SystemSettingsGroup(
         R.string.debugging, settings.subList(debuggingStartIndex, settingsEndIndex)
     )

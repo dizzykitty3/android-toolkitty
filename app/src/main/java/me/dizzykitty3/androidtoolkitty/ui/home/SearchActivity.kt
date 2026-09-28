@@ -40,6 +40,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
@@ -69,7 +70,9 @@ class SearchActivity : ComponentActivity() {
                     dynamicColor = state.dynamicColor
                 ) {
                     BaseCard(R.string.webpage) { Webpage() }
+                    CardSpacePadding()
                     BaseCard(R.string.social_finder) { SocialMediaProfile() }
+                    CardSpacePadding()
                     BaseCard(R.string.check_app_on_market) { CheckAppOnMarket() }
                 }
             }

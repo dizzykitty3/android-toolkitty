@@ -117,7 +117,6 @@ fun BaseCard(
             content()
         }
     }
-    CardSpacePadding()
 }
 
 @Composable

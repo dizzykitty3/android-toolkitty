@@ -28,6 +28,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Unicode
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
@@ -47,7 +48,9 @@ class CodesOfCharactersActivity : ComponentActivity() {
                 dynamicColor = state.dynamicColor
             ) {
                 BaseCard(R.string.unicode) { Unicode() }
+                CardSpacePadding()
                 BaseCard(R.string.ascii) { ASCII() }
+                CardSpacePadding()
                 BaseCard(R.string.unix_timestamp) { UnixTimestamp() }
             }
         }
