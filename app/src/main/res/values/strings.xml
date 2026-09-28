@@ -280,6 +280,7 @@
     <string name="view_source_code">Source code</string>
     <string name="licenses">Open source licenses</string>
     <string name="app_info">App info</string>
+    <string name="version">Version</string>
     <string name="app_settings">App settings</string>
     <string name="log_outputs">Enable logging</string>
 
