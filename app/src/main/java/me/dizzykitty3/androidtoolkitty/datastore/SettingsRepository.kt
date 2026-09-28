@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.Serializable
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
+import me.dizzykitty3.androidtoolkitty.utils.validateVolumeSlot
 import javax.inject.Inject
 
 @Serializable
@@ -42,8 +44,9 @@ class SettingsRepository @Inject constructor(
         val TYPING_CONTENTS = stringPreferencesKey("typing_contents")
         val LATITUDE = stringPreferencesKey("latitude")
         val LONGITUDE = stringPreferencesKey("longitude")
-        val HAVE_TAPPED_ADD_BUTTON = booleanPreferencesKey("have_tapped_add_button")
-        val CUSTOM_VOLUME = intPreferencesKey("custom_volume")
+        // The legacy custom volume remains in the fourth segment (custom slot 2).
+        val CUSTOM_VOLUMES = listOf("custom_volume_1", "custom_volume_2", "custom_volume")
+            .map(::intPreferencesKey)
         val HAVE_TAPPED_VOLUME_BUTTON = intPreferencesKey("have_tapped_volume_button")
         val WHEEL_OF_FORTUNE_ITEMS = stringPreferencesKey("wheel_of_fortune_items")
         val HOME_CARD_ORDER = stringPreferencesKey("home_card_order")
@@ -68,11 +71,7 @@ class SettingsRepository @Inject constructor(
             typingContents = preferences[PreferenceKeys.TYPING_CONTENTS] ?: defaults.typingContents,
             latitude = preferences[PreferenceKeys.LATITUDE] ?: defaults.latitude,
             longitude = preferences[PreferenceKeys.LONGITUDE] ?: defaults.longitude,
-            haveTappedAddButton = preferences[PreferenceKeys.HAVE_TAPPED_ADD_BUTTON]
-                ?: defaults.haveTappedAddButton,
-            customVolume = preferences[PreferenceKeys.CUSTOM_VOLUME]
-                ?.takeUnless { it == Int.MIN_VALUE }
-                ?: defaults.customVolume,
+            customVolumes = preferences.customVolumes(),
             volumeButtonTapCount = preferences[PreferenceKeys.HAVE_TAPPED_VOLUME_BUTTON]
                 ?: defaults.volumeButtonTapCount,
             wheelOfFortuneItems = preferences[PreferenceKeys.WHEEL_OF_FORTUNE_ITEMS]
@@ -153,11 +152,19 @@ class SettingsRepository @Inject constructor(
     suspend fun updateLongitude(longitude: String) =
         setPreference(PreferenceKeys.LONGITUDE, longitude)
 
-    suspend fun toggleHaveTappedAddButton(haveTapped: Boolean) =
-        setPreference(PreferenceKeys.HAVE_TAPPED_ADD_BUTTON, haveTapped)
+    private fun Preferences.customVolumes(): List<Int?> =
+        PreferenceKeys.CUSTOM_VOLUMES.map { key -> this[key]?.takeIf { it in 1..100 } }
 
-    suspend fun updateCustomVolume(value: Int) =
-        setPreference(PreferenceKeys.CUSTOM_VOLUME, value)
+    suspend fun updateCustomVolume(slot: Int, value: Int, maxVolume: Int): VolumeSaveResult {
+        var result = VolumeSaveResult.INVALID
+        dataStore.edit { preferences ->
+            result = validateVolumeSlot(slot, value, maxVolume, preferences.customVolumes())
+            if (result == VolumeSaveResult.SAVED) {
+                preferences[PreferenceKeys.CUSTOM_VOLUMES[slot]] = value
+            }
+        }
+        return result
+    }
 
     suspend fun increaseVolumeButtonTapCount() {
         dataStore.edit { preferences ->
@@ -180,8 +187,7 @@ data class UserSettings(
     val typingContents: String,
     val latitude: String,
     val longitude: String,
-    val haveTappedAddButton: Boolean,
-    val customVolume: Int?,
+    val customVolumes: List<Int?>,
     val volumeButtonTapCount: Int,
     val wheelOfFortuneItems: String?,
     val shownItemStates: Map<String, Boolean>,
@@ -200,8 +206,7 @@ data class UserSettings(
             typingContents = "",
             latitude = "",
             longitude = "",
-            haveTappedAddButton = false,
-            customVolume = null,
+            customVolumes = listOf(null, null, null),
             volumeButtonTapCount = 0,
             wheelOfFortuneItems = null,
             shownItemStates = emptyMap(),

@@ -47,8 +47,14 @@
     <string name="notification_title">Test notification %1$d</string>
     <string name="notification_content">Test notification content %1$d</string>
     <string name="media_volume">Media volume</string>
-    <string name="volume_forty_percent">40%</string>
-    <string name="volume_sixty_percent">60%</string>
+    <string name="edit_volume_slot">Edit volume slot %1$d</string>
+    <string name="volume_slot_edit_hint">Tap a custom slot to edit it. Apply saved volumes or mute media volume from the home card.</string>
+    <string name="volume_slot_not_configured">Set up this slot on the Volume page before applying it.</string>
+    <string name="volume_slot_label">Volume slot %1$d: %2$s</string>
+    <string name="loading_volume_slots">Loading volume settings…</string>
+    <string name="duplicate_volume_slot">This volume step is already used by another slot. Choose a different step.</string>
+    <string name="invalid_volume_slot">Choose a non-zero volume step. The device must support media volume adjustment.</string>
+    <string name="volume_save_failed">Could not save the volume. Please try again.</string>
     <string name="volume_steps_limited">System volume steps are limited, canceled.</string>
     <string name="volume_changed">Volume changed.</string>
     <string name="add">+ Add</string>

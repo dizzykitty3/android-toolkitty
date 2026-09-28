@@ -6,6 +6,22 @@ import org.junit.Test
 class CustomVolumeRulesTest {
 
     @Test
+    fun integerPercentagePreview_matchesTheStepUsedForValidationAndPlayback() {
+        for (max in 1..100) {
+            for (percent in 0..100) {
+                assertEquals(
+                    me.dizzykitty3.androidtoolkitty.utils.volumeSlotStep(percent, max) ?: 0,
+                    customVolumeIndex(percent.toFloat(), max),
+                )
+            }
+        }
+        assertEquals(0, customVolumeIndex(Float.NaN, 15))
+        assertEquals(0, customVolumeIndex(Float.POSITIVE_INFINITY, 15))
+        assertEquals(0, customVolumeIndex(-1f, 15))
+        assertEquals(0, customVolumeIndex(101f, 15))
+    }
+
+    @Test
     fun label_includesPercentageCurrentIndexAndMaximum() {
         assertEquals("40% -> 6/15", customVolumeLabel(40f, 15))
         assertEquals("0% -> 0/15", customVolumeLabel(0f, 15))

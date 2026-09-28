@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
 import java.io.File
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -22,12 +23,46 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
+import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
+
+    @Test
+    fun volumeSlots_reportSaveResultsAndDoNotPublishRejectedValues() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                val file = newPreferencesFile()
+                val repository = SettingsRepository(
+                    PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
+                )
+                val viewModel = SettingsViewModel(repository)
+                try {
+                    val saved = CompletableDeferred<VolumeSaveResult>()
+                    viewModel.updateCustomVolume(0, 40, 15) { saved.complete(it) }
+                    assertEquals(VolumeSaveResult.SAVED, saved.await())
+                    assertEquals(listOf(40, null, null),
+                        viewModel.settingsState.first { it.customVolumes[0] == 40 }.customVolumes)
+
+                    val rejected = CompletableDeferred<VolumeSaveResult>()
+                    viewModel.updateCustomVolume(1, 41, 15) { rejected.complete(it) }
+                    assertEquals(VolumeSaveResult.DUPLICATE, rejected.await())
+                    runCurrent()
+                    assertEquals(listOf(40, null, null), viewModel.settingsState.value.customVolumes)
+                    assertEquals(listOf(40, null, null), repository.settingsFlow.first().customVolumes)
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
 
     @Test
     fun updateMethods_persistChangesAndPublishThemThroughSettingsState() {
@@ -82,10 +117,9 @@ class SettingsViewModelTest {
                         it.doNotRememberLastSearch &&
                             it.autoClearClipboard &&
                             it.lastSelectedPlatformIndex == 4 &&
-                            it.customVolume == 35 &&
+                            it.customVolumes[2] == 35 &&
                             it.latitude == "25.0330" &&
                             it.longitude == "121.5654" &&
-                            it.haveTappedAddButton &&
                             it.volumeButtonTapCount == 1 &&
                             it.wheelOfFortuneItems == wheelItems
                     }
@@ -95,10 +129,9 @@ class SettingsViewModelTest {
                 viewModel.updateTypingContents("must not persist")
                 viewModel.toggleAutoClearClipboard(true)
                 viewModel.updateLastSelectedPlatformIndex(4)
-                viewModel.updateCustomVolume(35)
+                viewModel.updateCustomVolume(2, 35, 100)
                 viewModel.updateLatitude("25.0330")
                 viewModel.updateLongitude("121.5654")
-                viewModel.toggleHaveTappedAddButton(true)
                 viewModel.increaseVolumeButtonTapCount()
                 viewModel.updateWheelOfFortuneItems(wheelItems)
 
@@ -106,10 +139,9 @@ class SettingsViewModelTest {
                 assertEquals("", state.typingContents)
                 assertEquals(true, state.autoClearClipboard)
                 assertEquals(4, state.lastSelectedPlatformIndex)
-                assertEquals(35, state.customVolume)
+                assertEquals(35, state.customVolumes[2])
                 assertEquals("25.0330", state.latitude)
                 assertEquals("121.5654", state.longitude)
-                assertEquals(true, state.haveTappedAddButton)
                 assertEquals(1, state.volumeButtonTapCount)
                 assertEquals(wheelItems, state.wheelOfFortuneItems)
             }
@@ -128,22 +160,22 @@ class SettingsViewModelTest {
                 val repository = SettingsRepository(
                     PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
                 )
-                repository.updateCustomVolume(25)
+                repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 try {
-                    assertEquals(25, viewModel.settingsState.first { it.customVolume == 25 }.customVolume)
+                    assertEquals(25, viewModel.settingsState.first { it.customVolumes[2] == 25 }.customVolumes[2])
 
                     // The first collector has finished; let WhileSubscribed stop its upstream.
                     runCurrent()
                     advanceTimeBy(5_001)
                     runCurrent()
 
-                    repository.updateCustomVolume(70)
-                    assertEquals(70, repository.settingsFlow.first().customVolume)
+                    repository.updateCustomVolume(2, 70, 100)
+                    assertEquals(70, repository.settingsFlow.first().customVolumes[2])
                     runCurrent()
-                    assertEquals(25, viewModel.settingsState.value.customVolume)
+                    assertEquals(25, viewModel.settingsState.value.customVolumes[2])
 
-                    assertEquals(70, viewModel.settingsState.first { it.customVolume == 70 }.customVolume)
+                    assertEquals(70, viewModel.settingsState.first { it.customVolumes[2] == 70 }.customVolumes[2])
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }
@@ -165,12 +197,12 @@ class SettingsViewModelTest {
                 val viewModel = SettingsViewModel(repository)
                 try {
                     // Never collect settingsState on the writer ViewModel.
-                    viewModel.updateCustomVolume(65)
+                    viewModel.updateCustomVolume(2, 65, 100)
                     viewModel.toggleDynamicColor(false)
                     val persisted = repository.settingsFlow.first {
-                        it.customVolume == 65 && !it.dynamicColor
+                        it.customVolumes[2] == 65 && !it.dynamicColor
                     }
-                    assertEquals(65, persisted.customVolume)
+                    assertEquals(65, persisted.customVolumes[2])
                     assertFalse(persisted.dynamicColor)
                 } finally {
                     viewModel.viewModelScope.cancel()
@@ -178,8 +210,8 @@ class SettingsViewModelTest {
 
                 val restoredViewModel = SettingsViewModel(SettingsRepository(dataStore))
                 try {
-                    val restored = restoredViewModel.settingsState.first { it.customVolume == 65 }
-                    assertEquals(65, restored.customVolume)
+                    val restored = restoredViewModel.settingsState.first { it.customVolumes[2] == 65 }
+                    assertEquals(65, restored.customVolumes[2])
                     assertFalse(restored.dynamicColor)
                 } finally {
                     restoredViewModel.viewModelScope.cancel()
@@ -200,18 +232,18 @@ class SettingsViewModelTest {
                 val repository = SettingsRepository(
                     PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
                 )
-                repository.updateCustomVolume(25)
+                repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 try {
-                    viewModel.settingsState.first { it.customVolume == 25 }
+                    viewModel.settingsState.first { it.customVolumes[2] == 25 }
                     runCurrent()
                     advanceTimeBy(4_999)
                     runCurrent()
 
                     // No collectors remain, but the five-second grace period is still active.
-                    repository.updateCustomVolume(60)
+                    repository.updateCustomVolume(2, 60, 100)
                     runCurrent()
-                    assertEquals(60, viewModel.settingsState.value.customVolume)
+                    assertEquals(60, viewModel.settingsState.value.customVolumes[2])
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }
@@ -231,7 +263,7 @@ class SettingsViewModelTest {
                 val repository = SettingsRepository(
                     PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
                 )
-                repository.updateCustomVolume(25)
+                repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 try {
                     val firstSubscriber = backgroundScope.launch {
@@ -239,20 +271,20 @@ class SettingsViewModelTest {
                     }
                     val observedVolumes = mutableListOf<Int?>()
                     val remainingSubscriber = backgroundScope.launch {
-                        viewModel.settingsState.collect { observedVolumes.add(it.customVolume) }
+                        viewModel.settingsState.collect { observedVolumes.add(it.customVolumes[2]) }
                     }
-                    viewModel.settingsState.first { it.customVolume == 25 }
+                    viewModel.settingsState.first { it.customVolumes[2] == 25 }
                     runCurrent()
                     assertEquals(25, observedVolumes.last())
 
                     firstSubscriber.cancelAndJoin()
                     advanceTimeBy(5_001)
                     runCurrent()
-                    repository.updateCustomVolume(80)
+                    repository.updateCustomVolume(2, 80, 100)
                     runCurrent()
 
                     assertEquals(80, observedVolumes.last())
-                    assertEquals(80, viewModel.settingsState.value.customVolume)
+                    assertEquals(80, viewModel.settingsState.value.customVolumes[2])
                     remainingSubscriber.cancelAndJoin()
                 } finally {
                     viewModel.viewModelScope.cancel()
@@ -273,24 +305,24 @@ class SettingsViewModelTest {
                 val repository = SettingsRepository(
                     PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
                 )
-                repository.updateCustomVolume(25)
+                repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 val store = ViewModelStore().apply { put("settings", viewModel) }
                 try {
                     val observedVolumes = mutableListOf<Int?>()
                     backgroundScope.launch {
-                        viewModel.settingsState.collect { observedVolumes.add(it.customVolume) }
+                        viewModel.settingsState.collect { observedVolumes.add(it.customVolumes[2]) }
                     }
-                    viewModel.settingsState.first { it.customVolume == 25 }
+                    viewModel.settingsState.first { it.customVolumes[2] == 25 }
                     runCurrent()
                     val observationsBeforeClear = observedVolumes.toList()
 
                     store.clear()
-                    repository.updateCustomVolume(80)
+                    repository.updateCustomVolume(2, 80, 100)
                     runCurrent()
 
-                    assertEquals(80, repository.settingsFlow.first().customVolume)
-                    assertEquals(25, viewModel.settingsState.value.customVolume)
+                    assertEquals(80, repository.settingsFlow.first().customVolumes[2])
+                    assertEquals(25, viewModel.settingsState.value.customVolumes[2])
                     assertEquals(observationsBeforeClear, observedVolumes)
                 } finally {
                     store.clear()
@@ -311,19 +343,19 @@ class SettingsViewModelTest {
                 val repository = SettingsRepository(
                     PreferenceDataStoreFactory.create(scope = backgroundScope) { file },
                 )
-                repository.updateCustomVolume(25)
+                repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 val store = ViewModelStore().apply { put("settings", viewModel) }
                 try {
                     // StandardTestDispatcher keeps this write queued until the scheduler runs.
-                    viewModel.updateCustomVolume(60)
+                    viewModel.updateCustomVolume(2, 60, 100)
                     store.clear()
                     runCurrent()
-                    assertEquals(25, repository.settingsFlow.first().customVolume)
+                    assertEquals(25, repository.settingsFlow.first().customVolumes[2])
 
-                    viewModel.updateCustomVolume(90)
+                    viewModel.updateCustomVolume(2, 90, 100)
                     runCurrent()
-                    assertEquals(25, repository.settingsFlow.first().customVolume)
+                    assertEquals(25, repository.settingsFlow.first().customVolumes[2])
                 } finally {
                     store.clear()
                 }
@@ -345,7 +377,7 @@ class SettingsViewModelTest {
                 )
                 val defaults = listOf("card_a", "card_b", "card_c")
                 repository.saveShownState("card_b", false)
-                repository.updateCustomVolume(45)
+                repository.updateCustomVolume(2, 45, 100)
                 val initial = repository.settingsFlow.first()
                 val viewModel = SettingsViewModel(repository)
                 try {
@@ -422,9 +454,9 @@ class SettingsViewModelTest {
                     viewModel.resetHomeCardOrder()
                     viewModel.moveHomeCard("card_b", -1, defaults)
                     // This unrelated write serves as a completion marker for the queued actions.
-                    viewModel.updateCustomVolume(37)
+                    viewModel.updateCustomVolume(2, 37, 100)
 
-                    val state = viewModel.settingsState.first { it.customVolume == 37 }
+                    val state = viewModel.settingsState.first { it.customVolumes[2] == 37 }
                     assertEquals(listOf("card_b", "card_a", "card_c", "card_d"), state.homeCardOrder)
                     assertEquals(state, repository.settingsFlow.first())
                 } finally {

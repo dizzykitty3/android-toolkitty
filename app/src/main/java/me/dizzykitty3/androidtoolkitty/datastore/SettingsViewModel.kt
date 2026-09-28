@@ -10,6 +10,8 @@ import kotlinx.coroutines.launch
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import javax.inject.Inject
+import java.io.IOException
+import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
 
 val LocalSettingsViewModel = staticCompositionLocalOf<SettingsViewModel> {
     error("No SettingsViewModel provided")
@@ -19,6 +21,8 @@ val LocalSettingsViewModel = staticCompositionLocalOf<SettingsViewModel> {
 class SettingsViewModel @Inject constructor(
     private val repository: SettingsRepository
 ) : ViewModel() {
+
+    val persistedSettings = repository.settingsFlow
 
     val settingsState = repository.settingsFlow.stateIn(
         scope = viewModelScope,
@@ -78,12 +82,15 @@ class SettingsViewModel @Inject constructor(
         updateSettings { updateLongitude(longitude) }
     }
 
-    fun toggleHaveTappedAddButton(haveTapped: Boolean) {
-        updateSettings { toggleHaveTappedAddButton(haveTapped) }
-    }
-
-    fun updateCustomVolume(value: Int) {
-        updateSettings { updateCustomVolume(value) }
+    fun updateCustomVolume(slot: Int, value: Int, maxVolume: Int, onResult: (VolumeSaveResult) -> Unit = {}) {
+        viewModelScope.launch {
+            val result = try {
+                repository.updateCustomVolume(slot, value, maxVolume)
+            } catch (_: IOException) {
+                VolumeSaveResult.FAILED
+            }
+            onResult(result)
+        }
     }
 
     fun increaseVolumeButtonTapCount() {

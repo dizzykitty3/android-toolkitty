@@ -14,7 +14,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
-    private val Context.dataStore by preferencesDataStore(name = "settings")
+    private val Context.dataStore by preferencesDataStore(
+        name = "settings",
+        produceMigrations = { listOf(RemoveVolumeIntroMigration) },
+    )
 
     @Provides
     @Singleton

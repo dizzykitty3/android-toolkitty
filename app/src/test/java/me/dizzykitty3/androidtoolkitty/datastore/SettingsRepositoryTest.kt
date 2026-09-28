@@ -74,7 +74,7 @@ class SettingsRepositoryTest {
         val repository = SettingsRepository(dataStore)
         val defaults = listOf("card_a", "card_b", "card_c", "card_new")
         repository.saveShownState("card_b", false)
-        repository.updateCustomVolume(45)
+        repository.updateCustomVolume(2, 45, 100)
 
         repository.moveHomeCard("card_new", -1, defaults)
 
@@ -83,7 +83,7 @@ class SettingsRepositoryTest {
         assertEquals(expected, settings.homeCardOrder)
         assertEquals(expected.joinToString(","), dataStore.data.first()[orderKey])
         assertFalse(settings.isShown("card_b"))
-        assertEquals(45, settings.customVolume)
+        assertEquals(45, settings.customVolumes[2])
 
         // A second move must use the repaired stored order, not the old or default order.
         repository.moveHomeCard("card_new", -1, defaults)
@@ -182,11 +182,11 @@ class SettingsRepositoryTest {
         repository.setSearchEngine(SearchEngine.ECOSIA)
         repository.setVideoSearchEngine(VideoSearchEngine.BILIBILI)
         repository.saveShownState("card_search", false)
-        repository.updateCustomVolume(42)
+        repository.updateCustomVolume(2, 42, 100)
         repository.increaseVolumeButtonTapCount()
         repository.increaseVolumeButtonTapCount()
 
-        val settings = repository.settingsFlow.first { it.customVolume == 42 }
+        val settings = repository.settingsFlow.first { it.customVolumes[2] == 42 }
         assertFalse(settings.dynamicColor)
         assertEquals(SearchEngine.ECOSIA, settings.searchEngine)
         assertEquals(VideoSearchEngine.BILIBILI, settings.videoSearchEngine)
@@ -207,7 +207,7 @@ class SettingsRepositoryTest {
 
         val settings = repository.settingsFlow.first { it.doNotRememberLastSearch }
         assertEquals("", settings.typingContents)
-        assertNull(settings.customVolume)
+        assertNull(settings.customVolumes[2])
     }
 
     @Test
@@ -228,7 +228,7 @@ class SettingsRepositoryTest {
         val settings = repository.settingsFlow.first()
         assertEquals(UserSettings.default().searchEngine, settings.searchEngine)
         assertEquals(UserSettings.default().videoSearchEngine, settings.videoSearchEngine)
-        assertNull(settings.customVolume)
+        assertNull(settings.customVolumes[2])
         assertFalse(settings.isShown("card_search"))
         assertEquals(
             mapOf("card_search" to false, "setting_theme" to true),
@@ -293,14 +293,12 @@ class SettingsRepositoryTest {
         repository.updateLastSelectedPlatformIndex(4)
         repository.updateLatitude("25.0330")
         repository.updateLongitude("121.5654")
-        repository.toggleHaveTappedAddButton(true)
         repository.updateWheelOfFortuneItems(wheelItems)
 
         val settings = repository.settingsFlow.first { it.wheelOfFortuneItems == wheelItems }
         assertEquals(4, settings.lastSelectedPlatformIndex)
         assertEquals("25.0330", settings.latitude)
         assertEquals("121.5654", settings.longitude)
-        assertEquals(true, settings.haveTappedAddButton)
         assertEquals(wheelItems, settings.wheelOfFortuneItems)
     }
 
@@ -335,14 +333,14 @@ class SettingsRepositoryTest {
         val expected = UserSettings.default().copy(
             searchEngine = SearchEngine.ECOSIA,
             typingContents = "saved search",
-            customVolume = 42,
+            customVolumes = listOf(null, null, 42),
             shownItemStates = mapOf("card_search" to false),
             homeCardOrder = listOf("card_maps", "card_search"),
         )
         try {
             repository.setSearchEngine(SearchEngine.ECOSIA)
             repository.updateTypingContents("saved search")
-            repository.updateCustomVolume(42)
+            repository.updateCustomVolume(2, 42, 100)
             repository.moveHomeCard("card_maps", -1, listOf("card_search", "card_maps"))
             repository.saveShownState("card_search", false)
         } finally {
@@ -415,11 +413,11 @@ class SettingsRepositoryTest {
         val repository = SettingsRepository(dataStore)
         val expected = UserSettings.default().copy(
             shownItemStates = mapOf("card_b" to false),
-            customVolume = 45,
+            customVolumes = listOf(null, null, 45),
         )
         try {
             repository.saveShownState("card_b", false)
-            repository.updateCustomVolume(45)
+            repository.updateCustomVolume(2, 45, 100)
             repository.moveHomeCard("card_c", -1, listOf("card_a", "card_b", "card_c"))
             assertEquals(listOf("card_c", "card_b", "card_a"), repository.settingsFlow.first().homeCardOrder)
 
