@@ -76,6 +76,12 @@ android {
     testOptions {
         unitTests {
             isIncludeAndroidResources = true
+            all {
+                // Robolectric loads a separate Android runtime for each tested SDK.
+                it.maxHeapSize = "2g"
+                it.maxParallelForks = 1
+                it.forkEvery = 10
+            }
         }
     }
 }

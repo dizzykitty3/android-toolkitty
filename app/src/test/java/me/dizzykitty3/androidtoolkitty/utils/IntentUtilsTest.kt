@@ -141,6 +141,31 @@ class IntentUtilsTest {
     }
 
     @Test
+    @Config(sdk = [32])
+    fun appLanguageSettings_beforeAndroid13_doesNotLaunchActivity() {
+        val activity = activity()
+
+        activity.openAppLanguageSetting()
+
+        assertNull(shadowOf(activity).nextStartedActivity)
+        assertEquals(0, ShadowToast.shownToastCount())
+    }
+
+    @Test
+    @Config(sdk = [33])
+    fun appLanguageSettings_onAndroid13_opensSettingsForCurrentPackage() {
+        val activity = activity()
+
+        activity.openAppLanguageSetting()
+
+        val intent = requireNotNull(shadowOf(activity).nextStartedActivity)
+        assertEquals(android.provider.Settings.ACTION_APP_LOCALE_SETTINGS, intent.action)
+        assertEquals(Uri.parse("package:${activity.packageName}"), intent.data)
+        assertEquals(Intent.FLAG_ACTIVITY_NEW_TASK, intent.flags)
+        assertNull(shadowOf(activity).nextStartedActivity)
+    }
+
+    @Test
     fun appSettingsActions_useTheCurrentApplicationPackage() {
         val detailActivity = activity()
         detailActivity.openAppDetailSettings()
