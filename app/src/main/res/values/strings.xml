@@ -1,4 +1,5 @@
 <resources>
+    <string name="scroll_to_top">Back to top</string>
     <!-- Common -->
     <string name="edit">Edit</string>
     <string name="visit">Visit</string>
