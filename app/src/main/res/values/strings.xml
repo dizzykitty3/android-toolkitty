@@ -16,11 +16,11 @@
     <string name="off_all_cap">OFF</string>
     <string name="refresh">Refresh</string>
     <string name="settings">Settings</string>
-    <string name="error">error</string>
-    <string name="result">result =</string>
+    <string name="error">Error</string>
+    <string name="result">Result:</string>
     <string name="permissions">Permissions</string>
     <string name="general">General</string>
-    <string name="back">back</string>
+    <string name="back">Back</string>
     <string name="save">Save</string>
     <string name="not_set_up">Not set up yet.</string>
 
@@ -30,7 +30,7 @@
     <string name="cellular">Cellular</string>
     <string name="offline">Offline</string>
     <string name="audio_devices_connected">Audio devices connected</string>
-    <string name="debug_build_top_tip">Debug build. Expect some bugs and worse performance.</string>
+    <string name="debug_build_top_tip">Debug build. Bugs and slower performance are expected.</string>
 
     <!-- Home > Year progress -->
     <string name="year_progress">Year progress</string>
@@ -67,18 +67,18 @@
 
     <!-- Home > Search -->
     <string name="url">URL</string>
-    <string name="url_input_hint_1">Visit webpage without inputting</string>
+    <string name="url_input_hint_1">Open a website without typing</string>
     <string name="url_input_hint_2">and</string>
     <string name="url_input_hint_3">(or</string>
     <string name="url_input_hint_4">, etc.)</string>
-    <string name="social_finder">Social finder</string>
+    <string name="social_finder">Social profiles</string>
     <string name="platform">Platform</string>
     <string name="username">Username</string>
     <string name="bilibili_search">bilibili (Search)</string>
     <string name="github">GitHub</string>
     <string name="x">X</string>
     <string name="weibo_username">Weibo (Username)</string>
-    <string name="youtube_handle">YouTube (User custom URL)</string>
+    <string name="youtube_handle">YouTube (handle)</string>
     <string name="pixiv_artwork_id">pixiv (Artwork ID)</string>
     <string name="pixiv_uuid">pixiv (UUID)</string>
     <string name="v2ex">V2EX</string>
@@ -105,7 +105,7 @@
     <string name="skeb">Skeb</string>
     <string name="potofu">POTOFU</string>
     <string name="bluesky">Bluesky</string>
-    <string name="query">Query</string>
+    <string name="query">Search query</string>
     <string name="lit_link">Lit.Link</string>
     <string name="wavebox">Wavebox</string>
     <string name="carrd">Carrd</string>
@@ -129,10 +129,10 @@
     <string name="invalid_username_common_rule">Username for %1$s should only contain letters, numbers, and
         underscores.
     </string>
-    <string name="check_app_on_market">Check app on market</string>
-    <string name="package_name_or_search">Package name or search</string>
+    <string name="check_app_on_market">Find apps</string>
+    <string name="package_name_or_search">Package name or search term</string>
     <string name="open_on_google_play">Google Play</string>
-    <string name="open_on_other_markets">Other markets</string>
+    <string name="open_on_other_markets">Other app stores</string>
     <string name="youtube_serach">YouTube (Search)</string>
     <string name="bahamut">Bahamut</string>
     <string name="afdian">Afdian</string>
@@ -144,7 +144,7 @@
     <string name="weibo_uuid">Weibo (UUID)</string>
     <string name="steam_search_store">Steam (Search store)</string>
     <string name="bilibili_bv_id">bilibili (bv id)</string>
-    <string name="invalid_username_numbers_only">Username for %1$s should only contain numbers.</string>
+    <string name="invalid_username_numbers_only">Enter a numeric ID for %1$s.</string>
     <string name="invalid_username_tip">Invalid username.</string>
     <string name="google_issue_tracker">Google Issue Tracker</string>
     <string name="chromium_issue_tracker">Chromium Issue Tracker</string>
@@ -176,10 +176,10 @@
     <string name="time_zone">Time zone</string>
     <string name="customize_system_shortcuts">Customize system shortcuts</string>
     <string name="hide_all_options">Hide all options</string>
-    <string name="sys_settings_tip">Up to 4 options you can pin on Home screen</string>
+    <string name="sys_settings_tip">Pin up to 4 shortcuts to your home screen</string>
     <string name="device_and_app_notifications">Notification read, reply &amp; control</string>
     <string name="do_not_disturb_access">Modes access</string>
-    <string name="oem_removed">The OEM (%s) has removed this page</string>
+    <string name="oem_removed">Unable to open this page on your %1$s device.</string>
     <string name="install_unknown_apps">Install unknown apps</string>
     <string name="alarms_n_reminders">Alarms &amp; reminders</string>
     <string name="media_management">Media management apps</string>
@@ -208,7 +208,7 @@
 
     <!-- Home > Wheel of fortune -->
     <string name="wheel_of_fortune">Wheel of Fortune</string>
-    <string name="item">item</string>
+    <string name="item">Item</string>
 
     <!-- Home > Bluetooth devices -->
     <string name="bluetooth_devices">Bluetooth devices</string>
@@ -217,24 +217,24 @@
     <string name="paired_devices">Paired devices:</string>
     <string name="no_paired_devices">No paired devices</string>
     <string name="unknown_device">Unknown device</string>
-    <string name="no_bluetooth_adapter_available">No Bluetooth Adapter available.</string>
+    <string name="no_bluetooth_adapter_available">No Bluetooth adapter available.</string>
 
     <!-- Home > Encoding -->
     <string name="unicode">Unicode</string>
-    <string name="unicode_input_hint">Last 4 digits of each, e.g.</string>
+    <string name="unicode_input_hint">Enter four hexadecimal digits per UTF-16 code unit, e.g.</string>
     <string name="character">Character</string>
     <string name="copied">copied</string>
     <string name="convert">Convert</string>
     <string name="ascii">ASCII</string>
     <string name="convert_to_ascii_values">Convert to ASCII values</string>
-    <string name="codes_of_characters">Codes of Characters</string>
-    <string name="unix_timestamp">Unix Timestamp</string>
+    <string name="codes_of_characters">Character codes</string>
+    <string name="unix_timestamp">Unix timestamp</string>
     <string name="current_unix_timestamp_in_seconds">Current Unix timestamp in seconds:</string>
 
     <!-- Home > Maps -->
     <string name="maps">Maps</string>
-    <string name="latitude">latitude</string>
-    <string name="longitude">longitude</string>
+    <string name="latitude">Latitude</string>
+    <string name="longitude">Longitude</string>
     <string name="google_maps_not_installed">Google Maps is not installed</string>
     <string name="google_play_not_installed">Google Play is not installed</string>
     <string name="latitude_description">-90° to +90°</string>
@@ -242,7 +242,7 @@
     <string name="google_maps">Google Maps</string>
 
     <!-- Home > Font weight -->
-    <string name="font_weight_test">Font Weight Test</string>
+    <string name="font_weight_test">Font weight test</string>
     <string name="w1">100 Thin</string>
     <string name="w2">200 ExtraLight</string>
     <string name="w3">300 Light</string>
@@ -262,7 +262,7 @@
     <string name="compose">Compose</string>
 
     <!-- Home > Haptic -->
-    <string name="haptic_test">Haptic Test</string>
+    <string name="haptic_test">Haptic test</string>
 
     <!-- Settings > Appearance -->
     <string name="appearance">Appearance</string>
@@ -278,15 +278,15 @@
 
     <!-- Settings > App info -->
     <string name="view_source_code">Source code</string>
-    <string name="licenses">Licenses</string>
+    <string name="licenses">Open source licenses</string>
     <string name="app_info">App info</string>
     <string name="app_settings">App settings</string>
-    <string name="log_outputs">Log outputs</string>
+    <string name="log_outputs">Enable logging</string>
 
     <!-- Permission request -->
     <string name="request_permission">Request permission</string>
     <string name="bluetooth_connect">To check paired bluetooth devices, grant the Nearby Devices permission.</string>
-    <string name="missed_sys_popup">Missed the system permission popup?</string>
+    <string name="missed_sys_popup">Permission dialog not showing?</string>
     <string name="home_card_order_hint">Use the arrows to reorder cards. Changes are saved automatically.</string>
     <string name="move_card_up">Move %1$s up</string>
     <string name="move_card_down">Move %1$s down</string>
