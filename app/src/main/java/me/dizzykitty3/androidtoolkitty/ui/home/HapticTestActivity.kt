@@ -15,7 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 
 @AndroidEntryPoint
@@ -39,7 +39,7 @@ class HapticTestActivity : ComponentActivity() {
 
 @Composable
 private fun HapticTestComposable() {
-    BaseCard(R.string.haptic_test) {
+    Section {
         val haptic = LocalHapticFeedback.current
         TextButton(onClick = { haptic.performHapticFeedback(HapticFeedbackType.Confirm) }) { Text("Confirm") }
         TextButton(onClick = { haptic.performHapticFeedback(HapticFeedbackType.ContextClick) }) {

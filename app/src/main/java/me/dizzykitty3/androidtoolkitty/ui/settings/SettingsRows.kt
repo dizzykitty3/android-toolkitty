@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeightIn
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material3.Icon
@@ -22,35 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.IconAndTextPadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
+import androidx.compose.ui.unit.dp
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 
 @Composable
-internal fun SettingsSection(@StringRes title: Int? = null, content: @Composable () -> Unit) {
-    val horizontalPadding = dimensionResource(R.dimen.padding_card_content)
-    Column(Modifier.fillMaxWidth()) {
-        if (title != null) Text(
-            text = stringResource(title),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier
-                .padding(horizontal = horizontalPadding, vertical = dimensionResource(R.dimen.padding_tip))
-                .semantics { heading() },
-        )
-        Surface(
-            shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
-            color = MaterialTheme.colorScheme.surfaceBright,
-            contentColor = MaterialTheme.colorScheme.onSurface,
-        ) {
-            Column(Modifier.fillMaxWidth().padding(horizontal = horizontalPadding)) {
-                content()
-            }
-        }
-    }
-}
+internal fun SettingsSection(@StringRes title: Int? = null, content: @Composable () -> Unit) =
+    Section(title = title, verticalPadding = 0.dp, content = content)
 
 @Composable
 internal fun SettingsLinkRow(

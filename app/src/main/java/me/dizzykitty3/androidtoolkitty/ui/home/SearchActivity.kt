@@ -39,7 +39,7 @@ import me.dizzykitty3.androidtoolkitty.HTTPS
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
@@ -69,11 +69,11 @@ class SearchActivity : ComponentActivity() {
                     title = R.string.search,
                     dynamicColor = state.dynamicColor
                 ) {
-                    BaseCard(R.string.webpage) { Webpage() }
+                    Section(R.string.webpage) { Webpage() }
                     CardSpacePadding()
-                    BaseCard(R.string.social_finder) { SocialMediaProfile() }
+                    Section(R.string.social_finder) { SocialMediaProfile() }
                     CardSpacePadding()
-                    BaseCard(R.string.check_app_on_market) { CheckAppOnMarket() }
+                    Section(R.string.check_app_on_market) { CheckAppOnMarket() }
                 }
             }
         }

@@ -16,7 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableBoldText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableItalicText
@@ -36,11 +36,11 @@ class AndroidVersionsActivity : ComponentActivity() {
                 title = R.string.android_versions,
                 dynamicColor = state.dynamicColor
             ) {
-                BaseCard(title = R.string.latest_version) {
+                Section(title = R.string.latest_version) {
                     LatestVersion()
                 }
                 CardSpacePadding()
-                BaseCard(title = R.string.older_releases) {
+                Section(title = R.string.older_releases) {
                     OlderReleases()
                 }
             }

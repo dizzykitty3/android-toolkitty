@@ -23,7 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils
@@ -41,11 +41,11 @@ class FontWeightTestActivity : ComponentActivity() {
                 title = R.string.font_weight_test,
                 dynamicColor = state.dynamicColor
             ) {
-                BaseCard("Font weight test 1") { FontWeightTest() }
+                Section("Font weight test 1") { FontWeightTest() }
                 CardSpacePadding()
-                BaseCard("Font weight test 2") { RowFontWeightTest() }
+                Section("Font weight test 2") { RowFontWeightTest() }
                 CardSpacePadding()
-                BaseCard("Font family test") { FontFamilyTest() }
+                Section("Font family test") { FontFamilyTest() }
             }
         }
     }

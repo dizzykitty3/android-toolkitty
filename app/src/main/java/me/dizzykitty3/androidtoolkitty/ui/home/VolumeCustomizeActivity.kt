@@ -31,7 +31,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
@@ -86,7 +86,7 @@ private fun VolumeCustomizeComposable() {
     }
     sliderState.value = newCustomVolume
 
-    BaseCard(R.string.edit) {
+    Section {
         Slider(
             state = sliderState,
             onValueChange = {

@@ -33,7 +33,7 @@ import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Setting
 import me.dizzykitty3.androidtoolkitty.home.availableSystemSettings
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
@@ -73,7 +73,7 @@ private fun SystemShortcutsComposable() {
     val debuggingStartIndex = settings.indexOfFirst { it.settingType == S_ACCESSIBILITY } + 1
     val settingsEndIndex = settings.size
 
-    BaseCard(R.string.device_info) {
+    Section(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
             LabelAndValueTextRow(R.string.manufacturer, StringUtils.manufacturer)
             LabelAndValueTextRow(R.string.model, StringUtils.model)
@@ -117,7 +117,7 @@ private fun SystemSettingsGroup(
     @StringRes title: Int,
     settings: List<Setting>,
 ) {
-    BaseCard(title) {
+    Section(title) {
         settings.forEach { setting ->
             SystemSettingButton(setting.settingType, setting.title)
         }

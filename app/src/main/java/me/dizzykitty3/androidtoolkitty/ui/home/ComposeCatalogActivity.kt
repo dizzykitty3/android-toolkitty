@@ -25,8 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.GroupTitleNoColor
-import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 
 @AndroidEntryPoint
@@ -50,9 +49,7 @@ class ComposeCatalogActivity : ComponentActivity() {
 
 @Composable
 private fun ComposeCatalogComposable() {
-    Column(Modifier.fillMaxWidth()) {
-        GroupTitleNoColor("Typography")
-        SpacerPadding()
+    Section("Typography") {
         Text("Display Large", style = MaterialTheme.typography.displayLarge)
         HorizontalDivider()
         Text("Display Medium", style = MaterialTheme.typography.displayMedium)
@@ -83,8 +80,9 @@ private fun ComposeCatalogComposable() {
         HorizontalDivider()
         Text("Label Small", style = MaterialTheme.typography.labelSmall)
 
-        CardSpacePadding()
-        GroupTitleNoColor("Color Scheme")
+    }
+    CardSpacePadding()
+    Section("Color scheme") {
         Color(MaterialTheme.colorScheme.primary, "primary")
         Color(MaterialTheme.colorScheme.primaryContainer, "primaryContainer")
         Color(MaterialTheme.colorScheme.inversePrimary, "inversePrimary")
@@ -110,7 +108,6 @@ private fun ComposeCatalogComposable() {
         Color(MaterialTheme.colorScheme.surfaceContainerLow, "surfaceContainerLow")
         Color(MaterialTheme.colorScheme.surfaceContainerLowest, "surfaceContainerLowest")
 
-        CardSpacePadding()
     }
 }
 

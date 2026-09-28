@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Unicode
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
@@ -47,11 +47,11 @@ class CodesOfCharactersActivity : ComponentActivity() {
                 title = R.string.codes_of_characters,
                 dynamicColor = state.dynamicColor
             ) {
-                BaseCard(R.string.unicode) { Unicode() }
+                Section(R.string.unicode) { Unicode() }
                 CardSpacePadding()
-                BaseCard(R.string.ascii) { ASCII() }
+                Section(R.string.ascii) { ASCII() }
                 CardSpacePadding()
-                BaseCard(R.string.unix_timestamp) { UnixTimestamp() }
+                Section(R.string.unix_timestamp) { UnixTimestamp() }
             }
         }
     }
