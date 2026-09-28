@@ -15,8 +15,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material.icons.outlined.Visibility
-import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +39,6 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.homeCardDefinitions
 import me.dizzykitty3.androidtoolkitty.ui.home.orderedHomeCards
 import me.dizzykitty3.androidtoolkitty.ui.home.visibleHomeCards
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
@@ -73,9 +70,10 @@ private fun CustomizeHomeComposable() {
     val state by vm.settingsState.collectAsStateWithLifecycle()
     var orderMode by rememberSaveable { mutableStateOf(false) }
 
-    BaseCard(R.string.customize_home) {
+    SettingsSection {
         val haptic = LocalHapticFeedback.current
 
+        SpacerPadding()
         SingleChoiceSegmentedButtonRow(
             modifier = Modifier.fillMaxWidth(),
             space = SegmentedButtonDefaults.BorderWidth,
@@ -164,12 +162,6 @@ private fun CustomizeHomeComposable() {
                     homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, false) }
                 }
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.VisibilityOff,
-                    contentDescription = stringResource(R.string.hide_all_cards),
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
-                SpacerPadding()
                 Text(stringResource(R.string.hide_all_cards))
             }
 
@@ -179,14 +171,9 @@ private fun CustomizeHomeComposable() {
                     homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, true) }
                 }
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Visibility,
-                    contentDescription = stringResource(R.string.show_all_cards),
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
-                SpacerPadding()
                 Text(stringResource(R.string.show_all_cards))
             }
         }
+        SpacerPadding()
     }
 }

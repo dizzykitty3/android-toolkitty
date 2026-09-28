@@ -29,10 +29,10 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.IconAndTextPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 
 @Composable
-internal fun SettingsSection(@StringRes title: Int, content: @Composable () -> Unit) {
+internal fun SettingsSection(@StringRes title: Int? = null, content: @Composable () -> Unit) {
     val horizontalPadding = dimensionResource(R.dimen.padding_card_content)
     Column(Modifier.fillMaxWidth()) {
-        Text(
+        if (title != null) Text(
             text = stringResource(title),
             style = MaterialTheme.typography.titleSmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,

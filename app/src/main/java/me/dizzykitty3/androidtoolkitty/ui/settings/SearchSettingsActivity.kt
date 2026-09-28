@@ -8,7 +8,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
@@ -66,7 +64,7 @@ private fun SearchSettings() {
     val haptic = LocalHapticFeedback.current
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-    BaseCard(R.string.search_engine) {
+    SettingsSection(R.string.search_engine) {
         SearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
@@ -77,7 +75,7 @@ private fun SearchSettings() {
     }
 
     CardSpacePadding()
-    BaseCard(R.string.video_search_engine) {
+    SettingsSection(R.string.video_search_engine) {
         VideoSearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
@@ -88,7 +86,7 @@ private fun SearchSettings() {
     }
 
     CardSpacePadding()
-    BaseCard(R.string.search_preferences) {
+    SettingsSection(R.string.search_preferences) {
         CustomSwitchRow(
             title = R.string.do_not_remember_last_search,
             checked = state.doNotRememberLastSearch,
@@ -122,8 +120,7 @@ private fun SettingsRadioRow(
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                         onClick()
                     },
-                )
-                .padding(horizontal = dimensionResource(R.dimen.padding_card_content)),
+                ),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(stringResource(title))
