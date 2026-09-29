@@ -18,12 +18,12 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.uicomponents.SystemSettingButton
+import me.dizzykitty3.androidtoolkitty.uicomponents.SystemShortcutButton
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
 @Composable
-fun SysSettings() {
+fun SystemShortcuts() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     val vm = LocalSettingsViewModel.current
@@ -37,19 +37,19 @@ fun SysSettings() {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(SystemShortcutsActivity::class.java)
         }) {
-        val settings = availableSystemSettings()
-        val shownSettings = settings.filter { setting ->
-            state.isShown(setting.settingType)
+        val shortcuts = availableSystemShortcuts()
+        val shownShortcuts = shortcuts.filter { shortcut ->
+            state.isShown(shortcut.shortcutType)
         }
 
         if (!context.checkIsAutoTime()) Tip(R.string.auto_set_time_is_off_tip)
 
-        if (shownSettings.isEmpty()) {
+        if (shownShortcuts.isEmpty()) {
             Text(buildAnnotatedString { ItalicText(R.string.no_options_enabled) })
         } else {
-            shownSettings.take(4).forEach { setting ->
-                SystemSettingButton(
-                    setting.settingType, setting.title
+            shownShortcuts.take(4).forEach { shortcut ->
+                SystemShortcutButton(
+                    shortcut.shortcutType, shortcut.title
                 )
             }
         }

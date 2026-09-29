@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.TheWheel
+import me.dizzykitty3.androidtoolkitty.home.WheelOfFortuneContent
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 
@@ -30,7 +30,7 @@ class WheelOfFortuneActivity : ComponentActivity() {
                     title = R.string.wheel_of_fortune,
                     dynamicColor = state.dynamicColor
                 ) {
-                    Section { TheWheel(true) }
+                    Section { WheelOfFortuneContent(true) }
                 }
             }
         }

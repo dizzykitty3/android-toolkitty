@@ -12,7 +12,7 @@ A minimalist, hobby-driven toolkit app designed for Android developers.
 ## Features
 
 * **Auto-Clear Clipboard**
-* **System Shortcuts**: Quick navigation to deep system settings (e.g., Developer Options, Install Unknown Apps, ...)
+* **System shortcuts**: Quick navigation to deep system settings (e.g., Developer Options, Install Unknown Apps, ...)
 * **Social profiles**: Open social media profiles using a username, handle, or numeric ID
 * **Year Progress**
 * **Dev References**: Android API versions, device info, connected devices, ...

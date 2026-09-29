@@ -19,7 +19,7 @@ import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
 import org.junit.Assert.assertEquals
@@ -181,10 +181,10 @@ class IntentUtilsTest {
     }
 
     @Test
-    fun openSystemSettings_delegatesToTheResolvedSettingsIntent() {
+    fun openSystemShortcut_delegatesToTheResolvedSettingsIntent() {
         val activity = activity()
 
-        activity.openSystemSettings(S_DISPLAY)
+        activity.openSystemShortcut(S_DISPLAY)
 
         assertEquals(
             android.provider.Settings.ACTION_DISPLAY_SETTINGS,

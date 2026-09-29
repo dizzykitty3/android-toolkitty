@@ -35,7 +35,7 @@ import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.toASCII
 
 @AndroidEntryPoint
-class CodesOfCharactersActivity : ComponentActivity() {
+class CharacterCodesActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -44,7 +44,7 @@ class CodesOfCharactersActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             ToolkitScreen(
-                title = R.string.codes_of_characters,
+                title = R.string.character_codes,
                 dynamicColor = state.dynamicColor
             ) {
                 Section(R.string.unicode) { Unicode() }

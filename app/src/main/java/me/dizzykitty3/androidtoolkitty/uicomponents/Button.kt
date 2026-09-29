@@ -17,11 +17,11 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 
 @Composable
-fun SystemSettingButton(
-    settingType: String,
+fun SystemShortcutButton(
+    shortcutType: String,
     @StringRes text: Int,
 ) {
     val view = LocalView.current
@@ -29,7 +29,7 @@ fun SystemSettingButton(
 
     TextButton({
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-        view.context.openSystemSettings(settingType)
+        view.context.openSystemShortcut(shortcutType)
     }) {
         Text(stringResource(text))
 

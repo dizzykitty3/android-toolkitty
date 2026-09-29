@@ -7,13 +7,13 @@ import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
 import me.dizzykitty3.androidtoolkitty.datastore.normalizedHomeCardOrder
 import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
 import me.dizzykitty3.androidtoolkitty.home.Clipboard
-import me.dizzykitty3.androidtoolkitty.home.CodesOfCharacters
+import me.dizzykitty3.androidtoolkitty.home.CharacterCodes
 import me.dizzykitty3.androidtoolkitty.home.ComposeCatalog
 import me.dizzykitty3.androidtoolkitty.home.FontWeight
 import me.dizzykitty3.androidtoolkitty.home.HapticFeedback
 import me.dizzykitty3.androidtoolkitty.home.Maps
 import me.dizzykitty3.androidtoolkitty.home.Search
-import me.dizzykitty3.androidtoolkitty.home.SysSettings
+import me.dizzykitty3.androidtoolkitty.home.SystemShortcuts
 import me.dizzykitty3.androidtoolkitty.home.Volume
 import me.dizzykitty3.androidtoolkitty.home.WheelOfFortune
 import me.dizzykitty3.androidtoolkitty.home.YearProgress
@@ -24,6 +24,7 @@ import me.dizzykitty3.androidtoolkitty.home.YearProgress
  * Keeping the id and the UI together prevents a new card from requiring
  * changes in several unrelated places.
  */
+// Preference keys are stable storage identifiers; retain them to preserve saved visibility and order.
 enum class HomeCardId(
     val preferenceKey: String,
     @param:StringRes val title: Int,
@@ -32,10 +33,10 @@ enum class HomeCardId(
     VOLUME("card_volume", R.string.volume),
     CLIPBOARD("card_clipboard", R.string.clipboard),
     SEARCH("card_webpage", R.string.search),
-    SYSTEM_SETTINGS("card_sys_setting", R.string.system_shortcuts),
+    SYSTEM_SHORTCUTS("card_sys_setting", R.string.system_shortcuts),
     WHEEL_OF_FORTUNE("card_wheel_of_fortune", R.string.wheel_of_fortune),
     BLUETOOTH_DEVICE("card_bluetooth_device", R.string.bluetooth_devices),
-    CHARACTER_CODES("card_unicode", R.string.codes_of_characters),
+    CHARACTER_CODES("card_unicode", R.string.character_codes),
     MAPS("card_google_maps", R.string.maps),
     FONT_WEIGHT("card_font_weight", R.string.font_weight_test),
     COMPOSE_CATALOG("card_compose_catalog", R.string.compose),
@@ -52,10 +53,10 @@ val homeCardDefinitions = listOf(
     HomeCardDefinition(HomeCardId.VOLUME) { Volume() },
     HomeCardDefinition(HomeCardId.CLIPBOARD) { Clipboard() },
     HomeCardDefinition(HomeCardId.SEARCH) { Search() },
-    HomeCardDefinition(HomeCardId.SYSTEM_SETTINGS) { SysSettings() },
+    HomeCardDefinition(HomeCardId.SYSTEM_SHORTCUTS) { SystemShortcuts() },
     HomeCardDefinition(HomeCardId.WHEEL_OF_FORTUNE) { WheelOfFortune() },
     HomeCardDefinition(HomeCardId.BLUETOOTH_DEVICE) { BluetoothDevice() },
-    HomeCardDefinition(HomeCardId.CHARACTER_CODES) { CodesOfCharacters() },
+    HomeCardDefinition(HomeCardId.CHARACTER_CODES) { CharacterCodes() },
     HomeCardDefinition(HomeCardId.MAPS) { Maps() },
     HomeCardDefinition(HomeCardId.FONT_WEIGHT) { FontWeight() },
     HomeCardDefinition(HomeCardId.COMPOSE_CATALOG) { ComposeCatalog() },

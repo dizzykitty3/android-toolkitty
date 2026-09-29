@@ -154,7 +154,7 @@
     <string name="chromium_issue_tracker">Chromium Issue Tracker</string>
     <string name="stack_overflow">Stack Overflow</string>
 
-    <!-- Home > System settings-->
+    <!-- Home > System shortcuts -->
     <string name="display_settings">Display &amp; touch</string>
     <string name="auto_rotate_settings">Auto-rotate screen</string>
     <string name="language_settings">Language &amp; region</string>
@@ -180,7 +180,7 @@
     <string name="time_zone">Time zone</string>
     <string name="customize_system_shortcuts">Customize system shortcuts</string>
     <string name="hide_all_options">Hide all options</string>
-    <string name="sys_settings_tip">Pin up to 4 shortcuts to your home screen</string>
+    <string name="system_shortcuts_tip">Pin up to 4 shortcuts to your home screen</string>
     <string name="device_and_app_notifications">Notification read, reply &amp; control</string>
     <string name="do_not_disturb_access">Modes access</string>
     <string name="oem_removed">Unable to open this page on your %1$s device.</string>
@@ -207,11 +207,11 @@
     <string name="android_versions">Android versions</string>
     <string name="latest_version">Latest version</string>
     <string name="older_releases">Older releases</string>
-    <string name="system_shortcuts">System Shortcuts</string>
+    <string name="system_shortcuts">System shortcuts</string>
     <string name="internet">Internet</string>
 
     <!-- Home > Wheel of fortune -->
-    <string name="wheel_of_fortune">Wheel of Fortune</string>
+    <string name="wheel_of_fortune">Wheel of fortune</string>
     <string name="item">Item</string>
 
     <!-- Home > Bluetooth devices -->
@@ -223,7 +223,7 @@
     <string name="unknown_device">Unknown device</string>
     <string name="no_bluetooth_adapter_available">No Bluetooth adapter available.</string>
 
-    <!-- Home > Encoding -->
+    <!-- Home > Character codes -->
     <string name="unicode">Unicode</string>
     <string name="unicode_input_hint">Enter four hexadecimal digits per UTF-16 code unit, e.g.</string>
     <string name="character">Character</string>
@@ -231,7 +231,7 @@
     <string name="convert">Convert</string>
     <string name="ascii">ASCII</string>
     <string name="convert_to_ascii_values">Convert to ASCII values</string>
-    <string name="codes_of_characters">Character codes</string>
+    <string name="character_codes">Character codes</string>
     <string name="unix_timestamp">Unix timestamp</string>
     <string name="current_unix_timestamp_in_seconds">Current Unix timestamp in seconds:</string>
 

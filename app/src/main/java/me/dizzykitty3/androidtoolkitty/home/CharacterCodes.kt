@@ -24,7 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.ui.home.CodesOfCharactersActivity
+import me.dizzykitty3.androidtoolkitty.ui.home.CharacterCodesActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
@@ -35,16 +35,16 @@ import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 import timber.log.Timber
 
 @Composable
-fun CodesOfCharacters() {
+fun CharacterCodes() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
-        title = R.string.codes_of_characters,
+        title = R.string.character_codes,
         icon = Icons.AutoMirrored.Outlined.Notes,
         hasShowMore = true,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            context.openScreen(CodesOfCharactersActivity::class.java)
+            context.openScreen(CharacterCodesActivity::class.java)
         }) { Unicode() }
 }
 

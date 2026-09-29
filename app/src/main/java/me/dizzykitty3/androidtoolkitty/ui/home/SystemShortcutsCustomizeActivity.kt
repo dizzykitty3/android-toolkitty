@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.systemSettingDefinitions
+import me.dizzykitty3.androidtoolkitty.home.systemShortcutDefinitions
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsSection
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
@@ -55,16 +55,16 @@ private fun SystemShortcutsPinOptionsComposable() {
         val haptic = LocalHapticFeedback.current
 
         SpacerPadding()
-        Tip(R.string.sys_settings_tip)
+        Tip(R.string.system_shortcuts_tip)
 
-        systemSettingDefinitions.forEach { setting ->
-            if (setting.isAvailable()) {
+        systemShortcutDefinitions.forEach { shortcut ->
+            if (shortcut.isAvailable()) {
                 CustomHideCardSettingSwitch(
-                    text = setting.title,
-                    isChecked = state.isShown(setting.settingType)
+                    text = shortcut.title,
+                    isChecked = state.isShown(shortcut.shortcutType)
                 ) { newState ->
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    vm.saveShownState(setting.settingType, newState)
+                    vm.saveShownState(shortcut.shortcutType, newState)
                 }
             }
         }
@@ -74,8 +74,8 @@ private fun SystemShortcutsPinOptionsComposable() {
         Button(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                systemSettingDefinitions.forEach { setting ->
-                    vm.saveShownState(setting.settingType, false)
+                systemShortcutDefinitions.forEach { shortcut ->
+                    vm.saveShownState(shortcut.shortcutType, false)
                 }
             }) {
             Text(stringResource(R.string.hide_all_options))

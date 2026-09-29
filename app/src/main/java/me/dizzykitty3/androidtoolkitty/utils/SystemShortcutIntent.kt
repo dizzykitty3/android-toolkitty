@@ -35,7 +35,7 @@ import me.dizzykitty3.androidtoolkitty.S_USAGE_ACCESS
 import me.dizzykitty3.androidtoolkitty.S_VPN
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 
-fun systemSettingsIntent(settingType: String): Intent? = when (settingType) {
+fun systemShortcutIntent(shortcutType: String): Intent? = when (shortcutType) {
     S_DISPLAY -> Intent(Settings.ACTION_DISPLAY_SETTINGS)
     S_AUTO_ROTATE -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         Intent(Settings.ACTION_AUTO_ROTATE_SETTINGS)

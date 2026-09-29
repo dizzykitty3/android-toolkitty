@@ -46,7 +46,7 @@ import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
 import me.dizzykitty3.androidtoolkitty.utils.batteryLevel
 import me.dizzykitty3.androidtoolkitty.utils.headsetNotConnected
@@ -84,7 +84,7 @@ fun HomeStatusBar(isTablet: Boolean = false) {
                 text = "$batteryLevel%",
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    view.context.openSystemSettings(S_BATTERY)
+                    view.context.openSystemShortcut(S_BATTERY)
                 }
             )
             SpacerPadding()
@@ -103,7 +103,7 @@ fun HomeStatusBar(isTablet: Boolean = false) {
                 text = stringResource(R.string.audio_devices_connected),
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    view.context.openSystemSettings(S_BLUETOOTH)
+                    view.context.openSystemShortcut(S_BLUETOOTH)
                 }
             )
         }
@@ -199,7 +199,7 @@ private fun NetworkStateIcon(
         text = stringResource(text),
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            view.context.openSystemSettings(S_WIFI)
+            view.context.openSystemShortcut(S_WIFI)
         }
     )
 }

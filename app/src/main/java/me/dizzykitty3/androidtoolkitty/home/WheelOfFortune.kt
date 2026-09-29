@@ -101,12 +101,12 @@ fun WheelOfFortune() {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(WheelOfFortuneActivity::class.java)
         }) {
-        TheWheel()
+        WheelOfFortuneContent()
     }
 }
 
 @Composable
-fun TheWheel(withEditableList: Boolean = false) {
+fun WheelOfFortuneContent(withEditableList: Boolean = false) {
     val viewModel = LocalSettingsViewModel.current
     val settingsState by viewModel.settingsState.collectAsStateWithLifecycle()
     val item = stringResource(R.string.item)

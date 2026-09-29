@@ -100,7 +100,7 @@ private fun General() {
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val haptic = LocalHapticFeedback.current
     val isSearchCardShown = state.isShown(HomeCardId.SEARCH.preferenceKey)
-    val isSystemSettingsCardShown = state.isShown(HomeCardId.SYSTEM_SETTINGS.preferenceKey)
+    val isSystemShortcutsCardShown = state.isShown(HomeCardId.SYSTEM_SHORTCUTS.preferenceKey)
 
     CustomSwitchRow(
         title = R.string.clear_clipboard_on_launch,
@@ -120,7 +120,7 @@ private fun General() {
         )
     }
 
-    if (isSystemSettingsCardShown) {
+    if (isSystemShortcutsCardShown) {
         SettingsLinkRow(
             title = R.string.customize_system_shortcuts,
             onClick = {

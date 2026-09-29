@@ -42,7 +42,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemSettings
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 
 private const val MANUAL_PERMISSION_HINT_THRESHOLD = 2
@@ -78,7 +78,7 @@ fun BluetoothDevice() {
                 }
 
                 // When Bluetooth is OFF
-                view.context.openSystemSettings(S_ENABLE_BLUETOOTH)
+                view.context.openSystemShortcut(S_ENABLE_BLUETOOTH)
             }) {
                 Icon(
                     imageVector = Icons.Outlined.BluetoothConnected,

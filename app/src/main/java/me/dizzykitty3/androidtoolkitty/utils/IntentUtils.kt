@@ -149,9 +149,9 @@ object IntentUtils {
     }
 
     @JvmStatic
-    fun Context.openSystemSettings(settingType: String) {
-        val intent = systemSettingsIntent(settingType) ?: return
-        Timber.d("openSystemSettings: $settingType")
+    fun Context.openSystemShortcut(shortcutType: String) {
+        val intent = systemShortcutIntent(shortcutType) ?: return
+        Timber.d("openSystemShortcut: $shortcutType")
         this.launch(intent)
     }
 

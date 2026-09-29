@@ -48,7 +48,7 @@
 
         <activity android:name=".ui.home.WheelOfFortuneActivity"></activity>
 
-        <activity android:name=".ui.home.CodesOfCharactersActivity"></activity>
+        <activity android:name=".ui.home.CharacterCodesActivity"></activity>
 
         <activity android:name=".ui.home.FontWeightTestActivity"></activity>
 

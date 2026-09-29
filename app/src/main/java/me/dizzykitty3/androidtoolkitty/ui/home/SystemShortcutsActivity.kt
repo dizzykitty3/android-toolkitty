@@ -29,13 +29,13 @@ import me.dizzykitty3.androidtoolkitty.S_ABOUT_PHONE
 import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
 import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.home.Setting
-import me.dizzykitty3.androidtoolkitty.home.availableSystemSettings
+import me.dizzykitty3.androidtoolkitty.home.SystemShortcut
+import me.dizzykitty3.androidtoolkitty.home.availableSystemShortcuts
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.uicomponents.SystemSettingButton
+import me.dizzykitty3.androidtoolkitty.uicomponents.SystemShortcutButton
 import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
@@ -64,11 +64,11 @@ class SystemShortcutsActivity : ComponentActivity() {
 private fun SystemShortcutsComposable() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
-    val settings = availableSystemSettings().filterNot { it.settingType == S_ABOUT_PHONE }
+    val shortcuts = availableSystemShortcuts().filterNot { it.shortcutType == S_ABOUT_PHONE }
 
-    val permissionsStartIndex = settings.indexOfFirst { it.settingType == S_NFC } + 1
-    val debuggingStartIndex = settings.indexOfFirst { it.settingType == S_ACCESSIBILITY } + 1
-    val settingsEndIndex = settings.size
+    val permissionsStartIndex = shortcuts.indexOfFirst { it.shortcutType == S_NFC } + 1
+    val debuggingStartIndex = shortcuts.indexOfFirst { it.shortcutType == S_ACCESSIBILITY } + 1
+    val shortcutsEndIndex = shortcuts.size
 
     Section(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
@@ -92,31 +92,31 @@ private fun SystemShortcutsComposable() {
             }
             LabelAndValueTextRow(R.string.locale, StringUtils.sysLocale)
             LabelAndValueTextRow(R.string.time_zone, DateUtils.sysTimeZone)
-            SystemSettingButton(S_ABOUT_PHONE, R.string.about_phone)
+            SystemShortcutButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
     CardSpacePadding()
-    SystemSettingsGroup(
-        R.string.general, settings.subList(0, permissionsStartIndex)
+    SystemShortcutsGroup(
+        R.string.general, shortcuts.subList(0, permissionsStartIndex)
     )
     CardSpacePadding()
-    SystemSettingsGroup(
-        R.string.permissions, settings.subList(permissionsStartIndex, debuggingStartIndex)
+    SystemShortcutsGroup(
+        R.string.permissions, shortcuts.subList(permissionsStartIndex, debuggingStartIndex)
     )
     CardSpacePadding()
-    SystemSettingsGroup(
-        R.string.debugging, settings.subList(debuggingStartIndex, settingsEndIndex)
+    SystemShortcutsGroup(
+        R.string.debugging, shortcuts.subList(debuggingStartIndex, shortcutsEndIndex)
     )
 }
 
 @Composable
-private fun SystemSettingsGroup(
+private fun SystemShortcutsGroup(
     @StringRes title: Int,
-    settings: List<Setting>,
+    shortcuts: List<SystemShortcut>,
 ) {
     Section(title) {
-        settings.forEach { setting ->
-            SystemSettingButton(setting.settingType, setting.title)
+        shortcuts.forEach { shortcut ->
+            SystemShortcutButton(shortcut.shortcutType, shortcut.title)
         }
     }
 }
