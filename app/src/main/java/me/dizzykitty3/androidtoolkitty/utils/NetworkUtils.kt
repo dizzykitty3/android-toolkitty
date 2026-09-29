@@ -2,10 +2,7 @@ package me.dizzykitty3.androidtoolkitty.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.ConnectivityManager.TYPE_MOBILE
-import android.net.ConnectivityManager.TYPE_WIFI
 import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.annotation.CheckResult
 import androidx.core.content.getSystemService
 
@@ -20,16 +17,6 @@ internal object NetworkUtil {
 fun Context.networkState(): Int {
     val connectivityManager = getSystemService<ConnectivityManager>()
         ?: return NetworkUtil.STATE_CODE_OFFLINE
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-        val activeNetwork = connectivityManager.activeNetworkInfo
-            ?: return NetworkUtil.STATE_CODE_OFFLINE
-        return when (activeNetwork.type) {
-            TYPE_WIFI -> NetworkUtil.STATE_CODE_WIFI
-            TYPE_MOBILE -> NetworkUtil.STATE_CODE_MOBILE
-            else -> NetworkUtil.STATE_CODE_UNKNOWN
-        }
-    }
-
     val activeNetwork = connectivityManager.activeNetwork
         ?: return NetworkUtil.STATE_CODE_OFFLINE
     val capabilities =

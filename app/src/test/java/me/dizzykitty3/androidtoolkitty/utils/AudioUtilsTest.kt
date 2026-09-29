@@ -20,7 +20,7 @@ class AudioUtilsTest {
     fun missingAudioService_returnsZeroVolumesAndAcceptsUpdatesSafely() {
         val context = object : ContextWrapper(RuntimeEnvironment.getApplication()) {
             override fun getSystemService(name: String): Any? =
-                if (name == Context.AUDIO_SERVICE) null else super.getSystemService(name)
+                if (name == AUDIO_SERVICE) null else super.getSystemService(name)
         }
         assertNull(context.getSystemService(AudioManager::class.java))
 

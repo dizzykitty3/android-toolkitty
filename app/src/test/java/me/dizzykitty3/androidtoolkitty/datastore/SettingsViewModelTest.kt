@@ -32,6 +32,7 @@ import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Test
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
@@ -172,7 +173,7 @@ class SettingsViewModelTest {
 
                     // The first collector has finished; let WhileSubscribed stop its upstream.
                     runCurrent()
-                    advanceTimeBy(5_001)
+                    advanceTimeBy(5_001.milliseconds)
                     runCurrent()
 
                     repository.updateCustomVolume(2, 70, 100)
@@ -242,7 +243,7 @@ class SettingsViewModelTest {
                 try {
                     viewModel.settingsState.first { it.customVolumes[2] == 25 }
                     runCurrent()
-                    advanceTimeBy(4_999)
+                    advanceTimeBy(4_999.milliseconds)
                     runCurrent()
 
                     // No collectors remain, but the five-second grace period is still active.
@@ -283,7 +284,7 @@ class SettingsViewModelTest {
                     assertEquals(25, observedVolumes.last())
 
                     firstSubscriber.cancelAndJoin()
-                    advanceTimeBy(5_001)
+                    advanceTimeBy(5_001.milliseconds)
                     runCurrent()
                     repository.updateCustomVolume(2, 80, 100)
                     runCurrent()

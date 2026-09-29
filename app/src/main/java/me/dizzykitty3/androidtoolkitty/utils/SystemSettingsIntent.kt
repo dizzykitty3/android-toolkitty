@@ -3,8 +3,8 @@ package me.dizzykitty3.androidtoolkitty.utils
 import android.bluetooth.BluetoothAdapter
 import android.content.Intent
 import android.content.Intent.ACTION_POWER_USAGE_SUMMARY
-import android.provider.Settings
 import android.os.Build
+import android.provider.Settings
 import me.dizzykitty3.androidtoolkitty.S_ABOUT_PHONE
 import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
 import me.dizzykitty3.androidtoolkitty.S_ACCOUNTS
@@ -40,21 +40,14 @@ fun systemSettingsIntent(settingType: String): Intent? = when (settingType) {
     S_AUTO_ROTATE -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         Intent(Settings.ACTION_AUTO_ROTATE_SETTINGS)
     } else null
+
     S_BLUETOOTH -> Intent(Settings.ACTION_BLUETOOTH_SETTINGS)
-    S_DEFAULT_APPS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
-    } else null
-    S_BATTERY_OPTIMIZATION -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
-    } else null
+    S_DEFAULT_APPS -> Intent(Settings.ACTION_MANAGE_DEFAULT_APPS_SETTINGS)
+    S_BATTERY_OPTIMIZATION -> Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)
     S_CAPTION -> Intent(Settings.ACTION_CAPTIONING_SETTINGS)
     S_USAGE_ACCESS -> Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-    S_OVERLAY -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-    } else null
-    S_MODIFY_SYSTEM -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
-    } else null
+    S_OVERLAY -> Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+    S_MODIFY_SYSTEM -> Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS)
     S_LOCALE -> Intent(Settings.ACTION_LOCALE_SETTINGS)
     S_DATE -> Intent(Settings.ACTION_DATE_SETTINGS)
     S_DEVELOPER -> Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)
@@ -62,31 +55,30 @@ fun systemSettingsIntent(settingType: String): Intent? = when (settingType) {
     S_WIFI -> Intent(Settings.ACTION_WIFI_SETTINGS)
     S_BATTERY -> Intent(ACTION_POWER_USAGE_SUMMARY)
     S_ACCESSIBILITY -> Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)
-    S_NOTIFICATION_LISTENER -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-        Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
-    } else null
-    S_DND_ACCESS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-        Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-    } else null
+    S_NOTIFICATION_LISTENER -> Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)
+    S_DND_ACCESS -> Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
     S_UNKNOWN_APPS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES)
     } else null
+
     S_ALARMS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
     } else null
+
     S_MEDIA_MANAGEMENT -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
         Intent(Settings.ACTION_REQUEST_MANAGE_MEDIA)
     } else null
+
     S_APP_NOTIFICATIONS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         Intent(Settings.ACTION_ALL_APPS_NOTIFICATION_SETTINGS)
     } else null
+
     S_ACCOUNTS -> Intent(Settings.ACTION_SYNC_SETTINGS)
-    S_VPN -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        Intent(Settings.ACTION_VPN_SETTINGS)
-    } else null
+    S_VPN -> Intent(Settings.ACTION_VPN_SETTINGS)
     S_SEARCH_SETTINGS -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         Intent(Settings.ACTION_APP_SEARCH_SETTINGS)
     } else null
+
     S_SOUND -> Intent(Settings.ACTION_SOUND_SETTINGS)
     S_ABOUT_PHONE -> Intent(Settings.ACTION_DEVICE_INFO_SETTINGS)
     S_KEYBOARD -> Intent(Settings.ACTION_INPUT_METHOD_SETTINGS)

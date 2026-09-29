@@ -12,22 +12,12 @@ import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
 import timber.log.Timber
 
 class ClearClipboardTileService : TileService() {
-    private fun isSupported(): Boolean {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) return true
-        Timber.w("TileService unsupported")
-        return false
-    }
-
     override fun onBind(intent: Intent?): IBinder? {
-        if (!isSupported()) return null
-
         Timber.d("onBind")
         return super.onBind(intent)
     }
 
     override fun onStartListening() {
-        if (!isSupported()) return
-
         super.onStartListening()
         Timber.d("onStartListening")
         val tile = qsTile
@@ -38,8 +28,6 @@ class ClearClipboardTileService : TileService() {
     }
 
     override fun onClick() {
-        if (!isSupported()) return
-
         super.onClick()
         Timber.d("onClick")
         try {

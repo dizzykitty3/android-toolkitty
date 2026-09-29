@@ -78,7 +78,7 @@ class BatteryUtilsTest {
         override fun registerReceiver(
             receiver: BroadcastReceiver?,
             filter: IntentFilter?,
-        ): Intent? = Intent(Intent.ACTION_BATTERY_CHANGED).apply {
+        ): Intent = Intent(Intent.ACTION_BATTERY_CHANGED).apply {
             level?.let { putExtra(BatteryManager.EXTRA_LEVEL, it) }
             scale?.let { putExtra(BatteryManager.EXTRA_SCALE, it) }
         }

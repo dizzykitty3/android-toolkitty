@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
-import android.os.Build
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -145,55 +144,42 @@ private fun NetworkState() {
             networkState = context.networkState()
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val connectivityManager = context.getSystemService<ConnectivityManager>()
-                ?: return@LaunchedEffect
-            val callback = object : ConnectivityManager.NetworkCallback() {
-                override fun onAvailable(network: Network) {
-                    Timber.d("Network onAvailable: $network")
-                    refreshNetworkState()
-                }
+        val connectivityManager = context.getSystemService<ConnectivityManager>()
+            ?: return@LaunchedEffect
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                Timber.d("Network onAvailable: $network")
+                refreshNetworkState()
+            }
 
-                override fun onLost(network: Network) {
-                    Timber.d("Network onLost: $network")
-                    networkState = NetworkUtil.STATE_CODE_OFFLINE
-                }
+            override fun onLost(network: Network) {
+                Timber.d("Network onLost: $network")
+                networkState = NetworkUtil.STATE_CODE_OFFLINE
+            }
 
-                override fun onCapabilitiesChanged(
-                    network: Network,
-                    networkCapabilities: NetworkCapabilities
-                ) {
-                    Timber.d("Network onCapabilitiesChanged: $network, capabilities: $networkCapabilities")
-                    refreshNetworkState()
-                }
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                Timber.d("Network onCapabilitiesChanged: $network, capabilities: $networkCapabilities")
+                refreshNetworkState()
             }
-            connectivityManager.registerDefaultNetworkCallback(callback)
-            try {
-                awaitCancellation()
-            } finally {
-                connectivityManager.unregisterNetworkCallback(callback)
-            }
-        } else {
-            val receiver = object : BroadcastReceiver() {
-                override fun onReceive(context: Context, intent: Intent) {
-                    refreshNetworkState()
-                }
-            }
-            context.registerReceiver(
-                receiver,
-                IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-            )
-            try {
-                awaitCancellation()
-            } finally {
-                context.unregisterReceiver(receiver)
-            }
+        }
+        connectivityManager.registerDefaultNetworkCallback(callback)
+        try {
+            awaitCancellation()
+        } finally {
+            connectivityManager.unregisterNetworkCallback(callback)
         }
     }
 
     when (networkState) {
         NetworkUtil.STATE_CODE_WIFI -> NetworkStateIcon(Icons.Outlined.Wifi, R.string.wifi)
-        NetworkUtil.STATE_CODE_MOBILE -> NetworkStateIcon(Icons.Outlined.NetworkCell, R.string.cellular)
+        NetworkUtil.STATE_CODE_MOBILE -> NetworkStateIcon(
+            Icons.Outlined.NetworkCell,
+            R.string.cellular
+        )
+
         NetworkUtil.STATE_CODE_OFFLINE -> NetworkStateIcon(Icons.Outlined.WifiOff, R.string.offline)
         else -> NetworkStateIcon(Icons.Outlined.QuestionMark, R.string.unknown)
     }
