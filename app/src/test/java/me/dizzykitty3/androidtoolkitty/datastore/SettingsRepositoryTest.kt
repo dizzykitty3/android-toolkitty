@@ -438,6 +438,41 @@ class SettingsRepositoryTest {
         )
     }
 
+    @Test
+    fun shownStates_ignoreRecognizedPrefixesWithNonBooleanValues() = runTest {
+        val file = newPreferencesFile()
+        val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
+        dataStore.edit {
+            it[stringPreferencesKey("card_search")] = "false"
+            it[intPreferencesKey("setting_vpn")] = 0
+            it[booleanPreferencesKey("card_maps")] = false
+            it[booleanPreferencesKey("setting_wifi")] = true
+        }
+
+        val settings = SettingsRepository(dataStore).settingsFlow.first()
+        assertEquals(mapOf("card_maps" to false, "setting_wifi" to true), settings.shownItemStates)
+        assertEquals(true, settings.isShown("card_search"))
+        assertEquals(true, settings.isShown("setting_vpn"))
+    }
+
+    @Test
+    fun homeCardOrder_invalidMovesDoNotCreatePersistedOrder() = runTest {
+        val file = newPreferencesFile()
+        val dataStore = PreferenceDataStoreFactory.create(scope = backgroundScope) { file }
+        val repository = SettingsRepository(dataStore)
+        val defaults = listOf("card_a", "card_b")
+        val orderKey = stringPreferencesKey("home_card_order")
+        val moves = listOf("card_a" to -1, "card_b" to 1, "missing" to 1,
+            "card_a" to 0, "card_a" to Int.MIN_VALUE, "card_a" to Int.MAX_VALUE)
+        for ((key, offset) in moves) {
+            repository.moveHomeCard(key, offset, defaults)
+            assertNull("Move $key by $offset", dataStore.data.first()[orderKey])
+        }
+        repository.moveHomeCard("card_a", 1, emptyList())
+        assertNull(dataStore.data.first()[orderKey])
+        assertEquals(UserSettings.default(), repository.settingsFlow.first())
+    }
+
     private fun newPreferencesFile(): File =
         File.createTempFile("toolkitty-settings-", ".preferences_pb").apply {
             delete()

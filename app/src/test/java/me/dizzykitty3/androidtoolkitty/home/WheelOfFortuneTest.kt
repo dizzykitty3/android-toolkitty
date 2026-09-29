@@ -56,4 +56,38 @@ class WheelOfFortuneTest {
             decodeWheelItems("not valid json", "Item"),
         )
     }
+
+    @Test
+    fun decodeWheelItems_fallsBackForMissingNullAndWronglyTypedItems() {
+        val expected = listOf("选项 1", "选项 2", "选项 3", "选项 4")
+        for (json in listOf("", "null", "{}", "[]", "{\"items\":null}",
+            "{\"items\":\"Tea\"}", "{\"items\":[null]}")) {
+            assertEquals("Stored JSON: $json", expected, decodeWheelItems(json, "选项"))
+        }
+    }
+
+    @Test
+    fun decodeWheelItems_preservesDuplicatesUnicodeAndEscapedText() {
+        assertEquals(
+            listOf("茶🐱", "Tea", "Tea", "line\nbreak", "\"quoted\""),
+            decodeWheelItems(
+                """{"items":["茶🐱","Tea","Tea","line\nbreak","\"quoted\""]}""",
+                "Item",
+            ),
+        )
+    }
+
+    @Test
+    fun selectedWheelItemIndex_handlesSingleItemAndBothSidesOfSegmentBoundary() {
+        for (rotation in listOf(-720f, -1f, 0f, 89.99f, 360f, 720f)) {
+            assertEquals(0, selectedWheelItemIndex(rotation, 1))
+        }
+        assertEquals(0, selectedWheelItemIndex(90f, -1))
+        assertEquals(3, selectedWheelItemIndex(-0.01f, 4))
+        assertEquals(3, selectedWheelItemIndex(0f, 4))
+        assertEquals(2, selectedWheelItemIndex(0.01f, 4))
+        assertEquals(2, selectedWheelItemIndex(89.99f, 4))
+        assertEquals(2, selectedWheelItemIndex(90f, 4))
+        assertEquals(1, selectedWheelItemIndex(90.01f, 4))
+    }
 }

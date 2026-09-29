@@ -1,8 +1,12 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
+import java.io.IOException
 import java.io.File
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.CompletableDeferred
@@ -11,6 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -459,6 +464,52 @@ class SettingsViewModelTest {
                     val state = viewModel.settingsState.first { it.customVolumes[2] == 37 }
                     assertEquals(listOf("card_b", "card_a", "card_c", "card_d"), state.homeCardOrder)
                     assertEquals(state, repository.settingsFlow.first())
+                } finally {
+                    viewModel.viewModelScope.cancel()
+                }
+            }
+        } finally {
+            Dispatchers.resetMain()
+        }
+    }
+
+    @Test
+    fun volumeSave_ioFailureReportsOnceAndLaterSaveCanRecover() {
+        val dispatcher = StandardTestDispatcher()
+        Dispatchers.setMain(dispatcher)
+        try {
+            runTest(dispatcher) {
+                var failWrites = true
+                val dataStore = object : DataStore<Preferences> {
+                    override val data = MutableStateFlow(emptyPreferences())
+                    override suspend fun updateData(
+                        transform: suspend (Preferences) -> Preferences,
+                    ): Preferences {
+                        if (failWrites) throw IOException("Disk write failed")
+                        return transform(data.value).also { data.value = it }
+                    }
+                }
+                val viewModel = SettingsViewModel(SettingsRepository(dataStore))
+                val results = mutableListOf<VolumeSaveResult>()
+                try {
+                    viewModel.updateCustomVolume(0, 40, 15) { results.add(it) }
+                    runCurrent()
+                    assertEquals(listOf(VolumeSaveResult.FAILED), results)
+                    assertEquals(UserSettings.default(), viewModel.persistedSettings.first())
+
+                    failWrites = false
+                    viewModel.updateCustomVolume(0, 40, 15) { results.add(it) }
+                    runCurrent()
+                    assertEquals(listOf(VolumeSaveResult.FAILED, VolumeSaveResult.SAVED), results)
+                    assertEquals(listOf(40, null, null), viewModel.persistedSettings.first().customVolumes)
+
+                    viewModel.updateCustomVolume(3, 60, 15) { results.add(it) }
+                    runCurrent()
+                    assertEquals(
+                        listOf(VolumeSaveResult.FAILED, VolumeSaveResult.SAVED, VolumeSaveResult.INVALID),
+                        results,
+                    )
+                    assertEquals(listOf(40, null, null), viewModel.persistedSettings.first().customVolumes)
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }
