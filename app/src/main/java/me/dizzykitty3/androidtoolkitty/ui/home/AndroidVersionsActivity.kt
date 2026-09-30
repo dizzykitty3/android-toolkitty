@@ -21,7 +21,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableBoldText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableItalicText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class AndroidVersionsActivity : ComponentActivity() {
@@ -32,7 +32,7 @@ class AndroidVersionsActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            ToolkitScreen(
+            BaseScreen(
                 title = R.string.android_versions,
                 dynamicColor = state.dynamicColor
             ) {

@@ -43,7 +43,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.removeTrailingPeriod
 import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addSuffix
@@ -65,7 +65,7 @@ class SearchActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.search,
                     dynamicColor = state.dynamicColor
                 ) {

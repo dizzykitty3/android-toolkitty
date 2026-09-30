@@ -31,7 +31,7 @@ import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsCustomizeActivity
 import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
@@ -49,7 +49,7 @@ class SettingsActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.settings,
                     dynamicColor = state.dynamicColor
                 ) {

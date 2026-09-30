@@ -36,7 +36,7 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.SystemShortcutButton
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils
@@ -50,7 +50,7 @@ class SystemShortcutsActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            ToolkitScreen(
+            BaseScreen(
                 title = R.string.system_shortcuts,
                 dynamicColor = state.dynamicColor
             ) {

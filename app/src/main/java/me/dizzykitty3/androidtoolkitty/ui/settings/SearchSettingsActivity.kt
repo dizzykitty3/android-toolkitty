@@ -33,7 +33,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 
@@ -47,7 +47,7 @@ class SearchSettingsActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.search_settings,
                     dynamicColor = state.dynamicColor,
                 ) {

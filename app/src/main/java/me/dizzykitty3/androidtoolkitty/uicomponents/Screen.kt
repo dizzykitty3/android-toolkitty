@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -16,16 +18,53 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import me.dizzykitty3.androidtoolkitty.R
+import me.dizzykitty3.androidtoolkitty.theme.AppTheme
+
+@Composable
+fun BaseScreen(
+    @StringRes title: Int,
+    dynamicColor: Boolean,
+    content: @Composable () -> Unit,
+) {
+    BaseScaffold(dynamicColor = dynamicColor) {
+        Screen(screenTitle = title, content = content)
+    }
+}
+
+@Composable
+fun BaseScaffold(
+    dynamicColor: Boolean,
+    content: @Composable () -> Unit,
+) {
+    AppTheme(dynamicColor = dynamicColor) {
+        Scaffold(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer,
+        ) { innerPadding ->
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .padding(
+                        start = innerPadding.calculateStartPadding(LocalLayoutDirection.current),
+                        end = innerPadding.calculateEndPadding(LocalLayoutDirection.current),
+                    )
+            ) {
+                content()
+            }
+        }
+    }
+}
 
 @Composable
 fun Screen(

@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.LicenseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScaffold
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScaffold
 
 @AndroidEntryPoint
 class LicensesActivity : ComponentActivity() {
@@ -29,7 +29,7 @@ class LicensesActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            ToolkitScaffold(
+            BaseScaffold(
                 dynamicColor = state.dynamicColor
             ) {
                 val context = LocalContext.current

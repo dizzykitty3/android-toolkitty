@@ -41,7 +41,7 @@ import me.dizzykitty3.androidtoolkitty.ui.home.orderedHomeCards
 import me.dizzykitty3.androidtoolkitty.ui.home.visibleHomeCards
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class CustomizeHomeActivity : ComponentActivity() {
@@ -53,7 +53,7 @@ class CustomizeHomeActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.customize_home,
                     dynamicColor = state.dynamicColor
                 ) {

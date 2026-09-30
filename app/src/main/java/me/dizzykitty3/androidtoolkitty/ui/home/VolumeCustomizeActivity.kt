@@ -35,7 +35,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
@@ -71,7 +71,7 @@ class VolumeCustomizeActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.edit_custom_volume,
                     dynamicColor = state.dynamicColor
                 ) {

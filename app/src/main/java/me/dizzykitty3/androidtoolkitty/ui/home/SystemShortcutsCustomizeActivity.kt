@@ -23,7 +23,7 @@ import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsSection
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class SystemShortcutsCustomizeActivity : ComponentActivity() {
@@ -35,7 +35,7 @@ class SystemShortcutsCustomizeActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.customize_system_shortcuts,
                     dynamicColor = state.dynamicColor
                 ) {

@@ -16,7 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class HapticTestActivity : ComponentActivity() {
@@ -27,7 +27,7 @@ class HapticTestActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            ToolkitScreen(
+            BaseScreen(
                 title = R.string.haptic_test,
                 dynamicColor = state.dynamicColor
             ) {

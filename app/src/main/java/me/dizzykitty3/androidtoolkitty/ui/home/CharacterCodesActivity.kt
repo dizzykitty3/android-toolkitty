@@ -30,7 +30,7 @@ import me.dizzykitty3.androidtoolkitty.home.Unicode
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.toASCII
 
@@ -43,7 +43,7 @@ class CharacterCodesActivity : ComponentActivity() {
             val viewModel: SettingsViewModel = hiltViewModel()
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
-            ToolkitScreen(
+            BaseScreen(
                 title = R.string.character_codes,
                 dynamicColor = state.dynamicColor
             ) {

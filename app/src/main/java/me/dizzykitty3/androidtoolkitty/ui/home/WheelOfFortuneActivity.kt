@@ -14,7 +14,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.WheelOfFortuneContent
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class WheelOfFortuneActivity : ComponentActivity() {
@@ -26,7 +26,7 @@ class WheelOfFortuneActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.wheel_of_fortune,
                     dynamicColor = state.dynamicColor
                 ) {

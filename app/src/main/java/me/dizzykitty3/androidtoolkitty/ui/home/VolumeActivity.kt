@@ -21,7 +21,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.MediaVolume
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.ToolkitScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.maxVoiceCallVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.setVoiceCallVolume
 import me.dizzykitty3.androidtoolkitty.utils.voiceCallVolume
@@ -37,7 +37,7 @@ class VolumeActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
-                ToolkitScreen(
+                BaseScreen(
                     title = R.string.volume,
                     dynamicColor = state.dynamicColor
                 ) {
