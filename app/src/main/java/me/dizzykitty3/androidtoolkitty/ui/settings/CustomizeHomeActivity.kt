@@ -4,27 +4,27 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.material.icons.Icons
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.runtime.key
-import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material.icons.outlined.KeyboardArrowUp
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
-import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -39,9 +39,9 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.homeCardDefinitions
 import me.dizzykitty3.androidtoolkitty.ui.home.orderedHomeCards
 import me.dizzykitty3.androidtoolkitty.ui.home.visibleHomeCards
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class CustomizeHomeActivity : ComponentActivity() {
@@ -78,7 +78,10 @@ private fun CustomizeHomeComposable() {
             modifier = Modifier.fillMaxWidth(),
             space = SegmentedButtonDefaults.BorderWidth,
         ) {
-            listOf(R.string.home_card_visibility, R.string.home_card_order).forEachIndexed { index, label ->
+            listOf(
+                R.string.home_card_visibility,
+                R.string.home_card_order
+            ).forEachIndexed { index, label ->
                 SegmentedButton(
                     selected = orderMode == (index == 1),
                     onClick = {
@@ -96,10 +99,12 @@ private fun CustomizeHomeComposable() {
         SpacerPadding()
         val cards = if (orderMode) state.visibleHomeCards() else state.orderedHomeCards()
         if (orderMode) {
-            Text(stringResource(
-                if (cards.isEmpty()) R.string.home_card_order_empty
-                else R.string.home_card_order_hint,
-            ))
+            Text(
+                stringResource(
+                    if (cards.isEmpty()) R.string.home_card_order_empty
+                    else R.string.home_card_order_hint,
+                )
+            )
         }
         val defaultOrder = homeCardDefinitions.map { it.id.preferenceKey }
         cards.forEachIndexed { index, card ->
@@ -128,7 +133,10 @@ private fun CustomizeHomeComposable() {
                         ) {
                             Icon(
                                 Icons.Outlined.KeyboardArrowUp,
-                                contentDescription = stringResource(R.string.move_card_up, stringResource(card.id.title)),
+                                contentDescription = stringResource(
+                                    R.string.move_card_up,
+                                    stringResource(card.id.title)
+                                ),
                             )
                         }
                         IconButton(
@@ -140,7 +148,10 @@ private fun CustomizeHomeComposable() {
                         ) {
                             Icon(
                                 Icons.Outlined.KeyboardArrowDown,
-                                contentDescription = stringResource(R.string.move_card_down, stringResource(card.id.title)),
+                                contentDescription = stringResource(
+                                    R.string.move_card_down,
+                                    stringResource(card.id.title)
+                                ),
                             )
                         }
                     }
@@ -159,7 +170,12 @@ private fun CustomizeHomeComposable() {
             Button(
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, false) }
+                    homeCardDefinitions.forEach { card ->
+                        vm.saveShownState(
+                            card.id.preferenceKey,
+                            false
+                        )
+                    }
                 }
             ) {
                 Text(stringResource(R.string.hide_all_cards))
@@ -168,7 +184,12 @@ private fun CustomizeHomeComposable() {
             Button(
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    homeCardDefinitions.forEach { card -> vm.saveShownState(card.id.preferenceKey, true) }
+                    homeCardDefinitions.forEach { card ->
+                        vm.saveShownState(
+                            card.id.preferenceKey,
+                            true
+                        )
+                    }
                 }
             ) {
                 Text(stringResource(R.string.show_all_cards))

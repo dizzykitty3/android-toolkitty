@@ -13,10 +13,7 @@ internal fun toProfileFullURL(platform: URLUtils.Platform, username: String): St
         else if (username.isNotBlank()) "${platform.prefix}${username.dropSpaces()}.bsky.social"
         else platform.prefix
 
-        URLUtils.Platform.FANBOX,
-        URLUtils.Platform.BOOTH,
-        URLUtils.Platform.TUMBLR,
-        URLUtils.Platform.CARRD -> "${username.dropSpaces()}${platform.prefix}"
+        URLUtils.Platform.FANBOX, URLUtils.Platform.BOOTH, URLUtils.Platform.TUMBLR, URLUtils.Platform.CARRD -> "${username.dropSpaces()}${platform.prefix}"
 
         URLUtils.Platform.BILIBILI_AV -> if (username.lowercase().startsWith("av")) {
             "${platform.prefix}${username.dropSpaces()}"
@@ -30,8 +27,7 @@ internal fun toProfileFullURL(platform: URLUtils.Platform, username: String): St
             "${platform.prefix}BV${username.dropSpaces()}"
         }
 
-        URLUtils.Platform.YOUTUBE_SEARCH,
-        URLUtils.Platform.STEAM_SEARCH_STORE -> "${platform.prefix}${username.trim()}"
+        URLUtils.Platform.YOUTUBE_SEARCH, URLUtils.Platform.STEAM_SEARCH_STORE -> "${platform.prefix}${username.trim()}"
 
         else -> "${platform.prefix}${username.dropSpaces()}"
     }
@@ -50,13 +46,12 @@ private fun numbersOnlyPlatform(platform: URLUtils.Platform): Boolean =
     platform in numbersOnlyPlatforms
 
 internal fun isInvalidNotNumbersOnly(platform: URLUtils.Platform, username: String): Boolean =
-    numbersOnlyPlatform(platform) && username.isNotBlank() &&
-        !username.dropSpaces().all(Char::isDigit)
+    numbersOnlyPlatform(platform) && username.isNotBlank() && !username.dropSpaces()
+        .all(Char::isDigit)
 
 private val commonRulePlatforms = setOf(URLUtils.Platform.X)
 
-private fun usesCommonRule(platform: URLUtils.Platform): Boolean =
-    platform in commonRulePlatforms
+private fun usesCommonRule(platform: URLUtils.Platform): Boolean = platform in commonRulePlatforms
 
 internal fun isInvalidCommonRule(platform: URLUtils.Platform, username: String): Boolean =
     usesCommonRule(platform) && username.isNotBlank() && username.dropSpaces().isInvalidUsername()

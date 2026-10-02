@@ -11,8 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.semantics.Role
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -20,20 +18,22 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 

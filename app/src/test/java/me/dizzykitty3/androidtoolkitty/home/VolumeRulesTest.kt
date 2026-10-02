@@ -1,9 +1,9 @@
 package me.dizzykitty3.androidtoolkitty.home
 
-import me.dizzykitty3.androidtoolkitty.utils.effectiveVolumeSlots
-import me.dizzykitty3.androidtoolkitty.utils.volumeSlotStep
-import me.dizzykitty3.androidtoolkitty.utils.validateVolumeSlot
 import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
+import me.dizzykitty3.androidtoolkitty.utils.effectiveVolumeSlots
+import me.dizzykitty3.androidtoolkitty.utils.validateVolumeSlot
+import me.dizzykitty3.androidtoolkitty.utils.volumeSlotStep
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -24,7 +24,10 @@ class VolumeRulesTest {
 
     @Test
     fun validation_rejectsDifferentPercentagesWithTheSameStepButAllowsSelfEdit() {
-        assertEquals(VolumeSaveResult.DUPLICATE, validateVolumeSlot(1, 41, 15, listOf(40, null, null)))
+        assertEquals(
+            VolumeSaveResult.DUPLICATE,
+            validateVolumeSlot(1, 41, 15, listOf(40, null, null))
+        )
         assertEquals(VolumeSaveResult.SAVED, validateVolumeSlot(0, 41, 15, listOf(40, null, null)))
         assertEquals(VolumeSaveResult.SAVED, validateVolumeSlot(1, 50, 15, listOf(40, null, null)))
         assertEquals(VolumeSaveResult.INVALID, validateVolumeSlot(3, 40, 15, emptyList()))

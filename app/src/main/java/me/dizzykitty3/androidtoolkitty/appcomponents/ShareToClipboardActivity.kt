@@ -5,8 +5,8 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
 import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
+import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
 import timber.log.Timber
 
 class ShareToClipboardActivity : Activity() {

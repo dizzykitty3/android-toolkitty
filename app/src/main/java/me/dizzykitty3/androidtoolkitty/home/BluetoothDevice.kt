@@ -40,10 +40,10 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.CustomIconPopup
 import me.dizzykitty3.androidtoolkitty.uicomponents.RowDivider
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.bluetoothAdapter
 
 private const val MANUAL_PERMISSION_HINT_THRESHOLD = 2
 

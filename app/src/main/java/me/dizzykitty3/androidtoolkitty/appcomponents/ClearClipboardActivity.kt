@@ -3,8 +3,8 @@ package me.dizzykitty3.androidtoolkitty.appcomponents
 import android.app.Activity
 import android.os.Bundle
 import me.dizzykitty3.androidtoolkitty.R
-import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import me.dizzykitty3.androidtoolkitty.utils.ToastUtils.showToast
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import timber.log.Timber
 
 class ClearClipboardActivity : Activity() {

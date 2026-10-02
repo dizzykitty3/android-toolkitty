@@ -13,8 +13,8 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.WheelOfFortuneContent
-import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 
 @AndroidEntryPoint
 class WheelOfFortuneActivity : ComponentActivity() {

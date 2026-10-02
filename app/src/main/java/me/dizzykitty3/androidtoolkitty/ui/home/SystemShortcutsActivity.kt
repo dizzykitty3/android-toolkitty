@@ -31,12 +31,12 @@ import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.SystemShortcut
 import me.dizzykitty3.androidtoolkitty.home.availableSystemShortcuts
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.SystemShortcutButton
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils

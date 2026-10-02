@@ -20,10 +20,10 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.systemShortcutDefinitions
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsSection
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 
 @AndroidEntryPoint
 class SystemShortcutsCustomizeActivity : ComponentActivity() {

@@ -1,10 +1,10 @@
 package me.dizzykitty3.androidtoolkitty.appcomponents
 
 import android.app.PendingIntent
-import android.service.quicksettings.TileService
-import android.service.quicksettings.Tile
 import android.content.ComponentName
 import android.content.Intent
+import android.service.quicksettings.Tile
+import android.service.quicksettings.TileService
 import me.dizzykitty3.androidtoolkitty.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -43,7 +43,10 @@ class ClearClipboardTileServiceTest {
             assertNull(application.nextStartedActivity)
             pendingIntent.send()
             val intent = requireNotNull(application.nextStartedActivity)
-            assertEquals(ComponentName(service, ClearClipboardActivity::class.java), intent.component)
+            assertEquals(
+                ComponentName(service, ClearClipboardActivity::class.java),
+                intent.component
+            )
             assertEquals(
                 Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS,
                 intent.flags,

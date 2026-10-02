@@ -38,12 +38,14 @@ class SettingsRepository @Inject constructor(
         val AUTO_CLEAR_CLIPBOARD = booleanPreferencesKey("auto_clear_clipboard")
         val SEARCH_ENGINE = stringPreferencesKey("search_engine")
         val VIDEO_SEARCH_ENGINE = stringPreferencesKey("video_search_engine")
+
         // Keep the legacy key to preserve existing user preferences.
         val DO_NOT_REMEMBER_LAST_SEARCH = booleanPreferencesKey("do_not_remember_recent_searches")
         val LAST_SELECTED_PLATFORM_INDEX = intPreferencesKey("last_selected_platform_index")
         val TYPING_CONTENTS = stringPreferencesKey("typing_contents")
         val LATITUDE = stringPreferencesKey("latitude")
         val LONGITUDE = stringPreferencesKey("longitude")
+
         // The legacy custom volume remains in the fourth segment (custom slot 2).
         val CUSTOM_VOLUMES = listOf("custom_volume_1", "custom_volume_2", "custom_volume")
             .map(::intPreferencesKey)
@@ -56,7 +58,8 @@ class SettingsRepository @Inject constructor(
         val defaults = UserSettings.default()
         UserSettings(
             dynamicColor = preferences[PreferenceKeys.DYNAMIC_COLOR] ?: defaults.dynamicColor,
-            autoClearClipboard = preferences[PreferenceKeys.AUTO_CLEAR_CLIPBOARD] ?: defaults.autoClearClipboard,
+            autoClearClipboard = preferences[PreferenceKeys.AUTO_CLEAR_CLIPBOARD]
+                ?: defaults.autoClearClipboard,
             searchEngine = preferences[PreferenceKeys.SEARCH_ENGINE]
                 ?.let(SearchEngine::fromStoredName)
                 ?: defaults.searchEngine,

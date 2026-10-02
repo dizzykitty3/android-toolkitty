@@ -21,7 +21,7 @@ fun Test() {
         ) {
             Text("create notification channel")
         }
-      Button(onClick = { NotificationUtils.sendNotification(view.context) }) { Text("post notification") }
+        Button(onClick = { NotificationUtils.sendNotification(view.context) }) { Text("post notification") }
 
         SpacerPadding()
         HorizontalDivider()

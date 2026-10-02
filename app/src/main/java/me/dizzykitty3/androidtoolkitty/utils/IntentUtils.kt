@@ -6,8 +6,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
-import android.provider.Settings
 import android.os.Build
+import android.provider.Settings
 import androidx.core.net.toUri
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
@@ -37,6 +37,7 @@ object IntentUtils {
         VideoSearchEngine.YOUTUBE -> (YOUTUBE_SEARCH_PREFIX + searchQuery).toUri()
         VideoSearchEngine.BILIBILI -> (BILIBILI_SEARCH_URI_PREFIX + searchQuery).toUri()
     }
+
     // Didn't use StartActivity as the name because a custom extension function is needed.
     private fun Context.launch(intent: Intent) {
         var msg: String

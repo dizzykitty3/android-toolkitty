@@ -1,8 +1,8 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
-import android.os.Bundle
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.setContent
@@ -21,8 +21,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -34,13 +34,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.CUSTOM_VOLUME_SLOT_COUNT
+import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
+import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.validateVolumeSlot
 import kotlin.math.roundToInt
 
@@ -130,8 +130,12 @@ private fun VolumeCustomizeComposable(slot: Int) {
         // Preview the same integer percentage that will be persisted and applied.
         Text(customVolumeLabel(savedPercent.toFloat(), maxVolume))
         if (validation != VolumeSaveResult.SAVED) {
-            Text(stringResource(if (validation == VolumeSaveResult.DUPLICATE)
-                R.string.duplicate_volume_slot else R.string.invalid_volume_slot))
+            Text(
+                stringResource(
+                    if (validation == VolumeSaveResult.DUPLICATE)
+                        R.string.duplicate_volume_slot else R.string.invalid_volume_slot
+                )
+            )
         }
 
         SpacerPadding()
@@ -139,7 +143,9 @@ private fun VolumeCustomizeComposable(slot: Int) {
 
         Row(modifier = Modifier.fillMaxWidth()) {
             Row(Modifier.weight(1F)) {
-                TextButton(enabled = !saving, onClick = { morePreciseSlider = !morePreciseSlider }) {
+                TextButton(
+                    enabled = !saving,
+                    onClick = { morePreciseSlider = !morePreciseSlider }) {
                     Text(
                         text = stringResource(if (morePreciseSlider) R.string.precise_on else R.string.precise_off),
                         color = MaterialTheme.colorScheme.primary
@@ -152,14 +158,20 @@ private fun VolumeCustomizeComposable(slot: Int) {
                     onClick = {
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                         saving = true
-                        vm.updateCustomVolume(slot, savedPercent, view.context.maxMediaVolumeIndex) { result ->
+                        vm.updateCustomVolume(
+                            slot,
+                            savedPercent,
+                            view.context.maxMediaVolumeIndex
+                        ) { result ->
                             saving = false
                             if (result == VolumeSaveResult.SAVED) activity?.finish()
-                            else view.showSnackbar(when (result) {
-                                VolumeSaveResult.DUPLICATE -> R.string.duplicate_volume_slot
-                                VolumeSaveResult.FAILED -> R.string.volume_save_failed
-                                else -> R.string.invalid_volume_slot
-                            })
+                            else view.showSnackbar(
+                                when (result) {
+                                    VolumeSaveResult.DUPLICATE -> R.string.duplicate_volume_slot
+                                    VolumeSaveResult.FAILED -> R.string.volume_save_failed
+                                    else -> R.string.invalid_volume_slot
+                                }
+                            )
                         }
                     }) { Text(stringResource(R.string.save)) }
             }

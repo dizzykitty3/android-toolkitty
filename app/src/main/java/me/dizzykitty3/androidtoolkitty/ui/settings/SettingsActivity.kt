@@ -26,12 +26,12 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.SOURCE_CODE_URL
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
 import me.dizzykitty3.androidtoolkitty.ui.home.HomeCardId
 import me.dizzykitty3.androidtoolkitty.ui.home.SystemShortcutsCustomizeActivity
-import me.dizzykitty3.androidtoolkitty.preferences.LoggingPreferences
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
@@ -154,7 +154,7 @@ private fun OtherSettings() {
     val isDebugBuild = BuildConfig.DEBUG
     CustomSwitchRow(
         title = R.string.log_outputs,
-        checked = if (isDebugBuild) true else isLoggingEnabled,
+        checked = isDebugBuild || isLoggingEnabled,
         enabled = !isDebugBuild,
     ) {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

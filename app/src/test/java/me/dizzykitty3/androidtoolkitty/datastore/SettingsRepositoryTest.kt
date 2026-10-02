@@ -5,13 +5,12 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
@@ -19,35 +18,50 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Test
+import java.io.File
 
 class SettingsRepositoryTest {
 
     @Test
     fun homeCardOrder_movesUseLatestVisibilityAfterHidingAndShowingNeighbours() = runTest {
         val file = newPreferencesFile()
-        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val repository =
+            SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c", "card_d")
 
         repository.moveHomeCard("card_d", -1, defaults)
-        assertEquals(listOf("card_a", "card_b", "card_d", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_a", "card_b", "card_d", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
 
         repository.saveShownState("card_b", false)
         repository.moveHomeCard("card_d", -1, defaults)
-        assertEquals(listOf("card_d", "card_b", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_d", "card_b", "card_a", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
 
         repository.saveShownState("card_b", true)
         repository.moveHomeCard("card_d", 1, defaults)
-        assertEquals(listOf("card_b", "card_d", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_b", "card_d", "card_a", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
 
         repository.saveShownState("card_d", false)
         repository.moveHomeCard("card_d", 1, defaults)
-        assertEquals(listOf("card_b", "card_d", "card_a", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_b", "card_d", "card_a", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
     }
 
     @Test
     fun homeCardOrder_hidingAllAndShowingAllPreservesCustomOrder() = runTest {
         val file = newPreferencesFile()
-        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val repository =
+            SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c")
         repository.moveHomeCard("card_c", -1, defaults)
         val expectedOrder = listOf("card_a", "card_c", "card_b")
@@ -87,13 +101,17 @@ class SettingsRepositoryTest {
 
         // A second move must use the repaired stored order, not the old or default order.
         repository.moveHomeCard("card_new", -1, defaults)
-        assertEquals(listOf("card_new", "card_c", "card_b", "card_a"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_new", "card_c", "card_b", "card_a"),
+            repository.settingsFlow.first().homeCardOrder
+        )
     }
 
     @Test
     fun homeCardOrder_skipsConsecutiveHiddenCardsInBothDirections() = runTest {
         val file = newPreferencesFile()
-        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val repository =
+            SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c", "card_d", "card_e")
         repository.saveShownState("card_b", false)
         repository.saveShownState("card_c", false)
@@ -101,7 +119,9 @@ class SettingsRepositoryTest {
         repository.moveHomeCard("card_a", 1, defaults)
         val moved = repository.settingsFlow.first()
         assertEquals(listOf("card_d", "card_b", "card_c", "card_a", "card_e"), moved.homeCardOrder)
-        assertEquals(listOf("card_d", "card_a", "card_e"), moved.homeCardOrder.filter { moved.isShown(it) })
+        assertEquals(
+            listOf("card_d", "card_a", "card_e"),
+            moved.homeCardOrder.filter { moved.isShown(it) })
 
         repository.moveHomeCard("card_a", -1, defaults)
         assertEquals(defaults, repository.settingsFlow.first().homeCardOrder)
@@ -110,23 +130,31 @@ class SettingsRepositoryTest {
         repository.saveShownState("card_b", true)
         repository.saveShownState("card_c", true)
         val restored = repository.settingsFlow.first()
-        assertEquals(listOf("card_d", "card_b", "card_c", "card_a", "card_e"),
+        assertEquals(
+            listOf("card_d", "card_b", "card_c", "card_a", "card_e"),
             restored.homeCardOrder.filter { restored.isShown(it) })
     }
 
     @Test
     fun homeCardOrder_movesBetweenVisibleNeighboursAndKeepsHiddenSlots() = runTest {
         val file = newPreferencesFile()
-        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val repository =
+            SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c", "card_d")
         repository.saveShownState("card_b", false)
         repository.saveShownState("card_d", false)
 
         repository.moveHomeCard("card_c", -1, defaults)
-        assertEquals(listOf("card_c", "card_b", "card_a", "card_d"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_c", "card_b", "card_a", "card_d"),
+            repository.settingsFlow.first().homeCardOrder
+        )
         repository.moveHomeCard("card_a", 1, defaults)
         repository.moveHomeCard("card_b", -1, defaults)
-        assertEquals(listOf("card_c", "card_b", "card_a", "card_d"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_c", "card_b", "card_a", "card_d"),
+            repository.settingsFlow.first().homeCardOrder
+        )
 
         repository.moveHomeCard("card_c", 1, defaults)
         assertEquals(defaults, repository.settingsFlow.first().homeCardOrder)
@@ -144,16 +172,26 @@ class SettingsRepositoryTest {
     @Test
     fun homeCardOrder_movesAtomicallyAndResetPreservesVisibility() = runTest {
         val file = newPreferencesFile()
-        val repository = SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
+        val repository =
+            SettingsRepository(PreferenceDataStoreFactory.create(scope = backgroundScope) { file })
         val defaults = listOf("card_a", "card_b", "card_c", "card_d")
         List(3) { launch { repository.moveHomeCard("card_d", -1, defaults) } }.joinAll()
-        assertEquals(listOf("card_d", "card_a", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_d", "card_a", "card_b", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
         repository.moveHomeCard("card_d", -1, defaults)
         repository.moveHomeCard("missing", 1, defaults)
         repository.moveHomeCard("card_d", 2, defaults)
-        assertEquals(listOf("card_d", "card_a", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_d", "card_a", "card_b", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
         repository.moveHomeCard("card_d", 1, defaults)
-        assertEquals(listOf("card_a", "card_d", "card_b", "card_c"), repository.settingsFlow.first().homeCardOrder)
+        assertEquals(
+            listOf("card_a", "card_d", "card_b", "card_c"),
+            repository.settingsFlow.first().homeCardOrder
+        )
 
         repository.saveShownState("card_d", false)
         repository.resetHomeCardOrder()
@@ -419,7 +457,10 @@ class SettingsRepositoryTest {
             repository.saveShownState("card_b", false)
             repository.updateCustomVolume(2, 45, 100)
             repository.moveHomeCard("card_c", -1, listOf("card_a", "card_b", "card_c"))
-            assertEquals(listOf("card_c", "card_b", "card_a"), repository.settingsFlow.first().homeCardOrder)
+            assertEquals(
+                listOf("card_c", "card_b", "card_a"),
+                repository.settingsFlow.first().homeCardOrder
+            )
 
             repository.resetHomeCardOrder()
             assertNull(dataStore.data.first()[stringPreferencesKey("home_card_order")])
@@ -462,8 +503,10 @@ class SettingsRepositoryTest {
         val repository = SettingsRepository(dataStore)
         val defaults = listOf("card_a", "card_b")
         val orderKey = stringPreferencesKey("home_card_order")
-        val moves = listOf("card_a" to -1, "card_b" to 1, "missing" to 1,
-            "card_a" to 0, "card_a" to Int.MIN_VALUE, "card_a" to Int.MAX_VALUE)
+        val moves = listOf(
+            "card_a" to -1, "card_b" to 1, "missing" to 1,
+            "card_a" to 0, "card_a" to Int.MIN_VALUE, "card_a" to Int.MAX_VALUE
+        )
         for ((key, offset) in moves) {
             repository.moveHomeCard(key, offset, defaults)
             assertNull("Move $key by $offset", dataStore.data.first()[orderKey])

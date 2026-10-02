@@ -224,7 +224,10 @@ fun WheelOfFortuneContent(withEditableList: Boolean = false) {
             }
             drawPath(arrowPath, primary)
             drawCircle(
-                color = Color.Black, radius = radius, center = center, style = Stroke(width = WHEEL_OUTLINE_WIDTH)
+                color = Color.Black,
+                radius = radius,
+                center = center,
+                style = Stroke(width = WHEEL_OUTLINE_WIDTH)
             )
         }
 
@@ -338,7 +341,10 @@ private fun ExpandableList(
         AnimatedVisibility(visible = expanded) {
             val item = stringResource(R.string.item)
             Column {
-                LazyColumn(state = listState, modifier = Modifier.heightIn(max = MAX_EDITABLE_LIST_HEIGHT_DP.dp)) {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.heightIn(max = MAX_EDITABLE_LIST_HEIGHT_DP.dp)
+                ) {
                     itemsIndexed(items) { index, item ->
                         Row(
                             verticalAlignment = Alignment.CenterVertically,

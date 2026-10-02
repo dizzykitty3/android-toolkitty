@@ -28,10 +28,10 @@ import me.dizzykitty3.androidtoolkitty.ui.home.CharacterCodesActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils
+import me.dizzykitty3.androidtoolkitty.utils.copyToClipboard
 import timber.log.Timber
 
 @Composable

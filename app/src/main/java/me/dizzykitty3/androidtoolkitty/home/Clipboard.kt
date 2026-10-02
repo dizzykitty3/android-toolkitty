@@ -17,8 +17,8 @@ import androidx.compose.ui.res.stringResource
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import timber.log.Timber
 
 @Composable

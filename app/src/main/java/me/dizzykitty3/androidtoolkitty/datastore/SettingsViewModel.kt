@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
-import javax.inject.Inject
-import java.io.IOException
 import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
+import java.io.IOException
+import javax.inject.Inject
 
 val LocalSettingsViewModel = staticCompositionLocalOf<SettingsViewModel> {
     error("No SettingsViewModel provided")
@@ -82,7 +82,12 @@ class SettingsViewModel @Inject constructor(
         updateSettings { updateLongitude(longitude) }
     }
 
-    fun updateCustomVolume(slot: Int, value: Int, maxVolume: Int, onResult: (VolumeSaveResult) -> Unit = {}) {
+    fun updateCustomVolume(
+        slot: Int,
+        value: Int,
+        maxVolume: Int,
+        onResult: (VolumeSaveResult) -> Unit = {}
+    ) {
         viewModelScope.launch {
             val result = try {
                 repository.updateCustomVolume(slot, value, maxVolume)

@@ -44,6 +44,7 @@ object URLUtils {
         "notion" to SO, "zoro" to TO, "1337x" to TO, "twitch" to TV, "jable" to TV,
         "zoom" to US, "namu" to WIKI
     )
+
     fun String.addURLScheme(): String = if (this.contains("://")) this else "$HTTPS$this"
 
     /**

@@ -16,19 +16,19 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ArrowUpward
-import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -40,10 +40,10 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
+import kotlinx.coroutines.launch
 import me.dizzykitty3.androidtoolkitty.BuildConfig
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
@@ -72,7 +72,7 @@ fun HomeScreen(onAutoClearClipboardChanged: (Boolean) -> Unit) {
         AppTheme(dynamicColor = state.dynamicColor) {
             val isLargeScreen =
                 currentWindowAdaptiveInfoV2().windowSizeClass.minWidthDp >=
-                    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+                        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
             val listState = rememberLazyListState()
             val gridState = rememberLazyStaggeredGridState()
             val scope = rememberCoroutineScope()
@@ -81,10 +81,10 @@ fun HomeScreen(onAutoClearClipboardChanged: (Boolean) -> Unit) {
                 derivedStateOf {
                     if (isLargeScreen) {
                         gridState.canScrollBackward && (gridState.firstVisibleItemIndex > 1 ||
-                            gridState.firstVisibleItemScrollOffset >= gridState.layoutInfo.viewportSize.height)
+                                gridState.firstVisibleItemScrollOffset >= gridState.layoutInfo.viewportSize.height)
                     } else {
                         listState.canScrollBackward && (listState.firstVisibleItemIndex > 0 ||
-                            listState.firstVisibleItemScrollOffset >= listState.layoutInfo.viewportSize.height)
+                                listState.firstVisibleItemScrollOffset >= listState.layoutInfo.viewportSize.height)
                     }
                 }
             }

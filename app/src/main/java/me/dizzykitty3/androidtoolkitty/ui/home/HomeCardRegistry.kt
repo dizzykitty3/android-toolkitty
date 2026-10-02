@@ -6,8 +6,8 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
 import me.dizzykitty3.androidtoolkitty.datastore.normalizedHomeCardOrder
 import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
-import me.dizzykitty3.androidtoolkitty.home.Clipboard
 import me.dizzykitty3.androidtoolkitty.home.CharacterCodes
+import me.dizzykitty3.androidtoolkitty.home.Clipboard
 import me.dizzykitty3.androidtoolkitty.home.ComposeCatalog
 import me.dizzykitty3.androidtoolkitty.home.FontWeight
 import me.dizzykitty3.androidtoolkitty.home.HapticFeedback

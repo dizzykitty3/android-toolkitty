@@ -17,8 +17,8 @@ import com.mikepenz.aboutlibraries.util.withContext
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.LicenseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScaffold
+import me.dizzykitty3.androidtoolkitty.uicomponents.LicenseScreen
 
 @AndroidEntryPoint
 class LicensesActivity : ComponentActivity() {

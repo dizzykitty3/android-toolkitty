@@ -22,10 +22,15 @@ internal fun effectiveVolumeSlots(slots: List<Int?>, maxVolume: Int): List<Int?>
     }
 }
 
-internal fun validateVolumeSlot(slot: Int, percent: Int, maxVolume: Int, slots: List<Int?>): VolumeSaveResult {
+internal fun validateVolumeSlot(
+    slot: Int,
+    percent: Int,
+    maxVolume: Int,
+    slots: List<Int?>
+): VolumeSaveResult {
     if (slot !in 0 until CUSTOM_VOLUME_SLOT_COUNT) return VolumeSaveResult.INVALID
     val step = volumeSlotStep(percent, maxVolume) ?: return VolumeSaveResult.INVALID
     return if (slots.take(CUSTOM_VOLUME_SLOT_COUNT).withIndex().any {
-        it.index != slot && volumeSlotStep(it.value, maxVolume) == step
-    }) VolumeSaveResult.DUPLICATE else VolumeSaveResult.SAVED
+            it.index != slot && volumeSlotStep(it.value, maxVolume) == step
+        }) VolumeSaveResult.DUPLICATE else VolumeSaveResult.SAVED
 }

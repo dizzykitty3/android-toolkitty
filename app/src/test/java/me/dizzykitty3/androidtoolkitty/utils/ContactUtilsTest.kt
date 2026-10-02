@@ -28,8 +28,14 @@ class ContactUtilsTest {
         assertEquals(Intent.ACTION_INSERT, intent.action)
         assertEquals(ContactsContract.Contacts.CONTENT_TYPE, intent.type)
         assertTrue(index.all(Char::isDigit))
-        assertEquals("+86 100 0000 00${index.padStart(2, '0')}", intent.getStringExtra(ContactsContract.Intents.Insert.PHONE))
-        assertEquals("test$index@gmail.com", intent.getStringExtra(ContactsContract.Intents.Insert.EMAIL))
+        assertEquals(
+            "+86 100 0000 00${index.padStart(2, '0')}",
+            intent.getStringExtra(ContactsContract.Intents.Insert.PHONE)
+        )
+        assertEquals(
+            "test$index@gmail.com",
+            intent.getStringExtra(ContactsContract.Intents.Insert.EMAIL)
+        )
         assertEquals(
             ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE,
             intent.getIntExtra(ContactsContract.Intents.Insert.PHONE_TYPE, -1),

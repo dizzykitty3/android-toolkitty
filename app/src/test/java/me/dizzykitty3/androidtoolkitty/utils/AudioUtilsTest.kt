@@ -3,8 +3,8 @@ package me.dizzykitty3.androidtoolkitty.utils
 import android.content.Context
 import android.content.ContextWrapper
 import android.media.AudioManager
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -9,5 +9,6 @@ internal object RemoveVolumeIntroMigration : DataMigration<Preferences> {
     override suspend fun shouldMigrate(currentData: Preferences) = legacyKey in currentData
     override suspend fun migrate(currentData: Preferences): Preferences =
         currentData.toMutablePreferences().apply { remove(legacyKey) }
+
     override suspend fun cleanUp() = Unit
 }

@@ -8,23 +8,23 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
-import me.dizzykitty3.androidtoolkitty.appcomponents.ClearClipboardActivity
 import me.dizzykitty3.androidtoolkitty.GOOGLE_MAPS
 import me.dizzykitty3.androidtoolkitty.GOOGLE_PLAY
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.S_DISPLAY
+import me.dizzykitty3.androidtoolkitty.appcomponents.ClearClipboardActivity
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnGoogleMaps
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.checkOnMarket
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppDetailSettings
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openAppLanguageSetting
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSearch
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.searchOnVideoPlatform
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
-import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
@@ -79,7 +79,10 @@ class IntentUtilsTest {
 
         activity.searchOnVideoPlatform("tool kitty", VideoSearchEngine.YOUTUBE)
         val youtubeIntent = shadowOf(activity).nextStartedActivity
-        assertEquals(Uri.parse("https://youtube.com/results?search_query=tool kitty"), youtubeIntent.data)
+        assertEquals(
+            Uri.parse("https://youtube.com/results?search_query=tool kitty"),
+            youtubeIntent.data
+        )
     }
 
     @Test
@@ -92,7 +95,10 @@ class IntentUtilsTest {
 
         activity.checkOnMarket("me.dizzykitty3.androidtoolkitty")
         val marketIntent = shadowOf(activity).nextStartedActivity
-        assertEquals(Uri.parse("market://details?id=me.dizzykitty3.androidtoolkitty"), marketIntent.data)
+        assertEquals(
+            Uri.parse("market://details?id=me.dizzykitty3.androidtoolkitty"),
+            marketIntent.data
+        )
         assertEquals(GOOGLE_PLAY, marketIntent.`package`)
 
         activity.checkOnGoogleMaps("25.03", "121.56")
@@ -170,7 +176,10 @@ class IntentUtilsTest {
         val detailActivity = activity()
         detailActivity.openAppDetailSettings()
         val detailIntent = shadowOf(detailActivity).nextStartedActivity
-        assertEquals(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, detailIntent.action)
+        assertEquals(
+            android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+            detailIntent.action
+        )
         assertEquals(Uri.parse("package:${detailActivity.packageName}"), detailIntent.data)
 
         val languageActivity = activity()

@@ -52,7 +52,10 @@ class BluetoothUtilsTest {
         val context: Context = RuntimeEnvironment.getApplication()
         shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(BT_CONNECT)
         val adapter = shadowOf(requireNotNull(context.bluetoothAdapter()))
-        adapter.setProfileConnectionState(BluetoothProfile.HEADSET, BluetoothProfile.STATE_DISCONNECTED)
+        adapter.setProfileConnectionState(
+            BluetoothProfile.HEADSET,
+            BluetoothProfile.STATE_DISCONNECTED
+        )
         adapter.setProfileConnectionState(BluetoothProfile.A2DP, BluetoothProfile.STATE_CONNECTED)
 
         assertFalse(context.isHeadsetConnected())

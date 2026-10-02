@@ -10,8 +10,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import me.dizzykitty3.androidtoolkitty.ui.home.HomeScreen
-import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
+import me.dizzykitty3.androidtoolkitty.utils.clearClipboard
 import timber.log.Timber
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.coroutines.Continuation

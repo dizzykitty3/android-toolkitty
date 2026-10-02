@@ -75,7 +75,11 @@ class NotificationUtilsTest {
         shadowOf(RuntimeEnvironment.getApplication()).grantPermissions(POST_NOTIFICATIONS)
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(
-            NotificationChannel("test_channel", "Existing channel", NotificationManager.IMPORTANCE_LOW),
+            NotificationChannel(
+                "test_channel",
+                "Existing channel",
+                NotificationManager.IMPORTANCE_LOW
+            ),
         )
         val controller = Robolectric.buildActivity(Activity::class.java)
         try {
@@ -104,7 +108,8 @@ class NotificationUtilsTest {
 
             NotificationUtils.sendNotification(context)
 
-            val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val manager =
+                context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val notification = requireNotNull(shadowOf(manager).getNotification(1))
             assertEquals("test_channel", notification.channelId)
             assertNotNull(manager.getNotificationChannel(notification.channelId))

@@ -38,7 +38,10 @@ fun Section(
                 style = MaterialTheme.typography.titleSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier
-                    .padding(horizontal = horizontalPadding, vertical = dimensionResource(R.dimen.padding_tip))
+                    .padding(
+                        horizontal = horizontalPadding,
+                        vertical = dimensionResource(R.dimen.padding_tip)
+                    )
                     .semantics { heading() },
             )
         }
@@ -47,7 +50,11 @@ fun Section(
             color = MaterialTheme.colorScheme.surfaceBright,
             contentColor = MaterialTheme.colorScheme.onSurface,
         ) {
-            Column(Modifier.fillMaxWidth().padding(horizontal = horizontalPadding, vertical = verticalPadding)) {
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = horizontalPadding, vertical = verticalPadding)
+            ) {
                 content()
             }
         }

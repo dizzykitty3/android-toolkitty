@@ -39,11 +39,11 @@ import me.dizzykitty3.androidtoolkitty.HTTPS
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.Section
+import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.ItalicText
-import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openURL
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.removeTrailingPeriod
 import me.dizzykitty3.androidtoolkitty.utils.URLUtils.addSuffix

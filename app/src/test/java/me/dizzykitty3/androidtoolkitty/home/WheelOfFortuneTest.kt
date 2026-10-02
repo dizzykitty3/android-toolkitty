@@ -60,8 +60,10 @@ class WheelOfFortuneTest {
     @Test
     fun decodeWheelItems_fallsBackForMissingNullAndWronglyTypedItems() {
         val expected = listOf("选项 1", "选项 2", "选项 3", "选项 4")
-        for (json in listOf("", "null", "{}", "[]", "{\"items\":null}",
-            "{\"items\":\"Tea\"}", "{\"items\":[null]}")) {
+        for (json in listOf(
+            "", "null", "{}", "[]", "{\"items\":null}",
+            "{\"items\":\"Tea\"}", "{\"items\":[null]}"
+        )) {
             assertEquals("Stored JSON: $json", expected, decodeWheelItems(json, "选项"))
         }
     }

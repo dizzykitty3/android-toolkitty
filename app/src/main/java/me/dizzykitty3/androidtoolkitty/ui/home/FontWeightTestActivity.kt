@@ -23,9 +23,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
+import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 
 @AndroidEntryPoint

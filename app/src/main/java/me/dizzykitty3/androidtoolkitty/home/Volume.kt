@@ -29,13 +29,13 @@ import me.dizzykitty3.androidtoolkitty.ui.home.VolumeActivity
 import me.dizzykitty3.androidtoolkitty.ui.home.editVolumeSlot
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
+import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.effectiveVolumeSlots
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.mediaVolume
 import me.dizzykitty3.androidtoolkitty.utils.setVolume
 import me.dizzykitty3.androidtoolkitty.utils.volumeSlotStep
-import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
 @Composable
 fun Volume() {
@@ -55,11 +55,13 @@ fun MediaVolume(isHome: Boolean) {
     val haptic = LocalHapticFeedback.current
     val maxVolume = view.context.maxMediaVolumeIndex
     val slots = effectiveVolumeSlots(state.customVolumes, maxVolume)
-    val options = listOf(stringResource(R.string.off_all_cap)) + slots.map { it?.let { "$it%" } ?: "+" }
+    val options =
+        listOf(stringResource(R.string.off_all_cap)) + slots.map { it?.let { "$it%" } ?: "+" }
     var selectedIndex by remember { mutableIntStateOf(-1) }
 
     LaunchedEffect(state.customVolumes, state.volumeButtonTapCount, maxVolume) {
-        selectedIndex = selectedVolumeIndex(view.context.mediaVolume, maxVolume, state.customVolumes)
+        selectedIndex =
+            selectedVolumeIndex(view.context.mediaVolume, maxVolume, state.customVolumes)
     }
 
     if (!isHome) {
@@ -72,7 +74,8 @@ fun MediaVolume(isHome: Boolean) {
     ) {
         options.forEachIndexed { index, label ->
             if (!isHome && index == 0) return@forEachIndexed
-            val description = if (index == 0) label else stringResource(R.string.volume_slot_label, index, label)
+            val description =
+                if (index == 0) label else stringResource(R.string.volume_slot_label, index, label)
             SegmentedButton(
                 modifier = Modifier.semantics { contentDescription = description },
                 onClick = {
@@ -84,12 +87,17 @@ fun MediaVolume(isHome: Boolean) {
                     // Re-read the range at tap time in case the audio route changed.
                     val currentMax = view.context.maxMediaVolumeIndex
                     val currentSlots = effectiveVolumeSlots(state.customVolumes, currentMax)
-                    val step = if (index == 0) 0 else volumeSlotStep(currentSlots[index - 1], currentMax)
+                    val step =
+                        if (index == 0) 0 else volumeSlotStep(currentSlots[index - 1], currentMax)
                     if (step == null) {
                         view.showSnackbar(R.string.volume_slot_not_configured)
                     } else {
                         view.setVolume(step)
-                        selectedIndex = selectedVolumeIndex(view.context.mediaVolume, currentMax, state.customVolumes)
+                        selectedIndex = selectedVolumeIndex(
+                            view.context.mediaVolume,
+                            currentMax,
+                            state.customVolumes
+                        )
                         vm.increaseVolumeButtonTapCount()
                     }
                 },
@@ -109,6 +117,11 @@ fun MediaVolume(isHome: Boolean) {
 internal fun selectedVolumeIndex(volume: Int, maxVolume: Int, slots: List<Int?>): Int {
     if (volume == 0) return 0
     if (volume < 0 || maxVolume <= 0 || volume > maxVolume) return -1
-    val slot = effectiveVolumeSlots(slots, maxVolume).indexOfFirst { volumeSlotStep(it, maxVolume) == volume }
+    val slot = effectiveVolumeSlots(slots, maxVolume).indexOfFirst {
+        volumeSlotStep(
+            it,
+            maxVolume
+        ) == volume
+    }
     return if (slot < 0) -1 else slot + 1
 }

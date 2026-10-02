@@ -1,10 +1,10 @@
 package me.dizzykitty3.androidtoolkitty.appcomponents
 
-import android.content.ClipboardManager
+import android.app.SearchManager
 import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.app.SearchManager
 import me.dizzykitty3.androidtoolkitty.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
@@ -27,7 +27,7 @@ class ShareActivitiesTest {
     fun shareToClipboard_missingTextPreservesExistingClipWithoutConfirmation() {
         val context = RuntimeEnvironment.getApplication()
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.setPrimaryClip(ClipData.newPlainText("existing label", "keep this text"))
+        clipboard.primaryClip = ClipData.newPlainText("existing label", "keep this text")
         ShadowToast.reset()
         val controller = Robolectric.buildActivity(
             ShareToClipboardActivity::class.java,
@@ -60,7 +60,8 @@ class ShareActivitiesTest {
         try {
             val clipboardActivity = clipboardController.setup().get()
             val searchActivity = searchController.setup().get()
-            val clipboard = clipboardActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard =
+                clipboardActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             assertEquals(text, clipboard.primaryClip?.getItemAt(0)?.text)
 
             val searchIntent = shadowOf(searchActivity).nextStartedActivity
@@ -180,7 +181,8 @@ class ShareActivitiesTest {
             .setup()
             .get()
 
-        val clipboard = clipboardActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clipboard =
+            clipboardActivity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         assertEquals("", clipboard.primaryClip?.getItemAt(0)?.text)
         assertTrue(clipboardActivity.isFinishing)
         assertTrue(searchActivity.isFinishing)

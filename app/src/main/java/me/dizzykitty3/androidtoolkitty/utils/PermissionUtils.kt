@@ -35,7 +35,10 @@ object PermissionUtils {
         request(bluetoothPermissions())
 
     private fun bluetoothPermissions(): Array<String> =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) arrayOf(BT_CONNECT) else arrayOf(BT, BT_ADMIN)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) arrayOf(BT_CONNECT) else arrayOf(
+            BT,
+            BT_ADMIN
+        )
 
     /**
      * @return true if the app does NOT have Notification permissions, false otherwise.

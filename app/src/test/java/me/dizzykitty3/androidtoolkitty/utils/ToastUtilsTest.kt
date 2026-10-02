@@ -37,6 +37,9 @@ class ToastUtilsTest {
         context.showToast(R.string.clipboard_cleared)
 
         assertEquals(1, ShadowToast.shownToastCount())
-        assertEquals(context.getString(R.string.clipboard_cleared), ShadowToast.getTextOfLatestToast())
+        assertEquals(
+            context.getString(R.string.clipboard_cleared),
+            ShadowToast.getTextOfLatestToast()
+        )
     }
 }

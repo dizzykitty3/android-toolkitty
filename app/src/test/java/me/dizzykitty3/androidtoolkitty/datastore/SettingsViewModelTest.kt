@@ -1,15 +1,13 @@
 package me.dizzykitty3.androidtoolkitty.datastore
 
 import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.viewModelScope
-import java.io.IOException
-import java.io.File
-import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.async
@@ -32,6 +30,8 @@ import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Test
+import java.io.File
+import java.io.IOException
 import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -52,15 +52,23 @@ class SettingsViewModelTest {
                     val saved = CompletableDeferred<VolumeSaveResult>()
                     viewModel.updateCustomVolume(0, 40, 15) { saved.complete(it) }
                     assertEquals(VolumeSaveResult.SAVED, saved.await())
-                    assertEquals(listOf(40, null, null),
-                        viewModel.settingsState.first { it.customVolumes[0] == 40 }.customVolumes)
+                    assertEquals(
+                        listOf(40, null, null),
+                        viewModel.settingsState.first { it.customVolumes[0] == 40 }.customVolumes
+                    )
 
                     val rejected = CompletableDeferred<VolumeSaveResult>()
                     viewModel.updateCustomVolume(1, 41, 15) { rejected.complete(it) }
                     assertEquals(VolumeSaveResult.DUPLICATE, rejected.await())
                     runCurrent()
-                    assertEquals(listOf(40, null, null), viewModel.settingsState.value.customVolumes)
-                    assertEquals(listOf(40, null, null), repository.settingsFlow.first().customVolumes)
+                    assertEquals(
+                        listOf(40, null, null),
+                        viewModel.settingsState.value.customVolumes
+                    )
+                    assertEquals(
+                        listOf(40, null, null),
+                        repository.settingsFlow.first().customVolumes
+                    )
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }
@@ -84,9 +92,9 @@ class SettingsViewModelTest {
                 val updatedState = async(start = CoroutineStart.UNDISPATCHED) {
                     viewModel.settingsState.first {
                         !it.dynamicColor &&
-                            it.searchEngine == SearchEngine.ECOSIA &&
-                            it.videoSearchEngine == VideoSearchEngine.BILIBILI &&
-                            !it.isShown("card_search")
+                                it.searchEngine == SearchEngine.ECOSIA &&
+                                it.videoSearchEngine == VideoSearchEngine.BILIBILI &&
+                                !it.isShown("card_search")
                     }
                 }
 
@@ -121,13 +129,13 @@ class SettingsViewModelTest {
                 val updatedState = async(start = CoroutineStart.UNDISPATCHED) {
                     viewModel.settingsState.first {
                         it.doNotRememberLastSearch &&
-                            it.autoClearClipboard &&
-                            it.lastSelectedPlatformIndex == 4 &&
-                            it.customVolumes[2] == 35 &&
-                            it.latitude == "25.0330" &&
-                            it.longitude == "121.5654" &&
-                            it.volumeButtonTapCount == 1 &&
-                            it.wheelOfFortuneItems == wheelItems
+                                it.autoClearClipboard &&
+                                it.lastSelectedPlatformIndex == 4 &&
+                                it.customVolumes[2] == 35 &&
+                                it.latitude == "25.0330" &&
+                                it.longitude == "121.5654" &&
+                                it.volumeButtonTapCount == 1 &&
+                                it.wheelOfFortuneItems == wheelItems
                     }
                 }
 
@@ -169,7 +177,10 @@ class SettingsViewModelTest {
                 repository.updateCustomVolume(2, 25, 100)
                 val viewModel = SettingsViewModel(repository)
                 try {
-                    assertEquals(25, viewModel.settingsState.first { it.customVolumes[2] == 25 }.customVolumes[2])
+                    assertEquals(
+                        25,
+                        viewModel.settingsState.first { it.customVolumes[2] == 25 }.customVolumes[2]
+                    )
 
                     // The first collector has finished; let WhileSubscribed stop its upstream.
                     runCurrent()
@@ -181,7 +192,10 @@ class SettingsViewModelTest {
                     runCurrent()
                     assertEquals(25, viewModel.settingsState.value.customVolumes[2])
 
-                    assertEquals(70, viewModel.settingsState.first { it.customVolumes[2] == 70 }.customVolumes[2])
+                    assertEquals(
+                        70,
+                        viewModel.settingsState.first { it.customVolumes[2] == 70 }.customVolumes[2]
+                    )
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }
@@ -216,7 +230,8 @@ class SettingsViewModelTest {
 
                 val restoredViewModel = SettingsViewModel(SettingsRepository(dataStore))
                 try {
-                    val restored = restoredViewModel.settingsState.first { it.customVolumes[2] == 65 }
+                    val restored =
+                        restoredViewModel.settingsState.first { it.customVolumes[2] == 65 }
                     assertEquals(65, restored.customVolumes[2])
                     assertFalse(restored.dynamicColor)
                 } finally {
@@ -391,7 +406,10 @@ class SettingsViewModelTest {
                     val moved = viewModel.settingsState.first {
                         it.homeCardOrder == listOf("card_c", "card_b", "card_a")
                     }
-                    assertEquals(initial.copy(homeCardOrder = listOf("card_c", "card_b", "card_a")), moved)
+                    assertEquals(
+                        initial.copy(homeCardOrder = listOf("card_c", "card_b", "card_a")),
+                        moved
+                    )
 
                     // Keep collecting before reset so the initial empty order cannot satisfy the assertion.
                     val reset = async(start = CoroutineStart.UNDISPATCHED) {
@@ -463,7 +481,10 @@ class SettingsViewModelTest {
                     viewModel.updateCustomVolume(2, 37, 100)
 
                     val state = viewModel.settingsState.first { it.customVolumes[2] == 37 }
-                    assertEquals(listOf("card_b", "card_a", "card_c", "card_d"), state.homeCardOrder)
+                    assertEquals(
+                        listOf("card_b", "card_a", "card_c", "card_d"),
+                        state.homeCardOrder
+                    )
                     assertEquals(state, repository.settingsFlow.first())
                 } finally {
                     viewModel.viewModelScope.cancel()
@@ -502,15 +523,25 @@ class SettingsViewModelTest {
                     viewModel.updateCustomVolume(0, 40, 15) { results.add(it) }
                     runCurrent()
                     assertEquals(listOf(VolumeSaveResult.FAILED, VolumeSaveResult.SAVED), results)
-                    assertEquals(listOf(40, null, null), viewModel.persistedSettings.first().customVolumes)
+                    assertEquals(
+                        listOf(40, null, null),
+                        viewModel.persistedSettings.first().customVolumes
+                    )
 
                     viewModel.updateCustomVolume(3, 60, 15) { results.add(it) }
                     runCurrent()
                     assertEquals(
-                        listOf(VolumeSaveResult.FAILED, VolumeSaveResult.SAVED, VolumeSaveResult.INVALID),
+                        listOf(
+                            VolumeSaveResult.FAILED,
+                            VolumeSaveResult.SAVED,
+                            VolumeSaveResult.INVALID
+                        ),
                         results,
                     )
-                    assertEquals(listOf(40, null, null), viewModel.persistedSettings.first().customVolumes)
+                    assertEquals(
+                        listOf(40, null, null),
+                        viewModel.persistedSettings.first().customVolumes
+                    )
                 } finally {
                     viewModel.viewModelScope.cancel()
                 }

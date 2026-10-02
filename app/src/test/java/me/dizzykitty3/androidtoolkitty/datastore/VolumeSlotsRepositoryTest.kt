@@ -4,7 +4,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
-import java.io.File
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
@@ -18,13 +17,20 @@ import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
 
 class VolumeSlotsRepositoryTest {
-    @get:Rule val folder = TemporaryFolder()
+    @get:Rule
+    val folder = TemporaryFolder()
 
     @Test
     fun slots_saveIndependentlyAndRejectDuplicateStepsWithoutChangingSettings() = runTest {
-        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) { File(folder.root, "slots.preferences_pb") }
+        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) {
+            File(
+                folder.root,
+                "slots.preferences_pb"
+            )
+        }
         val repository = SettingsRepository(store)
         assertEquals(listOf(null, null, null), repository.settingsFlow.first().customVolumes)
         repository.toggleDynamicColor(false)
@@ -47,20 +53,33 @@ class VolumeSlotsRepositoryTest {
 
     @Test
     fun deviceWithOnlyTwoNonZeroSteps_cannotFillThreeSlots() = runTest {
-        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) { File(folder.root, "limited.preferences_pb") }
+        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) {
+            File(
+                folder.root,
+                "limited.preferences_pb"
+            )
+        }
         val repository = SettingsRepository(store)
         assertEquals(VolumeSaveResult.SAVED, repository.updateCustomVolume(0, 50, 2))
         assertEquals(VolumeSaveResult.SAVED, repository.updateCustomVolume(1, 100, 2))
         for (percent in 1..100) {
             val result = repository.updateCustomVolume(2, percent, 2)
-            assertEquals(if (percent < 25) VolumeSaveResult.INVALID else VolumeSaveResult.DUPLICATE, result)
+            assertEquals(
+                if (percent < 25) VolumeSaveResult.INVALID else VolumeSaveResult.DUPLICATE,
+                result
+            )
         }
         assertEquals(listOf(50, 100, null), repository.settingsFlow.first().customVolumes)
     }
 
     @Test
     fun concurrentSaves_cannotClaimTheSameStep() = runTest {
-        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) { File(folder.root, "race.preferences_pb") }
+        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) {
+            File(
+                folder.root,
+                "race.preferences_pb"
+            )
+        }
         val repository = SettingsRepository(store)
         val results = listOf(
             async { repository.updateCustomVolume(0, 40, 15) },
@@ -76,14 +95,17 @@ class VolumeSlotsRepositoryTest {
         val file = File(folder.root, "legacy.preferences_pb")
         val legacyFlag = booleanPreferencesKey("have_tapped_add_button")
         val writer = Job()
-        val legacyStore = PreferenceDataStoreFactory.create(scope = CoroutineScope(coroutineContext + writer)) { file }
+        val legacyStore =
+            PreferenceDataStoreFactory.create(scope = CoroutineScope(coroutineContext + writer)) { file }
         try {
             legacyStore.edit {
                 it[legacyFlag] = true
                 it[intPreferencesKey("custom_volume")] = 80
                 it[booleanPreferencesKey("dynamic_color")] = false
             }
-        } finally { writer.cancelAndJoin() }
+        } finally {
+            writer.cancelAndJoin()
+        }
 
         val migratedJob = Job()
         val migrated = PreferenceDataStoreFactory.create(
@@ -96,7 +118,9 @@ class VolumeSlotsRepositoryTest {
             assertNull(migrated.data.first()[legacyFlag])
             assertEquals(VolumeSaveResult.SAVED, repository.updateCustomVolume(0, 20, 15))
             assertEquals(VolumeSaveResult.SAVED, repository.updateCustomVolume(1, 40, 15))
-        } finally { migratedJob.cancelAndJoin() }
+        } finally {
+            migratedJob.cancelAndJoin()
+        }
 
         val reopenedStore = PreferenceDataStoreFactory.create(
             migrations = listOf(RemoveVolumeIntroMigration), scope = backgroundScope,
@@ -109,12 +133,20 @@ class VolumeSlotsRepositoryTest {
 
     @Test
     fun corruptPercentages_areReadAsEmptySlots() = runTest {
-        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) { File(folder.root, "invalid.preferences_pb") }
+        val store = PreferenceDataStoreFactory.create(scope = backgroundScope) {
+            File(
+                folder.root,
+                "invalid.preferences_pb"
+            )
+        }
         store.edit {
             it[intPreferencesKey("custom_volume_1")] = -1
             it[intPreferencesKey("custom_volume_2")] = 101
             it[intPreferencesKey("custom_volume")] = Int.MIN_VALUE
         }
-        assertEquals(listOf(null, null, null), SettingsRepository(store).settingsFlow.first().customVolumes)
+        assertEquals(
+            listOf(null, null, null),
+            SettingsRepository(store).settingsFlow.first().customVolumes
+        )
     }
 }
