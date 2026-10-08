@@ -15,6 +15,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextAlign
 import me.dizzykitty3.androidtoolkitty.R
 
 @Composable
@@ -33,17 +35,7 @@ fun Section(
     val horizontalPadding = dimensionResource(R.dimen.padding_card_content)
     Column(Modifier.fillMaxWidth()) {
         if (title != null) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier
-                    .padding(
-                        horizontal = horizontalPadding,
-                        vertical = dimensionResource(R.dimen.padding_tip)
-                    )
-                    .semantics { heading() },
-            )
+            SectionTitle(title)
         }
         Surface(
             shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
@@ -59,4 +51,18 @@ fun Section(
             }
         }
     }
+}
+
+@Composable
+fun SectionTitle(title: String) {
+    Text(
+        text = title,
+        style = MaterialTheme.typography.titleSmall,
+        color = MaterialTheme.colorScheme.primary,
+        textAlign = TextAlign.Start,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp, vertical = 12.dp)
+            .semantics { heading() },
+    )
 }

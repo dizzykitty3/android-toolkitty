@@ -1,14 +1,17 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
 import android.os.Bundle
+import androidx.compose.runtime.getValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -36,6 +39,7 @@ class SystemShortcutsCustomizeActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
+                    largeTitle = true,
                     title = R.string.customize_system_shortcuts,
                     dynamicColor = state.dynamicColor
                 ) {
@@ -51,24 +55,27 @@ private fun SystemShortcutsPinOptionsComposable() {
     val vm = LocalSettingsViewModel.current
     val state by vm.settingsState.collectAsStateWithLifecycle()
 
-    SettingsSection {
+    Column {
         val haptic = LocalHapticFeedback.current
 
         SpacerPadding()
         Tip(R.string.system_shortcuts_tip)
 
-        systemShortcutDefinitions.forEach { shortcut ->
-            if (shortcut.isAvailable()) {
-                CustomHideCardSettingSwitch(
-                    text = shortcut.title,
-                    isChecked = state.isShown(shortcut.shortcutType)
-                ) { newState ->
-                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    vm.saveShownState(shortcut.shortcutType, newState)
+        SettingsSection {
+            systemShortcutDefinitions.forEach { shortcut ->
+                if (shortcut.isAvailable()) {
+                    CustomHideCardSettingSwitch(
+                        text = shortcut.title,
+                        icon = Icons.Outlined.Settings,
+                        isChecked = state.isShown(shortcut.shortcutType)
+                    ) { newState ->
+                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        vm.saveShownState(shortcut.shortcutType, newState)
+                    }
                 }
             }
-        }
 
+        }
         SpacerPadding()
 
         Button(

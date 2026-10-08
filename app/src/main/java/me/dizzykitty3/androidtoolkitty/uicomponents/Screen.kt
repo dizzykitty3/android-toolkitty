@@ -7,16 +7,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -28,6 +32,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
@@ -36,10 +41,11 @@ import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 fun BaseScreen(
     @StringRes title: Int,
     dynamicColor: Boolean,
+    largeTitle: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     BaseScaffold(dynamicColor = dynamicColor) {
-        Screen(screenTitle = title, content = content)
+        Screen(screenTitle = stringResource(title), largeTitle = largeTitle, content = content)
     }
 }
 
@@ -86,8 +92,9 @@ fun Screen(
             Modifier.padding(start = screenPadding, end = screenPadding)
         ) {
             TopPadding()
-            TopBar(screenTitle, navController)
+            TopBar(navController = navController)
             LazyColumn {
+                if (screenTitle.isNotEmpty()) item { LargeScreenTitle(screenTitle) }
                 item { content() }
                 item { BottomPadding() }
             }
@@ -98,11 +105,11 @@ fun Screen(
 @Composable
 fun Screen(
     @StringRes screenTitle: Int, content: @Composable () -> Unit
-) = Screen(stringResource(screenTitle), content)
+) = Screen(screenTitle = stringResource(screenTitle), content = content)
 
 @Composable
 fun Screen(
-    screenTitle: String = "", content: @Composable () -> Unit
+    screenTitle: String = "", largeTitle: Boolean = true, content: @Composable () -> Unit
 ) {
     val screenPadding = dimensionResource(R.dimen.padding_screen)
 
@@ -110,34 +117,11 @@ fun Screen(
         Modifier.padding(start = screenPadding, end = screenPadding)
     ) {
         TopPadding()
-        TopBar(screenTitle)
+        TopBar(if (largeTitle) "" else screenTitle)
         LazyColumn {
+            if (largeTitle && screenTitle.isNotEmpty()) item { LargeScreenTitle(screenTitle) }
             item { content() }
             item { BottomPadding() }
-        }
-    }
-}
-
-@Composable
-fun LicenseScreen(
-    @StringRes screenTitle: Int, content: @Composable () -> Unit
-) {
-    val screenPadding = dimensionResource(R.dimen.padding_screen)
-
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-    ) {
-        Column(
-            Modifier.padding(start = screenPadding, end = screenPadding)
-        ) {
-            TopPadding()
-            TopBar(screenTitle)
-            Column {
-                content()
-                BottomPadding()
-            }
         }
     }
 }
@@ -154,14 +138,20 @@ fun TopBar(screenTitle: String = "", navController: NavHostController) {
         Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            navController.popBackStack()
-        }) {
+        FilledIconButton(
+            shape = CircleShape,
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5F),
+            ),
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                navController.popBackStack()
+            },
+        ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                 contentDescription = stringResource(R.string.back),
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5F)
             )
         }
         IconAndTextPadding()
@@ -188,14 +178,20 @@ fun TopBar(screenTitle: String = "") {
         Modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        IconButton(onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            activity?.finish()
-        }) {
+        FilledIconButton(
+            shape = CircleShape,
+            colors = IconButtonDefaults.filledIconButtonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+                contentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5F),
+            ),
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                activity?.finish()
+            },
+        ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
                 contentDescription = stringResource(R.string.back),
-                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5F)
             )
         }
         IconAndTextPadding()
@@ -208,4 +204,16 @@ fun TopBar(screenTitle: String = "") {
         }
     }
     SpacerPadding()
+}
+
+/** Expanded title scrolls with page content, leaving the back button accessible. */
+@Composable
+internal fun LargeScreenTitle(title: String) {
+    Spacer(Modifier.height(48.dp))
+    Text(
+        text = title,
+        style = MaterialTheme.typography.displaySmall,
+        color = MaterialTheme.colorScheme.onSurface,
+        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 32.dp),
+    )
 }

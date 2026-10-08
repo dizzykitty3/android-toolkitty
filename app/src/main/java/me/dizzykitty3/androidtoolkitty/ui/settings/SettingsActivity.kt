@@ -2,17 +2,28 @@ package me.dizzykitty3.androidtoolkitty.ui.settings
 
 import android.os.Build
 import android.os.Bundle
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.getValue
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.EventNote
 import androidx.compose.material.icons.outlined.ArrowOutward
+import androidx.compose.material.icons.outlined.ClearAll
+import androidx.compose.material.icons.outlined.Code
+import androidx.compose.material.icons.outlined.ColorLens
+import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.FileCopy
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.SettingsApplications
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
@@ -50,6 +61,7 @@ class SettingsActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
+                    largeTitle = true,
                     title = R.string.settings,
                     dynamicColor = state.dynamicColor
                 ) {
@@ -74,6 +86,7 @@ private fun Appearance() {
     val haptic = LocalHapticFeedback.current
 
     CustomSwitchRow(
+        icon = Icons.Outlined.ColorLens,
         title = R.string.dynamic_color,
         checked = state.dynamicColor
     ) {
@@ -84,6 +97,7 @@ private fun Appearance() {
     // change app lang
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         SettingsLinkRow(
+            icon = Icons.Outlined.Language,
             title = R.string.language,
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -103,6 +117,7 @@ private fun General() {
     val isSystemShortcutsCardShown = state.isShown(HomeCardId.SYSTEM_SHORTCUTS.preferenceKey)
 
     CustomSwitchRow(
+        icon = Icons.Outlined.ClearAll,
         title = R.string.clear_clipboard_on_launch,
         checked = state.autoClearClipboard
     ) {
@@ -110,8 +125,19 @@ private fun General() {
         viewModel.toggleAutoClearClipboard(it)
     }
 
+    // edit home
+    SettingsLinkRow(
+        icon = Icons.Outlined.Edit,
+        title = R.string.customize_home,
+        onClick = {
+            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+            context.openScreen(CustomizeHomeActivity::class.java)
+        }
+    )
+
     if (isSearchCardShown) {
         SettingsLinkRow(
+            icon = Icons.Outlined.Search,
             title = R.string.search_settings,
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -122,6 +148,7 @@ private fun General() {
 
     if (isSystemShortcutsCardShown) {
         SettingsLinkRow(
+            icon = Icons.Outlined.Settings,
             title = R.string.customize_system_shortcuts,
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -129,15 +156,6 @@ private fun General() {
             }
         )
     }
-
-    // edit home
-    SettingsLinkRow(
-        title = R.string.customize_home,
-        onClick = {
-            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            context.openScreen(CustomizeHomeActivity::class.java)
-        }
-    )
 }
 
 @Composable
@@ -147,12 +165,14 @@ private fun OtherSettings() {
     var isLoggingEnabled by remember { mutableStateOf(LoggingPreferences.isEnabled) }
 
     SettingsInfoRow(
+        icon = Icons.Outlined.Info,
         title = R.string.version,
         text = view.context.versionName,
     )
 
     val isDebugBuild = BuildConfig.DEBUG
     CustomSwitchRow(
+        icon = Icons.AutoMirrored.Outlined.EventNote,
         title = R.string.log_outputs,
         checked = isDebugBuild || isLoggingEnabled,
         enabled = !isDebugBuild,
@@ -170,6 +190,7 @@ private fun OtherSettings() {
     }
 
     SettingsLinkRow(
+        icon = Icons.Outlined.Code,
         title = R.string.view_source_code,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -180,6 +201,7 @@ private fun OtherSettings() {
     )
 
     SettingsLinkRow(
+        icon = Icons.Outlined.FileCopy,
         title = R.string.licenses,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -188,6 +210,7 @@ private fun OtherSettings() {
     )
 
     SettingsLinkRow(
+        icon = Icons.Outlined.SettingsApplications,
         title = R.string.app_settings,
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

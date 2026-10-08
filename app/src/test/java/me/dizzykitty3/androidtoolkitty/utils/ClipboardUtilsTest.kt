@@ -45,7 +45,7 @@ class ClipboardUtilsTest {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = android.content.ClipData.newPlainText("private", "first secret")
         clip.addItem(android.content.ClipData.Item("second secret"))
-        clipboard.primaryClip = clip
+        clipboard.setPrimaryClip(clip)
 
         assertTrue(context.clearClipboard())
 

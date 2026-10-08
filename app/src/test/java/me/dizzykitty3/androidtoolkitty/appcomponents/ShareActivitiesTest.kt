@@ -27,7 +27,7 @@ class ShareActivitiesTest {
     fun shareToClipboard_missingTextPreservesExistingClipWithoutConfirmation() {
         val context = RuntimeEnvironment.getApplication()
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        clipboard.primaryClip = ClipData.newPlainText("existing label", "keep this text")
+        clipboard.setPrimaryClip(ClipData.newPlainText("existing label", "keep this text"))
         ShadowToast.reset()
         val controller = Robolectric.buildActivity(
             ShareToClipboardActivity::class.java,
