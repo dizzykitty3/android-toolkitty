@@ -47,7 +47,7 @@
     <string name="notification_content">Test notification content %1$d</string>
     <string name="media_volume">Media volume</string>
     <string name="edit_volume_slot">Edit volume slot %1$d</string>
-    <string name="volume_slot_edit_hint">Tap a custom slot to edit it. Apply saved volumes or mute media volume from the home card.</string>
+    <string name="volume_slot_edit_hint">Tap a button below to edit a custom volume. Apply saved volumes or mute media volume using the buttons above or on the home card.</string>
     <string name="volume_slot_not_configured">Set up this slot on the Volume page before applying it.</string>
     <string name="volume_slot_label">Volume slot %1$d: %2$s</string>
     <string name="loading_volume_slots">Loading volume settings…</string>

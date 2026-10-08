@@ -1,5 +1,6 @@
 package me.dizzykitty3.androidtoolkitty.home
 
+import android.content.Intent
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
@@ -26,11 +27,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.ui.home.VolumeActivity
-import me.dizzykitty3.androidtoolkitty.ui.home.editVolumeSlot
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseCard
-import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
-import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
 import me.dizzykitty3.androidtoolkitty.utils.effectiveVolumeSlots
 import me.dizzykitty3.androidtoolkitty.utils.maxMediaVolumeIndex
 import me.dizzykitty3.androidtoolkitty.utils.mediaVolume
@@ -44,11 +42,17 @@ fun Volume() {
     BaseCard(R.string.volume, Icons.AutoMirrored.Outlined.VolumeUp, true, {
         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
         context.openScreen(VolumeActivity::class.java)
-    }) { MediaVolume(isHome = true) }
+    }) {
+        MediaVolume(onUnconfiguredSlot = { slot ->
+            context.startActivity(Intent(context, VolumeActivity::class.java).apply {
+                putExtra(VolumeActivity.EXTRA_UNCONFIGURED_SLOT, slot)
+            })
+        })
+    }
 }
 
 @Composable
-fun MediaVolume(isHome: Boolean) {
+fun MediaVolume(onUnconfiguredSlot: (Int) -> Unit) {
     val vm = LocalSettingsViewModel.current
     val state by vm.settingsState.collectAsStateWithLifecycle()
     val view = LocalView.current
@@ -64,33 +68,23 @@ fun MediaVolume(isHome: Boolean) {
             selectedVolumeIndex(view.context.mediaVolume, maxVolume, state.customVolumes)
     }
 
-    if (!isHome) {
-        Text(stringResource(R.string.volume_slot_edit_hint))
-        SpacerPadding()
-    }
-
     SingleChoiceSegmentedButtonRow(
         modifier = Modifier.fillMaxWidth(), space = SegmentedButtonDefaults.BorderWidth,
     ) {
         options.forEachIndexed { index, label ->
-            if (!isHome && index == 0) return@forEachIndexed
             val description =
                 if (index == 0) label else stringResource(R.string.volume_slot_label, index, label)
             SegmentedButton(
                 modifier = Modifier.semantics { contentDescription = description },
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                    if (!isHome && index > 0) {
-                        view.context.editVolumeSlot(index - 1)
-                        return@SegmentedButton
-                    }
                     // Re-read the range at tap time in case the audio route changed.
                     val currentMax = view.context.maxMediaVolumeIndex
                     val currentSlots = effectiveVolumeSlots(state.customVolumes, currentMax)
                     val step =
                         if (index == 0) 0 else volumeSlotStep(currentSlots[index - 1], currentMax)
                     if (step == null) {
-                        view.showSnackbar(R.string.volume_slot_not_configured)
+                        onUnconfiguredSlot(index - 1)
                     } else {
                         view.setVolume(step)
                         selectedIndex = selectedVolumeIndex(
@@ -103,8 +97,8 @@ fun MediaVolume(isHome: Boolean) {
                 },
                 selected = index == selectedIndex,
                 shape = SegmentedButtonDefaults.itemShape(
-                    index = if (isHome) index else index - 1,
-                    count = if (isHome) options.size else options.size - 1,
+                    index = index,
+                    count = options.size,
                 ),
                 colors = SegmentedButtonDefaults.colors()
                     .copy(inactiveContainerColor = MaterialTheme.colorScheme.surfaceContainerLow),
