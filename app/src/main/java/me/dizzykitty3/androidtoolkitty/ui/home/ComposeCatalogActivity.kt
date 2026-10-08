@@ -37,7 +37,7 @@ class ComposeCatalogActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             BaseScreen(
-                title = R.string.compose,
+                title = R.string.compose_catalog,
                 dynamicColor = state.dynamicColor
             ) {
                 ComposeCatalogComposable()

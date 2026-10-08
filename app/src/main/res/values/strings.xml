@@ -262,8 +262,8 @@
     <string name="j_sentence">闇があるから光がある。そして闇から出てきた人こそ、一番本当に光のありがたさがわかるんだ。
     </string>
 
-    <!-- Home > Compose -->
-    <string name="compose">Compose</string>
+    <!-- Home > Compose catalog -->
+    <string name="compose_catalog">Compose catalog</string>
 
     <!-- Home > Haptic -->
     <string name="haptic_test">Haptic test</string>

@@ -16,7 +16,7 @@ fun ComposeCatalog() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
-        title = R.string.compose,
+        title = R.string.compose_catalog,
         icon = Icons.Outlined.DashboardCustomize,
         hasShowMore = true,
         onClick = {

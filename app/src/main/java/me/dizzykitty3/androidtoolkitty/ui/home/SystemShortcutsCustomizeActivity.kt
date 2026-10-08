@@ -6,8 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +64,6 @@ private fun SystemShortcutsPinOptionsComposable() {
                 if (shortcut.isAvailable()) {
                     CustomHideCardSettingSwitch(
                         text = shortcut.title,
-                        icon = Icons.Outlined.Settings,
                         isChecked = state.isShown(shortcut.shortcutType)
                     ) { newState ->
                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

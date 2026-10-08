@@ -175,19 +175,17 @@ private fun CustomizeHomeComposable() {
                     }
                 }
             }
-
-            if (orderMode && cards.isNotEmpty()) {
-                SettingsRow {
-                    Button(onClick = {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                        vm.resetHomeCardOrder()
-                    }) { Text(stringResource(R.string.reset_home_card_order)) }
-                }
-            }
         }
         SpacerPadding()
 
-        if (!orderMode) {
+        if (orderMode) {
+            if (cards.isNotEmpty()) {
+                Button(onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    vm.resetHomeCardOrder()
+                }) { Text(stringResource(R.string.reset_home_card_order)) }
+            }
+        } else {
             Button(
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

@@ -39,7 +39,7 @@ enum class HomeCardId(
     CHARACTER_CODES("card_unicode", R.string.character_codes),
     MAPS("card_google_maps", R.string.maps),
     FONT_WEIGHT("card_font_weight", R.string.font_weight_test),
-    COMPOSE_CATALOG("card_compose_catalog", R.string.compose),
+    COMPOSE_CATALOG("card_compose_catalog", R.string.compose_catalog),
     HAPTIC_FEEDBACK("card_haptic_feedback", R.string.haptic_test),
 }
 

@@ -10,11 +10,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.History
-import androidx.compose.material.icons.outlined.PlayCircleOutline
-import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
@@ -23,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -74,7 +68,6 @@ private fun SearchSettings() {
         SearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
-                icon = Icons.Outlined.Search,
                 isSelected = state.searchEngine == engine,
                 onClick = { viewModel.setSearchEngine(engine) },
             )
@@ -86,7 +79,6 @@ private fun SearchSettings() {
         VideoSearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
                 title = engine.title,
-                icon = Icons.Outlined.PlayCircleOutline,
                 isSelected = state.videoSearchEngine == engine,
                 onClick = { viewModel.setVideoSearchEngine(engine) },
             )
@@ -97,7 +89,6 @@ private fun SearchSettings() {
     SettingsSection(R.string.search_preferences) {
         CustomSwitchRow(
             title = R.string.do_not_remember_last_search,
-            icon = Icons.Outlined.History,
             checked = state.doNotRememberLastSearch,
         ) {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -109,7 +100,6 @@ private fun SearchSettings() {
 @Composable
 private fun SettingsRadioRow(
     @StringRes title: Int,
-    icon: ImageVector,
     isSelected: Boolean,
     onClick: () -> Unit,
 ) {
@@ -126,8 +116,6 @@ private fun SettingsRadioRow(
             },
         ),
     ) {
-        Icon(icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
-        Spacer(Modifier.width(20.dp))
         Text(stringResource(title), modifier = Modifier.weight(1f))
         Spacer(Modifier.width(16.dp))
         RadioButton(selected = isSelected, onClick = null)
