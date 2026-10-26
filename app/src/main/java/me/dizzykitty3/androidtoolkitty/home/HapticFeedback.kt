@@ -22,5 +22,5 @@ fun HapticFeedback() {
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(HapticTestActivity::class.java)
-        }) { }
+        })
 }

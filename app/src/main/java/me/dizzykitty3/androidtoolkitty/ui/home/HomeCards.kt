@@ -1,5 +1,8 @@
 package me.dizzykitty3.androidtoolkitty.ui.home
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
@@ -35,7 +38,7 @@ fun TwoColumnHomeCards(viewModel: SettingsViewModel, gridState: LazyStaggeredGri
 
     LazyVerticalStaggeredGrid(
         state = gridState,
-        contentPadding = PaddingValues(bottom = 80.dp),
+        contentPadding = PaddingValues(bottom = 80.dp + WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding()),
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = cardPadding,
         horizontalArrangement = Arrangement.spacedBy(cardPadding),

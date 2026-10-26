@@ -22,5 +22,5 @@ fun FontWeight() {
         onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(FontWeightTestActivity::class.java)
-        }) { }
+        })
 }

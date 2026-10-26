@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.uicomponents
 
 import androidx.annotation.DimenRes
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -32,4 +33,8 @@ fun IconAndTextPadding() = Res(R.dimen.padding_icons_and_text)
 fun TopPadding() = Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
 @Composable
-fun BottomPadding() = Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.safeDrawing))
+fun BottomPadding() = Spacer(
+    Modifier
+        .padding(bottom = dimensionResource(R.dimen.padding_screen))
+        .windowInsetsBottomHeight(WindowInsets.safeDrawing)
+)

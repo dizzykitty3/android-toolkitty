@@ -32,7 +32,7 @@ fun BaseCard(
     icon: ImageVector? = null,
     hasShowMore: Boolean = false,
     onClick: (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: (@Composable () -> Unit)? = null
 ) {
     BaseCard(
         title = stringResource(title),
@@ -49,7 +49,7 @@ fun BaseCard(
     icon: ImageVector? = null,
     hasShowMore: Boolean = false,
     onClick: (() -> Unit)? = null,
-    content: @Composable () -> Unit
+    content: (@Composable () -> Unit)? = null
 ) {
     val view = LocalView.current
     val haptic = LocalHapticFeedback.current
@@ -113,8 +113,10 @@ fun BaseCard(
                     }
                 }
             }
-            SpacerPadding()
-            content()
+            if (content != null) {
+                SpacerPadding()
+                content()
+            }
         }
     }
 }
