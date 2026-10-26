@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,7 +50,7 @@ internal fun SettingsLinkRow(
     icon: ImageVector? = null,
     title: String,
     onClick: () -> Unit,
-    trailingIcon: ImageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+    trailingIcon: ImageVector? = null,
     trailingContentDescription: String? = null,
 ) {
     SettingsRow(interaction = Modifier.clickable(
@@ -65,8 +63,10 @@ internal fun SettingsLinkRow(
             Spacer(Modifier.width(20.dp))
         }
         Text(title, modifier = Modifier.weight(1f))
-        Spacer(Modifier.width(16.dp))
-        Icon(trailingIcon, trailingContentDescription, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (trailingIcon != null) {
+            Spacer(Modifier.width(16.dp))
+            Icon(trailingIcon, trailingContentDescription, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
     }
 }
 
@@ -75,7 +75,7 @@ internal fun SettingsLinkRow(
     icon: ImageVector? = null,
     @StringRes title: Int,
     onClick: () -> Unit,
-    trailingIcon: ImageVector = Icons.AutoMirrored.Outlined.KeyboardArrowRight,
+    trailingIcon: ImageVector? = null,
     trailingContentDescription: String? = null,
 ) = SettingsLinkRow(icon, stringResource(title), onClick, trailingIcon, trailingContentDescription)
 
