@@ -21,8 +21,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.uicomponents.SettingsRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.SectionTitle
 
@@ -38,7 +40,7 @@ internal fun SettingsSection(
         }
         // No group background: the gaps show the page beneath the individual rows.
         Column(
-            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(24.dp))
+            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_section)))
                 .then(if (selectable) Modifier.selectableGroup() else Modifier),
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) { content() }

@@ -38,7 +38,7 @@ fun Section(
             SectionTitle(title)
         }
         Surface(
-            shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
+            shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_section)),
             color = MaterialTheme.colorScheme.surfaceBright,
             contentColor = MaterialTheme.colorScheme.onSurface,
         ) {

@@ -10,6 +10,7 @@
     <dimen name="padding_spacer">5dp</dimen>
     <dimen name="padding_icons_and_text">6dp</dimen>
     <dimen name="padding_tip">8dp</dimen>
+    <dimen name="rounded_corner_section">28dp</dimen>
     <dimen name="rounded_corner_shape">16dp</dimen>
     <dimen name="height_setting_row">60dp</dimen>
 </resources>
