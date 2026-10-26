@@ -25,7 +25,7 @@ import androidx.compose.material.icons.outlined.Map
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Vibration
-import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -57,6 +57,7 @@ import me.dizzykitty3.androidtoolkitty.ui.home.visibleHomeCards
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SettingsRow
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 
 @AndroidEntryPoint
@@ -175,17 +176,17 @@ private fun CustomizeHomeComposable() {
                 }
             }
         }
-        SpacerPadding()
+        SectionSpacePadding()
 
         if (orderMode) {
             if (cards.isNotEmpty()) {
-                Button(onClick = {
+                FilledTonalButton(onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     vm.resetHomeCardOrder()
                 }) { Text(stringResource(R.string.reset_home_card_order)) }
             }
         } else {
-            Button(
+            FilledTonalButton(
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     homeCardDefinitions.forEach { card ->
@@ -198,8 +199,9 @@ private fun CustomizeHomeComposable() {
             ) {
                 Text(stringResource(R.string.hide_all_cards))
             }
+            SpacerPadding()
 
-            Button(
+            FilledTonalButton(
                 onClick = {
                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                     homeCardDefinitions.forEach { card ->

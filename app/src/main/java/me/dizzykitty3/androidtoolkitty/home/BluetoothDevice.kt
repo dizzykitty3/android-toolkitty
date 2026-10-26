@@ -11,7 +11,7 @@ import androidx.compose.material.icons.outlined.BluetoothConnected
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -61,12 +61,12 @@ fun BluetoothDevice() {
         var clickCount by remember { mutableIntStateOf(0) }
 
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && btPermissionState.status.isGranted) || (Build.VERSION.SDK_INT < Build.VERSION_CODES.S && legacyBTPermissionState.allPermissionsGranted)) {
-            OutlinedButton(onClick = {
+            FilledTonalButton(onClick = {
                 // Get system service
                 val adapter = view.context.bluetoothAdapter()
                 if (adapter == null) {
                     view.showSnackbar(R.string.no_bluetooth_adapter_available)
-                    return@OutlinedButton
+                    return@FilledTonalButton
                 }
                 bluetoothAdapter = adapter
 
@@ -74,7 +74,7 @@ fun BluetoothDevice() {
                 if (adapter.isEnabled) {
                     pairedDevices = adapter.bondedDevices.sortedBy { it.name }
                     showResult = true
-                    return@OutlinedButton
+                    return@FilledTonalButton
                 }
 
                 // When Bluetooth is OFF

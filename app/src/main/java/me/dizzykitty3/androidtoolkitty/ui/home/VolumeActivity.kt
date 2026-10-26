@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -86,7 +86,7 @@ class VolumeActivity : ComponentActivity() {
                         ) {
                             slots.forEachIndexed { index, percent ->
                                 val description = stringResource(R.string.edit_volume_slot, index + 1)
-                                OutlinedButton(
+                                FilledTonalButton(
                                     modifier = Modifier.weight(1f).semantics { contentDescription = description },
                                     onClick = {
                                         haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
@@ -100,7 +100,7 @@ class VolumeActivity : ComponentActivity() {
                     }
                     SectionSpacePadding()
                     Section(R.string.voice_call_volume) {
-                        OutlinedButton({
+                        FilledTonalButton({
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             val index = view.context.maxVoiceCallVolumeIndex
                             view.context.setVoiceCallVolume(index)

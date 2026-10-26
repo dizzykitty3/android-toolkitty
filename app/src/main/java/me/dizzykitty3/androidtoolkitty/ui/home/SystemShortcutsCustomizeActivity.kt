@@ -6,7 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -23,6 +23,7 @@ import me.dizzykitty3.androidtoolkitty.home.systemShortcutDefinitions
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsSection
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 
@@ -72,9 +73,9 @@ private fun SystemShortcutsPinOptionsComposable() {
             }
 
         }
-        SpacerPadding()
+        SectionSpacePadding()
 
-        Button(
+        FilledTonalButton(
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 systemShortcutDefinitions.forEach { shortcut ->
