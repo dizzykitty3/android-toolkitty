@@ -26,8 +26,8 @@ fun SettingsRow(
             .clip(RoundedCornerShape(4.dp))
             .background(MaterialTheme.colorScheme.surfaceBright)
             .then(interaction)
-            .heightIn(min = 72.dp)
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .heightIn(min = 64.dp)
+            .padding(horizontal = 20.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         content = content,
     )

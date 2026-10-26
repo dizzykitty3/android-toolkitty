@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils
 
@@ -42,9 +42,9 @@ class FontWeightTestActivity : ComponentActivity() {
                 dynamicColor = state.dynamicColor
             ) {
                 Section("Font weight test 1") { FontWeightTest() }
-                CardSpacePadding()
+                SectionSpacePadding()
                 Section("Font weight test 2") { RowFontWeightTest() }
-                CardSpacePadding()
+                SectionSpacePadding()
                 Section("Font family test") { FontFamilyTest() }
             }
         }

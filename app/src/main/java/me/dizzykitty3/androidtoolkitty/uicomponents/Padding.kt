@@ -1,6 +1,7 @@
 package me.dizzykitty3.androidtoolkitty.uicomponents
 
 import androidx.annotation.DimenRes
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,9 @@ private fun Res(@DimenRes padding: Int) = Spacer(Modifier.padding(dimensionResou
 
 @Composable
 fun CardSpacePadding() = Res(R.dimen.padding_card_space)
+
+@Composable
+fun SectionSpacePadding() = Spacer(Modifier.height(dimensionResource(R.dimen.padding_section_space)))
 
 @Composable
 fun SpacerPadding() = Res(R.dimen.padding_spacer)

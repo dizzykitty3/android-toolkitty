@@ -30,7 +30,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomSwitchRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.SettingsRow
 import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
@@ -73,7 +73,7 @@ private fun SearchSettings() {
         }
     }
 
-    CardSpacePadding()
+    SectionSpacePadding()
     SettingsSection(R.string.video_search_engine, selectable = true) {
         VideoSearchEngine.entries.forEach { engine ->
             SettingsRadioRow(
@@ -84,7 +84,7 @@ private fun SearchSettings() {
         }
     }
 
-    CardSpacePadding()
+    SectionSpacePadding()
     SettingsSection(R.string.search_preferences) {
         CustomSwitchRow(
             title = R.string.do_not_remember_last_search,

@@ -31,7 +31,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.MediaVolume
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.effectiveVolumeSlots
@@ -71,7 +71,7 @@ class VolumeActivity : ComponentActivity() {
                     Section(R.string.media_volume) {
                         MediaVolume(onUnconfiguredSlot = { unconfiguredSlot = it })
                     }
-                    CardSpacePadding()
+                    SectionSpacePadding()
                     Section(R.string.edit_custom_volume) {
                         Text(
                             stringResource(R.string.volume_slot_edit_hint),
@@ -97,7 +97,7 @@ class VolumeActivity : ComponentActivity() {
                             }
                         }
                     }
-                    CardSpacePadding()
+                    SectionSpacePadding()
                     Section(R.string.voice_call_volume) {
                         OutlinedButton({
                             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)

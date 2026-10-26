@@ -24,7 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 
 @AndroidEntryPoint
@@ -80,7 +80,7 @@ private fun ComposeCatalogComposable() {
         Text("Label Small", style = MaterialTheme.typography.labelSmall)
 
     }
-    CardSpacePadding()
+    SectionSpacePadding()
     Section("Color scheme") {
         Color(MaterialTheme.colorScheme.primary, "primary")
         Color(MaterialTheme.colorScheme.primaryContainer, "primaryContainer")

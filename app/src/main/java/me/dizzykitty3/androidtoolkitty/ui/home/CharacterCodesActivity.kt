@@ -28,7 +28,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.Unicode
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
 import me.dizzykitty3.androidtoolkitty.utils.DateUtils
@@ -48,9 +48,9 @@ class CharacterCodesActivity : ComponentActivity() {
                 dynamicColor = state.dynamicColor
             ) {
                 Section(R.string.unicode) { Unicode() }
-                CardSpacePadding()
+                SectionSpacePadding()
                 Section(R.string.ascii) { ASCII() }
-                CardSpacePadding()
+                SectionSpacePadding()
                 Section(R.string.unix_timestamp) { UnixTimestamp() }
             }
         }

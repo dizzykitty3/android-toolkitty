@@ -32,7 +32,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.SystemShortcut
 import me.dizzykitty3.androidtoolkitty.home.availableSystemShortcuts
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelAndValueTextRow
 import me.dizzykitty3.androidtoolkitty.uicomponents.LabelText
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
@@ -95,15 +95,15 @@ private fun SystemShortcutsComposable() {
             SystemShortcutButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
-    CardSpacePadding()
+    SectionSpacePadding()
     SystemShortcutsGroup(
         R.string.general, shortcuts.subList(0, permissionsStartIndex)
     )
-    CardSpacePadding()
+    SectionSpacePadding()
     SystemShortcutsGroup(
         R.string.permissions, shortcuts.subList(permissionsStartIndex, debuggingStartIndex)
     )
-    CardSpacePadding()
+    SectionSpacePadding()
     SystemShortcutsGroup(
         R.string.debugging, shortcuts.subList(debuggingStartIndex, shortcutsEndIndex)
     )

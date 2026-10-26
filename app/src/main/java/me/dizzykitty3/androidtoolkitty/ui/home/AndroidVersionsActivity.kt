@@ -17,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableBoldText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableItalicText
 import me.dizzykitty3.androidtoolkitty.uicomponents.ScrollableText
@@ -39,7 +39,7 @@ class AndroidVersionsActivity : ComponentActivity() {
                 Section(title = R.string.latest_version) {
                     LatestVersion()
                 }
-                CardSpacePadding()
+                SectionSpacePadding()
                 Section(title = R.string.older_releases) {
                     OlderReleases()
                 }
