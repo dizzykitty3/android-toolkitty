@@ -28,7 +28,6 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScaffold
 import me.dizzykitty3.androidtoolkitty.uicomponents.BottomPadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.LargeScreenTitle
 import me.dizzykitty3.androidtoolkitty.uicomponents.TopBar
 import me.dizzykitty3.androidtoolkitty.uicomponents.TopPadding
 
@@ -46,8 +45,7 @@ class LicensesActivity : ComponentActivity() {
                 val title = stringResource(R.string.licenses)
                 Column(Modifier.fillMaxSize().padding(horizontal = dimensionResource(R.dimen.padding_screen))) {
                     TopPadding()
-                    TopBar()
-                    LargeScreenTitle(title)
+                    TopBar(title)
                     LibrariesContainer(
                         libraries = libraries,
                         modifier = Modifier

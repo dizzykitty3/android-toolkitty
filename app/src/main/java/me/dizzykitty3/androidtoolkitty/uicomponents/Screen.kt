@@ -7,12 +7,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
@@ -32,7 +30,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
@@ -41,11 +38,10 @@ import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 fun BaseScreen(
     @StringRes title: Int,
     dynamicColor: Boolean,
-    largeTitle: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     BaseScaffold(dynamicColor = dynamicColor) {
-        Screen(screenTitle = stringResource(title), largeTitle = largeTitle, content = content)
+        Screen(screenTitle = stringResource(title), content = content)
     }
 }
 
@@ -92,9 +88,8 @@ fun Screen(
             Modifier.padding(start = screenPadding, end = screenPadding)
         ) {
             TopPadding()
-            TopBar(navController = navController)
+            TopBar(screenTitle = screenTitle, navController = navController)
             LazyColumn {
-                if (screenTitle.isNotEmpty()) item { LargeScreenTitle(screenTitle) }
                 item { content() }
                 item { BottomPadding() }
             }
@@ -109,7 +104,7 @@ fun Screen(
 
 @Composable
 fun Screen(
-    screenTitle: String = "", largeTitle: Boolean = true, content: @Composable () -> Unit
+    screenTitle: String = "", content: @Composable () -> Unit
 ) {
     val screenPadding = dimensionResource(R.dimen.padding_screen)
 
@@ -117,9 +112,8 @@ fun Screen(
         Modifier.padding(start = screenPadding, end = screenPadding)
     ) {
         TopPadding()
-        TopBar(if (largeTitle) "" else screenTitle)
+        TopBar(screenTitle)
         LazyColumn {
-            if (largeTitle && screenTitle.isNotEmpty()) item { LargeScreenTitle(screenTitle) }
             item { content() }
             item { BottomPadding() }
         }
@@ -204,16 +198,4 @@ fun TopBar(screenTitle: String = "") {
         }
     }
     SpacerPadding()
-}
-
-/** Expanded title scrolls with page content, leaving the back button accessible. */
-@Composable
-internal fun LargeScreenTitle(title: String) {
-    Spacer(Modifier.height(48.dp))
-    Text(
-        text = title,
-        style = MaterialTheme.typography.displaySmall,
-        color = MaterialTheme.colorScheme.onSurface,
-        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 32.dp),
-    )
 }

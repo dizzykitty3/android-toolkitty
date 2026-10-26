@@ -47,7 +47,6 @@ class SearchSettingsActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
-                    largeTitle = true,
                     title = R.string.search_settings,
                     dynamicColor = state.dynamicColor,
                 ) {

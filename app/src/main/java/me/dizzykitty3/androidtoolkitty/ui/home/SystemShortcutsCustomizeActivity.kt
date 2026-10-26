@@ -37,7 +37,6 @@ class SystemShortcutsCustomizeActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
-                    largeTitle = true,
                     title = R.string.customize_system_shortcuts,
                     dynamicColor = state.dynamicColor
                 ) {

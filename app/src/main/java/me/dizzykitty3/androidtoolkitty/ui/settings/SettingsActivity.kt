@@ -61,7 +61,6 @@ class SettingsActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
-                    largeTitle = true,
                     title = R.string.settings,
                     dynamicColor = state.dynamicColor
                 ) {

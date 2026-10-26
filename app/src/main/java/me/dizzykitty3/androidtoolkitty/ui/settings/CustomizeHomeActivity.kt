@@ -70,7 +70,6 @@ class CustomizeHomeActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
-                    largeTitle = true,
                     title = R.string.customize_home,
                     dynamicColor = state.dynamicColor
                 ) {
