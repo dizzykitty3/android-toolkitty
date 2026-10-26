@@ -12,7 +12,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BatteryStd
 import androidx.compose.material.icons.outlined.MediaBluetoothOn
@@ -36,7 +36,6 @@ import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.core.content.getSystemService
 import kotlinx.coroutines.awaitCancellation
@@ -44,7 +43,7 @@ import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.S_BATTERY
 import me.dizzykitty3.androidtoolkitty.S_BLUETOOTH
 import me.dizzykitty3.androidtoolkitty.S_WIFI
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openSystemShortcut
 import me.dizzykitty3.androidtoolkitty.utils.NetworkUtil
@@ -108,7 +107,7 @@ fun HomeStatusBar(isTablet: Boolean = false) {
             )
         }
     }
-    CardSpacePadding()
+    SectionSpacePadding()
 }
 
 @Composable
@@ -119,7 +118,7 @@ private fun StatusChip(
     onClick: () -> Unit,
 ) {
     Surface(
-        shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
+        shape = CircleShape,
         color = MaterialTheme.colorScheme.surfaceContainer
     ) {
         Row(Modifier.clickable(onClick = onClick)) {

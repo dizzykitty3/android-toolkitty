@@ -50,7 +50,7 @@ class LicensesActivity : ComponentActivity() {
                         libraries = libraries,
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_section))),
+                            .clip(RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape))),
                         colors = LibraryDefaults.libraryColors(
                             libraryBackgroundColor = MaterialTheme.colorScheme.surfaceBright,
                         ),

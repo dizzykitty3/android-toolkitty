@@ -14,14 +14,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 
 @Composable
 fun HomeCards(viewModel: SettingsViewModel) {
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     state.visibleHomeCards().forEachIndexed { index, card ->
         key(card.id) {
-            if (index > 0) CardSpacePadding()
+            if (index > 0) SectionSpacePadding()
             card.content()
         }
     }
@@ -29,8 +29,7 @@ fun HomeCards(viewModel: SettingsViewModel) {
 
 @Composable
 fun TwoColumnHomeCards(viewModel: SettingsViewModel, gridState: LazyStaggeredGridState) {
-    val cardPadding = dimensionResource(R.dimen.padding_card_space)
-    val largeCardPadding = dimensionResource(R.dimen.padding_card_space_large)
+    val cardPadding = dimensionResource(R.dimen.padding_section_space)
     val state by viewModel.settingsState.collectAsStateWithLifecycle()
     val cards = state.visibleHomeCards()
 
@@ -39,7 +38,7 @@ fun TwoColumnHomeCards(viewModel: SettingsViewModel, gridState: LazyStaggeredGri
         contentPadding = PaddingValues(bottom = 80.dp),
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = cardPadding,
-        horizontalArrangement = Arrangement.spacedBy(largeCardPadding),
+        horizontalArrangement = Arrangement.spacedBy(cardPadding),
     ) {
         items(cards, key = { it.id }) { card ->
             card.content()

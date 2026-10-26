@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 /** Interaction precedes padding so the entire tile is a touch and ripple target. */
 @Composable
@@ -32,7 +31,7 @@ fun SettingsRow(
             .padding(horizontal = 20.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ProvideTextStyle(MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)) {
+        ProvideTextStyle(MaterialTheme.typography.titleMedium) {
             content()
         }
     }

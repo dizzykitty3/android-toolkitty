@@ -40,7 +40,7 @@ internal fun SettingsSection(
         }
         // No group background: the gaps show the page beneath the individual rows.
         Column(
-            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_section)))
+            modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)))
                 .then(if (selectable) Modifier.selectableGroup() else Modifier),
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) { content() }

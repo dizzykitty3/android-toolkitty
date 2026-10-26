@@ -1,16 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="padding_card_content_top_and_bottom">15dp</dimen>
+    <dimen name="padding_card_content_top_and_bottom">12dp</dimen>
     <dimen name="padding_card_content">20dp</dimen>
     <dimen name="padding_screen">20dp</dimen>
     <dimen name="padding_screen_large">30dp</dimen>
     <dimen name="padding_section_space">32dp</dimen>
-    <dimen name="padding_card_space">12dp</dimen>
-    <dimen name="padding_card_space_large">24dp</dimen>
-    <dimen name="padding_spacer">5dp</dimen>
-    <dimen name="padding_icons_and_text">6dp</dimen>
+    <dimen name="padding_spacer">8dp</dimen>
+    <dimen name="padding_icons_and_text">12dp</dimen>
     <dimen name="padding_tip">8dp</dimen>
-    <dimen name="rounded_corner_section">28dp</dimen>
-    <dimen name="rounded_corner_shape">16dp</dimen>
+    <dimen name="rounded_corner_shape">28dp</dimen>
+    <dimen name="rounded_corner_small">16dp</dimen>
     <dimen name="height_setting_row">60dp</dimen>
 </resources>

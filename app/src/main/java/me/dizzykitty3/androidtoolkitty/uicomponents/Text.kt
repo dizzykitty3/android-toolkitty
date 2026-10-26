@@ -180,7 +180,7 @@ private fun MessageCard(
             IconAndTextPadding()
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
         }
@@ -197,7 +197,7 @@ fun GroupTitle(@StringRes title: Int) = GroupTitle(stringResource(title))
 @Composable
 fun GroupTitle(title: String) {
     Text(
-        title, color = MaterialTheme.colorScheme.primary
+        title, style = MaterialTheme.typography.titleSmall, color = MaterialTheme.colorScheme.primary
     )
     SpacerPadding()
 }
@@ -209,7 +209,7 @@ private fun GroupTitlePreview() {
 }
 
 @Composable
-fun GroupTitleNoColor(title: String) = Text(title, style = MaterialTheme.typography.titleMedium)
+fun GroupTitleNoColor(title: String) = Text(title, style = MaterialTheme.typography.titleLarge)
 
 @Preview(showBackground = true)
 @Composable
@@ -277,8 +277,8 @@ fun Description(@StringRes text: Int) = Description(stringResource(text))
 @Composable
 fun Description(text: String) = Text(
     text,
-    style = MaterialTheme.typography.labelMedium,
-    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3F)
+    style = MaterialTheme.typography.bodyLarge,
+    color = MaterialTheme.colorScheme.onSurfaceVariant
 )
 
 @Preview(showBackground = true)
@@ -288,7 +288,11 @@ private fun DescriptionPreview() {
 }
 
 @Composable
-fun LabelText(text: String) = Text(text, style = MaterialTheme.typography.labelMedium)
+fun LabelText(text: String) = Text(
+    text,
+    style = MaterialTheme.typography.bodyMedium,
+    color = MaterialTheme.colorScheme.onSurfaceVariant,
+)
 
 @Composable
 fun LabelText(@StringRes text: Int) = LabelText(stringResource(text))

@@ -75,8 +75,9 @@ class VolumeActivity : ComponentActivity() {
                     Section(R.string.edit_custom_volume) {
                         Text(
                             stringResource(R.string.volume_slot_edit_hint),
+                            style = MaterialTheme.typography.bodyLarge,
                             color = if (showError) MaterialTheme.colorScheme.error
-                            else MaterialTheme.colorScheme.onSurface,
+                            else MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                         SpacerPadding()
                         Row(

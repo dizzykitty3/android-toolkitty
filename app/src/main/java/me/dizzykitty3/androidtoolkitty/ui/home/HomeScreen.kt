@@ -53,9 +53,8 @@ import me.dizzykitty3.androidtoolkitty.home.Test
 import me.dizzykitty3.androidtoolkitty.theme.AppTheme
 import me.dizzykitty3.androidtoolkitty.ui.settings.SettingsActivity
 import me.dizzykitty3.androidtoolkitty.uicomponents.BottomPadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.CardSpacePadding
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.DevBuildTip
-import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.TopPadding
 import me.dizzykitty3.androidtoolkitty.utils.IntentUtils.openScreen
 
@@ -140,18 +139,16 @@ private fun MobileLayout(viewModel: SettingsViewModel, listState: LazyListState)
             contentPadding = PaddingValues(bottom = 80.dp),
         ) {
             item { TopBar() }
-            item { CardSpacePadding() }
-            item { CardSpacePadding() }
+            item { SectionSpacePadding() }
             item { Greeting() }
-            item { CardSpacePadding() }
-            item { CardSpacePadding() }
+            item { SectionSpacePadding() }
             if (debug) item {
                 DevBuildTip()
-                CardSpacePadding()
+                SectionSpacePadding()
                 Test()
             }
             item {
-                if (debug && settings.visibleHomeCards().isNotEmpty()) CardSpacePadding()
+                if (debug && settings.visibleHomeCards().isNotEmpty()) SectionSpacePadding()
                 HomeCards(viewModel)
             }
             item { BottomPadding() }
@@ -171,8 +168,11 @@ private fun TabletLayout(viewModel: SettingsViewModel, gridState: LazyStaggeredG
                 Box(Modifier.weight(1F)) { Greeting() }
                 Box(Modifier.weight(1F)) { TopBar(isTablet = true) }
             }
-            SpacerPadding()
-            if (debug) DevBuildTip()
+            SectionSpacePadding()
+            if (debug) {
+                DevBuildTip()
+                SectionSpacePadding()
+            }
             TwoColumnHomeCards(viewModel, gridState)
         }
     }

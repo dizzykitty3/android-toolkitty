@@ -39,7 +39,7 @@ fun CustomIconPopup(
     var showPopup by remember { mutableStateOf(false) }
 
     Row {
-        Surface(shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape))) {
+        Surface(shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_small))) {
             Icon(
                 imageVector = Icons.Outlined.Info,
                 contentDescription = stringResource(R.string.info),
@@ -73,7 +73,7 @@ fun CustomIconPopup(
                 }
             ) {
                 Surface(
-                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_shape)),
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.rounded_corner_small)),
                     color = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(4.dp),
