@@ -87,11 +87,11 @@ private fun SearchSettings() {
     SectionSpacePadding()
     SettingsSection(R.string.search_preferences) {
         CustomSwitchRow(
-            title = R.string.do_not_remember_last_search,
-            checked = state.doNotRememberLastSearch,
+            title = R.string.remember_last_search,
+            checked = !state.doNotRememberLastSearch,
         ) {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-            viewModel.setDoNotRememberLastSearch(it)
+            viewModel.setDoNotRememberLastSearch(!it)
         }
     }
 }
