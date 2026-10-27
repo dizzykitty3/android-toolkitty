@@ -69,6 +69,7 @@ fun CustomSwitchRow(
             checked = checked,
             onCheckedChange = null,
             enabled = enabled,
+            colors = SwitchDefaults.colors(checkedIconColor = MaterialTheme.colorScheme.primary),
             thumbContent = {
                 Icon(
                     imageVector = if (checked) Icons.Outlined.Check else Icons.Outlined.Close,
