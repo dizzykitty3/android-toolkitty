@@ -170,7 +170,8 @@ private fun MessageCard(
         Row(
             Modifier
                 .padding(dimensionResource(R.dimen.padding_tip))
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 icon,
@@ -180,8 +181,7 @@ private fun MessageCard(
             IconAndTextPadding()
             Text(
                 text = message,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.align(Alignment.CenterVertically)
+                style = MaterialTheme.typography.bodyLarge
             )
         }
     }
