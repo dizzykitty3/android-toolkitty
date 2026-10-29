@@ -31,7 +31,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
-import me.dizzykitty3.androidtoolkitty.utils.DateUtils
 import me.dizzykitty3.androidtoolkitty.utils.StringUtils.toASCII
 
 @AndroidEntryPoint
@@ -50,8 +49,6 @@ class CharacterCodesActivity : ComponentActivity() {
                 Section(R.string.unicode) { Unicode() }
                 SectionSpacePadding()
                 Section(R.string.ascii) { ASCII() }
-                SectionSpacePadding()
-                Section(R.string.unix_timestamp) { UnixTimestamp() }
             }
         }
     }
@@ -94,10 +91,4 @@ private fun ASCII() {
         focus.clearFocus()
         toASCIIResult = stringToASCII.toASCII()
     }) { Text(stringResource(R.string.convert_to_ascii_values)) }
-}
-
-@Composable
-private fun UnixTimestamp() {
-    Text(stringResource(R.string.current_unix_timestamp_in_seconds))
-    Text(DateUtils.unixTimestampInSeconds)
 }

@@ -32,9 +32,19 @@ import me.dizzykitty3.androidtoolkitty.S_USAGE_ACCESS
 import me.dizzykitty3.androidtoolkitty.S_VPN
 import me.dizzykitty3.androidtoolkitty.S_WIFI
 
+enum class SystemShortcutCategory(@param:StringRes val title: Int) {
+    GENERAL(R.string.general),
+    CONNECTIONS(R.string.network_connections),
+    LANGUAGE_TIME(R.string.language_time),
+    ACCESSIBILITY(R.string.assistive_features),
+    PERMISSIONS(R.string.permissions_special_access),
+    DEVELOPER(R.string.developer_tools),
+}
+
 data class SystemShortcut(
     val shortcutType: String,
     @param:StringRes val title: Int,
+    val category: SystemShortcutCategory = SystemShortcutCategory.GENERAL,
     val isAvailable: () -> Boolean = { true },
 )
 
@@ -45,7 +55,7 @@ val systemShortcutDefinitions = listOf(
         R.string.search_settings
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q },
     // General
-    SystemShortcut(S_WIFI, R.string.internet),
+    SystemShortcut(S_WIFI, R.string.internet, SystemShortcutCategory.CONNECTIONS),
     SystemShortcut(S_BATTERY, R.string.battery),
     SystemShortcut(S_DISPLAY, R.string.display_settings),
     SystemShortcut(
@@ -53,42 +63,40 @@ val systemShortcutDefinitions = listOf(
         R.string.auto_rotate_settings
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.S },
     SystemShortcut(S_SOUND, R.string.sound),
-    SystemShortcut(S_BLUETOOTH, R.string.bluetooth_settings),
+    SystemShortcut(S_BLUETOOTH, R.string.bluetooth_settings, SystemShortcutCategory.CONNECTIONS),
     SystemShortcut(S_DEFAULT_APPS, R.string.default_apps_settings),
     SystemShortcut(S_KEYBOARD, R.string.keyboard),
-    SystemShortcut(S_BATTERY_OPTIMIZATION, R.string.battery_optimization_settings),
-    SystemShortcut(S_CAPTION, R.string.caption_preferences),
+    SystemShortcut(S_BATTERY_OPTIMIZATION, R.string.battery_optimization_settings, SystemShortcutCategory.PERMISSIONS),
+    SystemShortcut(S_CAPTION, R.string.caption_preferences, SystemShortcutCategory.ACCESSIBILITY),
     SystemShortcut(S_ACCOUNTS, R.string.accounts),
-    SystemShortcut(S_VPN, R.string.vpn),
-    SystemShortcut(S_NFC, R.string.nfc),
-    // Permissions
+    SystemShortcut(S_VPN, R.string.vpn, SystemShortcutCategory.CONNECTIONS),
+    SystemShortcut(S_NFC, R.string.nfc, SystemShortcutCategory.CONNECTIONS),
     SystemShortcut(
         S_APP_NOTIFICATIONS,
-        R.string.app_notifications
+        R.string.app_notifications, SystemShortcutCategory.PERMISSIONS
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU },
     SystemShortcut(
         S_UNKNOWN_APPS,
-        R.string.install_unknown_apps
+        R.string.install_unknown_apps, SystemShortcutCategory.PERMISSIONS
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.O },
     SystemShortcut(
         S_MEDIA_MANAGEMENT,
-        R.string.media_management
+        R.string.media_management, SystemShortcutCategory.PERMISSIONS
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.S },
-    SystemShortcut(S_USAGE_ACCESS, R.string.usage_access_permission),
-    SystemShortcut(S_OVERLAY, R.string.overlay_permission),
-    SystemShortcut(S_MODIFY_SYSTEM, R.string.modify_system),
-    SystemShortcut(S_NOTIFICATION_LISTENER, R.string.device_and_app_notifications),
-    SystemShortcut(S_DND_ACCESS, R.string.do_not_disturb_access),
+    SystemShortcut(S_USAGE_ACCESS, R.string.usage_access_permission, SystemShortcutCategory.PERMISSIONS),
+    SystemShortcut(S_OVERLAY, R.string.overlay_permission, SystemShortcutCategory.PERMISSIONS),
+    SystemShortcut(S_MODIFY_SYSTEM, R.string.modify_system, SystemShortcutCategory.PERMISSIONS),
+    SystemShortcut(S_NOTIFICATION_LISTENER, R.string.device_and_app_notifications, SystemShortcutCategory.PERMISSIONS),
+    SystemShortcut(S_DND_ACCESS, R.string.do_not_disturb_access, SystemShortcutCategory.PERMISSIONS),
     SystemShortcut(
         S_ALARMS,
-        R.string.alarms_n_reminders
+        R.string.alarms_n_reminders, SystemShortcutCategory.PERMISSIONS
     ) { Build.VERSION.SDK_INT >= Build.VERSION_CODES.S },
-    SystemShortcut(S_ACCESSIBILITY, R.string.accessibility_settings),
-    // Debugging
-    SystemShortcut(S_LOCALE, R.string.language_settings),
-    SystemShortcut(S_DATE, R.string.date_and_time_settings),
-    SystemShortcut(S_DEVELOPER, R.string.developer_options),
-)
+    SystemShortcut(S_ACCESSIBILITY, R.string.accessibility_settings, SystemShortcutCategory.ACCESSIBILITY),
+    SystemShortcut(S_LOCALE, R.string.language_settings, SystemShortcutCategory.LANGUAGE_TIME),
+    SystemShortcut(S_DATE, R.string.date_and_time_settings, SystemShortcutCategory.LANGUAGE_TIME),
+    SystemShortcut(S_DEVELOPER, R.string.developer_options, SystemShortcutCategory.DEVELOPER),
+).sortedBy { it.category.ordinal }
 
 fun availableSystemShortcuts(): List<SystemShortcut> =
     systemShortcutDefinitions.filter { it.isAvailable() }

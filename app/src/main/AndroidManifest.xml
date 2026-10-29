@@ -34,6 +34,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.home.DateTimeActivity" />
         <activity android:name=".ui.home.VolumeActivity"></activity>
 
         <activity android:name=".ui.home.VolumeCustomizeActivity"></activity>

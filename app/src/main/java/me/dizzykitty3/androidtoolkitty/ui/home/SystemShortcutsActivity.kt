@@ -26,10 +26,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.S_ABOUT_PHONE
-import me.dizzykitty3.androidtoolkitty.S_ACCESSIBILITY
-import me.dizzykitty3.androidtoolkitty.S_NFC
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.home.SystemShortcut
+import me.dizzykitty3.androidtoolkitty.home.SystemShortcutCategory
 import me.dizzykitty3.androidtoolkitty.home.availableSystemShortcuts
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
@@ -66,10 +65,6 @@ private fun SystemShortcutsComposable() {
     val haptic = LocalHapticFeedback.current
     val shortcuts = availableSystemShortcuts().filterNot { it.shortcutType == S_ABOUT_PHONE }
 
-    val permissionsStartIndex = shortcuts.indexOfFirst { it.shortcutType == S_NFC } + 1
-    val debuggingStartIndex = shortcuts.indexOfFirst { it.shortcutType == S_ACCESSIBILITY } + 1
-    val shortcutsEndIndex = shortcuts.size
-
     Section(R.string.device_info) {
         Column(Modifier.fillMaxWidth()) {
             LabelAndValueTextRow(R.string.manufacturer, StringUtils.manufacturer)
@@ -95,18 +90,13 @@ private fun SystemShortcutsComposable() {
             SystemShortcutButton(S_ABOUT_PHONE, R.string.about_phone)
         }
     }
-    SectionSpacePadding()
-    SystemShortcutsGroup(
-        R.string.general, shortcuts.subList(0, permissionsStartIndex)
-    )
-    SectionSpacePadding()
-    SystemShortcutsGroup(
-        R.string.permissions, shortcuts.subList(permissionsStartIndex, debuggingStartIndex)
-    )
-    SectionSpacePadding()
-    SystemShortcutsGroup(
-        R.string.debugging, shortcuts.subList(debuggingStartIndex, shortcutsEndIndex)
-    )
+    SystemShortcutCategory.entries.forEach { category ->
+        val group = shortcuts.filter { it.category == category }
+        if (group.isNotEmpty()) {
+            SectionSpacePadding()
+            SystemShortcutsGroup(category.title, group)
+        }
+    }
 }
 
 @Composable

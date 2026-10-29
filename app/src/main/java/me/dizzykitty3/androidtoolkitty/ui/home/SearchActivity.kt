@@ -66,7 +66,7 @@ class SearchActivity : ComponentActivity() {
 
             CompositionLocalProvider(LocalSettingsViewModel provides viewModel) {
                 BaseScreen(
-                    title = R.string.search,
+                    title = R.string.search_and_visit,
                     dynamicColor = state.dynamicColor
                 ) {
                     Section(R.string.webpage) { Webpage() }

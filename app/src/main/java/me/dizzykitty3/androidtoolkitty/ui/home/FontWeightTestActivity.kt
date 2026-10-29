@@ -38,14 +38,14 @@ class FontWeightTestActivity : ComponentActivity() {
             val state by viewModel.settingsState.collectAsStateWithLifecycle()
 
             BaseScreen(
-                title = R.string.font_weight_test,
+                title = R.string.font_test,
                 dynamicColor = state.dynamicColor
             ) {
-                Section("Font weight test 1") { FontWeightTest() }
+                Section(R.string.font_weight_test) { FontWeightTest() }
                 SectionSpacePadding()
-                Section("Font weight test 2") { RowFontWeightTest() }
+                Section(R.string.font_weight_comparison) { RowFontWeightTest() }
                 SectionSpacePadding()
-                Section("Font family test") { FontFamilyTest() }
+                Section(R.string.font_family_test) { FontFamilyTest() }
             }
         }
     }

@@ -299,4 +299,14 @@
     <string name="home_card_order">Order</string>
     <string name="home_card_visibility">Visibility</string>
     <string name="home_card_order_empty">No visible cards to reorder. Switch to Visibility and enable some cards first.</string>
+    <string name="date_time_tools">Date and time</string>
+    <string name="search_and_visit">Search and visit</string>
+    <string name="font_test">Font test</string>
+    <string name="font_weight_comparison">Font weight comparison</string>
+    <string name="font_family_test">Font family test</string>
+    <string name="network_connections">Network and connections</string>
+    <string name="language_time">Language and time</string>
+    <string name="assistive_features">Accessibility</string>
+    <string name="permissions_special_access">Permissions and special access</string>
+    <string name="developer_tools">Developer</string>
 </resources>

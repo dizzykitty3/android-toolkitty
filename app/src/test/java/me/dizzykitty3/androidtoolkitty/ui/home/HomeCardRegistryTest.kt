@@ -36,12 +36,10 @@ class HomeCardRegistryTest {
         repository.moveHomeCard(HomeCardId.SEARCH.preferenceKey, -1, defaults)
 
         val moved = repository.settingsFlow.first()
-        val expectedOrder = listOf(
-            HomeCardId.SEARCH, HomeCardId.VOLUME, HomeCardId.CLIPBOARD, HomeCardId.YEAR_PROGRESS,
-        ) + HomeCardId.entries.drop(4)
+        val expectedOrder = listOf(HomeCardId.SEARCH, HomeCardId.YEAR_PROGRESS) + HomeCardId.entries.drop(2)
         assertEquals(expectedOrder, moved.orderedHomeCards().map { it.id })
         assertEquals(
-            listOf(HomeCardId.SEARCH, HomeCardId.YEAR_PROGRESS) + HomeCardId.entries.drop(4),
+            expectedOrder.filter { it != HomeCardId.VOLUME && it != HomeCardId.CLIPBOARD },
             moved.visibleHomeCards().map { it.id },
         )
 
@@ -92,6 +90,17 @@ class HomeCardRegistryTest {
 
         assertEquals(HomeCardId.entries.toList(), cardIds)
         assertEquals(cardIds.size, cardIds.distinct().size)
+    }
+
+    @Test
+    fun renamedCards_preserveLegacyPreferenceKeysAndOrder() {
+        val keys = listOf("card_font_weight", "card_year_progress", "card_webpage")
+        val settings = UserSettings.default().copy(
+            homeCardOrder = keys,
+            shownItemStates = mapOf("card_year_progress" to false),
+        )
+        assertEquals(keys, settings.orderedHomeCards().take(3).map { it.id.preferenceKey })
+        assertTrue(settings.visibleHomeCards().none { it.id == HomeCardId.YEAR_PROGRESS })
     }
 
     @Test

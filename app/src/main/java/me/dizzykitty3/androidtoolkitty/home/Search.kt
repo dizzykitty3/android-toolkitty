@@ -51,7 +51,7 @@ fun Search() {
     val haptic = LocalHapticFeedback.current
 
     BaseCard(
-        title = R.string.search, icon = Icons.Outlined.Search, hasShowMore = true, onClick = {
+        title = R.string.search_and_visit, icon = Icons.Outlined.Search, hasShowMore = true, onClick = {
             haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
             context.openScreen(SearchActivity::class.java)
         }) { SearchComposable() }

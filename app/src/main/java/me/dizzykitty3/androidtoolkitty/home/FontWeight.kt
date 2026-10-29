@@ -16,7 +16,7 @@ fun FontWeight() {
     val context = LocalContext.current
     val haptic = LocalHapticFeedback.current
     BaseCard(
-        title = R.string.font_weight_test,
+        title = R.string.font_test,
         icon = Icons.Outlined.FontDownload,
         hasShowMore = true,
         onClick = {
