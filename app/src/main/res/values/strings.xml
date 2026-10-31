@@ -181,6 +181,7 @@
     <string name="locale">Locale</string>
     <string name="time_zone">Time zone</string>
     <string name="customize_system_shortcuts">Customize system shortcuts</string>
+    <string name="add_all_options">Add all options</string>
     <string name="hide_all_options">Hide all options</string>
     <string name="system_shortcuts_tip">Pin up to 4 shortcuts to your home screen</string>
     <string name="device_and_app_notifications">Notification read, reply &amp; control</string>

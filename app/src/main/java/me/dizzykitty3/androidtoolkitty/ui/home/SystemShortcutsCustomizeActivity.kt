@@ -79,6 +79,16 @@ private fun SystemShortcutsPinOptionsComposable() {
             onClick = {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 systemShortcutDefinitions.forEach { shortcut ->
+                    vm.saveShownState(shortcut.shortcutType, true)
+                }
+            }) {
+            Text(stringResource(R.string.add_all_options))
+        }
+        SpacerPadding()
+        FilledTonalButton(
+            onClick = {
+                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                systemShortcutDefinitions.forEach { shortcut ->
                     vm.saveShownState(shortcut.shortcutType, false)
                 }
             }) {
