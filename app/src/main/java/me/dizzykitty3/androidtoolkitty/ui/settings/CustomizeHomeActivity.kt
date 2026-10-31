@@ -115,13 +115,8 @@ private fun CustomizeHomeComposable() {
         }
         SpacerPadding()
         val cards = if (orderMode) state.visibleHomeCards() else state.orderedHomeCards()
-        if (orderMode) {
-            Text(
-                stringResource(
-                    if (cards.isEmpty()) R.string.home_card_order_empty
-                    else R.string.home_card_order_hint,
-                )
-            )
+        if (orderMode && cards.isEmpty()) {
+            Text(stringResource(R.string.home_card_order_empty))
         }
         val defaultOrder = homeCardDefinitions.map { it.id.preferenceKey }
         SettingsSection {
