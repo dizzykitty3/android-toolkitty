@@ -10,7 +10,7 @@ plugins {
 kotlin {
     compilerOptions {
         languageVersion = org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_4
-        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25
         extraWarnings = true
     }
 }
@@ -60,8 +60,8 @@ android {
     }
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
         encoding = "UTF-8"
     }
     packaging {
@@ -90,8 +90,7 @@ androidComponents {
     onVariants(selector().withBuildType("release")) { variant ->
         variant.outputs.forEach { output ->
             output.outputFileName.set(
-                output.versionName.map { versionName -> "android-toolkitty-${versionName}.apk" }
-            )
+                output.versionName.map { versionName -> "android-toolkitty-${versionName}.apk" })
         }
     }
 }
