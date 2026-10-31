@@ -98,6 +98,18 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
+    fun removeCustomVolume(slot: Int, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val removed = try {
+                repository.removeCustomVolume(slot)
+                true
+            } catch (_: IOException) {
+                false
+            }
+            onResult(removed)
+        }
+    }
+
     fun increaseVolumeButtonTapCount() {
         updateSettings { increaseVolumeButtonTapCount() }
     }

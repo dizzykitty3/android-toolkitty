@@ -7,6 +7,8 @@
     <string name="clear_input">Clear input</string>
     <string name="expand">Expand</string>
     <string name="done">Done</string>
+    <string name="remove_custom_volume">Remove custom volume</string>
+    <string name="volume_remove_failed">Could not remove custom volume.</string>
     <string name="remove">Remove</string>
     <string name="info">Info</string>
     <string name="go_to_settings">Go to settings</string>

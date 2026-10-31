@@ -169,6 +169,11 @@ class SettingsRepository @Inject constructor(
         return result
     }
 
+    suspend fun removeCustomVolume(slot: Int) {
+        val key = PreferenceKeys.CUSTOM_VOLUMES[slot]
+        dataStore.edit { it.remove(key) }
+    }
+
     suspend fun increaseVolumeButtonTapCount() {
         dataStore.edit { preferences ->
             val currentCount = preferences[PreferenceKeys.HAVE_TAPPED_VOLUME_BUTTON] ?: 0

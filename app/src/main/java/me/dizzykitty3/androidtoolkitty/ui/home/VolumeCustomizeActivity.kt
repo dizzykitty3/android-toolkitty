@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
@@ -36,6 +37,7 @@ import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.Section
+import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
 import me.dizzykitty3.androidtoolkitty.utils.CUSTOM_VOLUME_SLOT_COUNT
 import me.dizzykitty3.androidtoolkitty.utils.SnackbarUtils.showSnackbar
@@ -175,6 +177,25 @@ private fun VolumeCustomizeComposable(slot: Int) {
                         }
                     }) { Text(stringResource(R.string.save)) }
             }
+        }
+    }
+    if (state.customVolumes.getOrNull(slot) != null) {
+        SectionSpacePadding()
+        Section {
+            FilledTonalButton(
+                enabled = !saving,
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                    saving = true
+                    vm.removeCustomVolume(slot) { removed ->
+                        if (removed) activity?.finish()
+                        else {
+                            saving = false
+                            view.showSnackbar(R.string.volume_remove_failed)
+                        }
+                    }
+                },
+            ) { Text(stringResource(R.string.remove_custom_volume)) }
         }
     }
 }
