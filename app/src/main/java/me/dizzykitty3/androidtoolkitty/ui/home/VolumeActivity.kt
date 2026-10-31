@@ -12,9 +12,6 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -62,24 +59,22 @@ class VolumeActivity : ComponentActivity() {
                     val view = LocalView.current
                     val haptic = LocalHapticFeedback.current
 
-                    var unconfiguredSlot by rememberSaveable {
-                        mutableIntStateOf(intent.getIntExtra(EXTRA_UNCONFIGURED_SLOT, -1))
-                    }
+                    val unconfiguredSlot = intent.getIntExtra(EXTRA_UNCONFIGURED_SLOT, -1)
                     val slots = effectiveVolumeSlots(state.customVolumes, view.context.maxMediaVolumeIndex)
-                    val showError = unconfiguredSlot in slots.indices && slots[unconfiguredSlot] == null
+                    val showEditHint = unconfiguredSlot in slots.indices && slots[unconfiguredSlot] == null
 
                     Section(R.string.media_volume) {
-                        MediaVolume(onUnconfiguredSlot = { unconfiguredSlot = it })
+                        MediaVolume(onUnconfiguredSlot = { view.context.editVolumeSlot(it) })
                     }
                     SectionSpacePadding()
                     Section(R.string.edit_custom_volume) {
-                        Text(
-                            stringResource(R.string.volume_slot_edit_hint),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = if (showError) MaterialTheme.colorScheme.error
-                            else MaterialTheme.colorScheme.onSurfaceVariant,
-                        )
-                        SpacerPadding()
+                        if (showEditHint) {
+                            Text(
+                                stringResource(R.string.volume_slot_edit_hint),
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                            SpacerPadding()
+                        }
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
