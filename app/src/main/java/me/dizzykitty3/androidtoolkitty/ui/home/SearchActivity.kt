@@ -39,6 +39,7 @@ import me.dizzykitty3.androidtoolkitty.HTTPS
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.LocalSettingsViewModel
 import me.dizzykitty3.androidtoolkitty.datastore.SettingsViewModel
+import me.dizzykitty3.androidtoolkitty.home.SearchComposable
 import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.ClearInput
@@ -69,6 +70,8 @@ class SearchActivity : ComponentActivity() {
                     title = R.string.search_and_visit,
                     dynamicColor = state.dynamicColor
                 ) {
+                    Section(R.string.search) { SearchComposable() }
+                    SectionSpacePadding()
                     Section(R.string.webpage) { Webpage() }
                     SectionSpacePadding()
                     Section(R.string.social_finder) { SocialMediaProfile() }

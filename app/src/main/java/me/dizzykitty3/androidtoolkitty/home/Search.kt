@@ -58,7 +58,7 @@ fun Search() {
 }
 
 @Composable
-private fun SearchComposable() {
+internal fun SearchComposable() {
     val vm = LocalSettingsViewModel.current
     val state by vm.settingsState.collectAsStateWithLifecycle()
     val view = LocalView.current
