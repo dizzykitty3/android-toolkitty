@@ -210,7 +210,6 @@ private fun CustomizeHomeComposable() {
                 Text(stringResource(R.string.show_all_cards))
             }
         }
-        SpacerPadding()
     }
 }
 

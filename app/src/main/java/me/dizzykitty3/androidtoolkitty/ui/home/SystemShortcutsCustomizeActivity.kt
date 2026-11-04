@@ -94,6 +94,5 @@ private fun SystemShortcutsPinOptionsComposable() {
             }) {
             Text(stringResource(R.string.hide_all_options))
         }
-        SpacerPadding()
     }
 }

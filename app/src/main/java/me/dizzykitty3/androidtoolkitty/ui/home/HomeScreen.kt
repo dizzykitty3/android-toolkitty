@@ -3,7 +3,6 @@ package me.dizzykitty3.androidtoolkitty.ui.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.calculateEndPadding
 import androidx.compose.foundation.layout.calculateStartPadding
@@ -39,7 +38,6 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
@@ -136,7 +134,6 @@ private fun MobileLayout(viewModel: SettingsViewModel, listState: LazyListState)
         LazyColumn(
             modifier = Modifier.padding(start = screenPadding, end = screenPadding),
             state = listState,
-            contentPadding = PaddingValues(bottom = 80.dp),
         ) {
             item { TopBar() }
             item { SectionSpacePadding() }

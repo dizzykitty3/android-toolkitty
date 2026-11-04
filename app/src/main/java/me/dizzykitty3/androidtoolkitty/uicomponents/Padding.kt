@@ -35,6 +35,6 @@ fun TopPadding() = Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawin
 @Composable
 fun BottomPadding() = Spacer(
     Modifier
-        .padding(bottom = dimensionResource(R.dimen.padding_screen))
+        .padding(bottom = dimensionResource(R.dimen.padding_screen_bottom))
         .windowInsetsBottomHeight(WindowInsets.safeDrawing)
 )
