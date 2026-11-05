@@ -148,7 +148,7 @@ private fun MobileLayout(viewModel: SettingsViewModel, listState: LazyListState)
                 if (debug && settings.visibleHomeCards().isNotEmpty()) SectionSpacePadding()
                 HomeCards(viewModel)
             }
-            item { BottomPadding() }
+            item { BottomPadding(R.dimen.padding_home_bottom) }
         }
     }
 }

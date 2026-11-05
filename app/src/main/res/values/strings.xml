@@ -181,8 +181,8 @@
     <string name="locale">Locale</string>
     <string name="time_zone">Time zone</string>
     <string name="customize_system_shortcuts">Customize system shortcuts</string>
-    <string name="add_all_options">Add all options</string>
-    <string name="hide_all_options">Hide all options</string>
+    <string name="show_all_shortcuts">Show all shortcuts</string>
+    <string name="hide_all_shortcuts">Hide all shortcuts</string>
     <string name="device_and_app_notifications">Notification read, reply &amp; control</string>
     <string name="do_not_disturb_access">Modes access</string>
     <string name="oem_removed">Unable to open this page on your %1$s device.</string>

@@ -33,8 +33,8 @@ fun IconAndTextPadding() = Res(R.dimen.padding_icons_and_text)
 fun TopPadding() = Spacer(Modifier.windowInsetsTopHeight(WindowInsets.safeDrawing))
 
 @Composable
-fun BottomPadding() = Spacer(
+fun BottomPadding(@DimenRes spacing: Int = R.dimen.padding_screen_bottom) = Spacer(
     Modifier
-        .padding(bottom = dimensionResource(R.dimen.padding_screen_bottom))
+        .padding(bottom = dimensionResource(spacing))
         .windowInsetsBottomHeight(WindowInsets.safeDrawing)
 )

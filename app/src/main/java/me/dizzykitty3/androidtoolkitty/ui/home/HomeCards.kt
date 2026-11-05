@@ -38,7 +38,7 @@ fun TwoColumnHomeCards(viewModel: SettingsViewModel, gridState: LazyStaggeredGri
     LazyVerticalStaggeredGrid(
         state = gridState,
         contentPadding = PaddingValues(
-            bottom = dimensionResource(R.dimen.padding_screen_bottom) +
+            bottom = dimensionResource(R.dimen.padding_home_bottom) +
                 WindowInsets.safeDrawing.asPaddingValues().calculateBottomPadding(),
         ),
         columns = StaggeredGridCells.Fixed(2),

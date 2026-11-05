@@ -80,7 +80,7 @@ private fun SystemShortcutsPinOptionsComposable() {
                     vm.saveShownState(shortcut.shortcutType, true)
                 }
             }) {
-            Text(stringResource(R.string.add_all_options))
+            Text(stringResource(R.string.show_all_shortcuts))
         }
         SpacerPadding()
         FilledTonalButton(
@@ -90,7 +90,7 @@ private fun SystemShortcutsPinOptionsComposable() {
                     vm.saveShownState(shortcut.shortcutType, false)
                 }
             }) {
-            Text(stringResource(R.string.hide_all_options))
+            Text(stringResource(R.string.hide_all_shortcuts))
         }
     }
 }

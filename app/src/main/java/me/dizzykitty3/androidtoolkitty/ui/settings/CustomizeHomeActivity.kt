@@ -187,12 +187,12 @@ private fun CustomizeHomeComposable() {
                     homeCardDefinitions.forEach { card ->
                         vm.saveShownState(
                             card.id.preferenceKey,
-                            false
+                            true
                         )
                     }
                 }
             ) {
-                Text(stringResource(R.string.hide_all_cards))
+                Text(stringResource(R.string.show_all_cards))
             }
             SpacerPadding()
 
@@ -202,12 +202,12 @@ private fun CustomizeHomeComposable() {
                     homeCardDefinitions.forEach { card ->
                         vm.saveShownState(
                             card.id.preferenceKey,
-                            true
+                            false
                         )
                     }
                 }
             ) {
-                Text(stringResource(R.string.show_all_cards))
+                Text(stringResource(R.string.hide_all_cards))
             }
         }
     }
