@@ -44,6 +44,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
@@ -117,7 +118,10 @@ private fun StatusChip(
         shape = CircleShape,
         color = MaterialTheme.colorScheme.surfaceContainer
     ) {
-        Row(Modifier.clickable(onClick = onClick)) {
+        Row(
+            modifier = Modifier.clickable(onClick = onClick),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             Icon(
                 imageVector = imageVector,
                 contentDescription = contentDescription,
