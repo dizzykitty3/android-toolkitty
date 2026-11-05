@@ -311,4 +311,7 @@
     <string name="assistive_features">Accessibility</string>
     <string name="permissions_special_access">Permissions and special access</string>
     <string name="developer_tools">Developer</string>
+    <string name="bluetooth_status_off">OFF</string>
+    <string name="bluetooth_status_on">ON</string>
+    <string name="bluetooth_status_connected">Connected</string>
 </resources>
