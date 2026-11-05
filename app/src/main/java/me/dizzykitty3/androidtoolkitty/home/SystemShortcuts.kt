@@ -47,7 +47,7 @@ fun SystemShortcuts() {
         if (shownShortcuts.isEmpty()) {
             Text(buildAnnotatedString { ItalicText(R.string.no_options_enabled) })
         } else {
-            shownShortcuts.take(4).forEach { shortcut ->
+            shownShortcuts.forEach { shortcut ->
                 SystemShortcutButton(
                     shortcut.shortcutType, shortcut.title
                 )

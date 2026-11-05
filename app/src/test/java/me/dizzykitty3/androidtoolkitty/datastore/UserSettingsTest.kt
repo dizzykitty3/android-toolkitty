@@ -19,6 +19,20 @@ class UserSettingsTest {
     }
 
     @Test
+    fun shortcuts_defaultToFourPinsAndHonorSavedOverrides() {
+        val settings = UserSettings.default()
+        listOf("setting_about_phone", "setting_search_settings", "setting_display", "setting_sound")
+            .forEach { assertTrue(it, settings.isShown(it)) }
+        assertFalse(settings.isShown("setting_wifi"))
+        val customized = settings.copy(shownItemStates = mapOf(
+            "setting_wifi" to true,
+            "setting_display" to false,
+        ))
+        assertTrue(customized.isShown("setting_wifi"))
+        assertFalse(customized.isShown("setting_display"))
+    }
+
+    @Test
     fun default_providesTheExpectedInitialExperience() {
         val settings = UserSettings.default()
 

@@ -25,7 +25,6 @@ import me.dizzykitty3.androidtoolkitty.uicomponents.BaseScreen
 import me.dizzykitty3.androidtoolkitty.uicomponents.CustomHideCardSettingSwitch
 import me.dizzykitty3.androidtoolkitty.uicomponents.SectionSpacePadding
 import me.dizzykitty3.androidtoolkitty.uicomponents.SpacerPadding
-import me.dizzykitty3.androidtoolkitty.uicomponents.Tip
 
 @AndroidEntryPoint
 class SystemShortcutsCustomizeActivity : ComponentActivity() {
@@ -57,7 +56,6 @@ private fun SystemShortcutsPinOptionsComposable() {
         val haptic = LocalHapticFeedback.current
 
         SpacerPadding()
-        Tip(R.string.system_shortcuts_tip)
 
         SettingsSection {
             systemShortcutDefinitions.forEach { shortcut ->

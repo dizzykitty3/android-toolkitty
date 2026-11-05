@@ -13,6 +13,10 @@ import me.dizzykitty3.androidtoolkitty.utils.SearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VideoSearchEngine
 import me.dizzykitty3.androidtoolkitty.utils.VolumeSaveResult
 import me.dizzykitty3.androidtoolkitty.utils.validateVolumeSlot
+import me.dizzykitty3.androidtoolkitty.S_ABOUT_PHONE
+import me.dizzykitty3.androidtoolkitty.S_SEARCH_SETTINGS
+import me.dizzykitty3.androidtoolkitty.S_DISPLAY
+import me.dizzykitty3.androidtoolkitty.S_SOUND
 import javax.inject.Inject
 
 @Serializable
@@ -201,9 +205,12 @@ data class UserSettings(
     val shownItemStates: Map<String, Boolean>,
     val homeCardOrder: List<String> = emptyList(),
 ) {
-    fun isShown(itemKey: String): Boolean = shownItemStates[itemKey] ?: true
+    fun isShown(itemKey: String): Boolean = shownItemStates[itemKey]
+        ?: (!itemKey.startsWith("setting_") || itemKey in defaultPinnedShortcuts)
 
     companion object {
+        private val defaultPinnedShortcuts = setOf(S_ABOUT_PHONE, S_SEARCH_SETTINGS, S_DISPLAY, S_SOUND)
+
         fun default(): UserSettings = UserSettings(
             dynamicColor = true,
             autoClearClipboard = false,
