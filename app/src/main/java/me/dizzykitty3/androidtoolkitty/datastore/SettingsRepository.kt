@@ -55,6 +55,8 @@ class SettingsRepository @Inject constructor(
             .map(::intPreferencesKey)
         val HAVE_TAPPED_VOLUME_BUTTON = intPreferencesKey("have_tapped_volume_button")
         val WHEEL_OF_FORTUNE_ITEMS = stringPreferencesKey("wheel_of_fortune_items")
+        val APPS_FILTER = intPreferencesKey("apps_filter")
+        val APPS_SORT = stringPreferencesKey("apps_sort")
         val HOME_CARD_ORDER = stringPreferencesKey("home_card_order")
     }
 
@@ -84,6 +86,8 @@ class SettingsRepository @Inject constructor(
             wheelOfFortuneItems = preferences[PreferenceKeys.WHEEL_OF_FORTUNE_ITEMS]
                 ?: defaults.wheelOfFortuneItems,
             shownItemStates = preferences.shownItemStates(),
+            appsFilter = preferences[PreferenceKeys.APPS_FILTER]?.takeIf { it in 0..2 } ?: 0,
+            appsSort = preferences[PreferenceKeys.APPS_SORT] ?: "NAME",
             homeCardOrder = preferences[PreferenceKeys.HOME_CARD_ORDER]?.split(',') ?: emptyList(),
         )
     }
@@ -91,6 +95,12 @@ class SettingsRepository @Inject constructor(
     private suspend fun <T> setPreference(key: Preferences.Key<T>, value: T) {
         dataStore.edit { it[key] = value }
     }
+
+    suspend fun setAppsFilter(filter: Int) {
+        if (filter in 0..2) setPreference(PreferenceKeys.APPS_FILTER, filter)
+    }
+
+    suspend fun setAppsSort(sort: String) = setPreference(PreferenceKeys.APPS_SORT, sort)
 
     suspend fun saveShownState(itemKey: String, isShown: Boolean) {
         setPreference(booleanPreferencesKey(itemKey), isShown)
@@ -204,6 +214,8 @@ data class UserSettings(
     val wheelOfFortuneItems: String?,
     val shownItemStates: Map<String, Boolean>,
     val homeCardOrder: List<String> = emptyList(),
+    val appsFilter: Int = 0,
+    val appsSort: String = "NAME",
 ) {
     fun isShown(itemKey: String): Boolean = shownItemStates[itemKey]
         ?: (!itemKey.startsWith("setting_") || itemKey in defaultPinnedShortcuts)

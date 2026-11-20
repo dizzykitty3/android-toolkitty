@@ -34,6 +34,14 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch { repository.update() }
     }
 
+    fun setAppsFilter(filter: Int) {
+        updateSettings { setAppsFilter(filter) }
+    }
+
+    fun setAppsSort(sort: String) {
+        updateSettings { setAppsSort(sort) }
+    }
+
     fun saveShownState(itemKey: String, isShown: Boolean) {
         updateSettings { saveShownState(itemKey, isShown) }
     }

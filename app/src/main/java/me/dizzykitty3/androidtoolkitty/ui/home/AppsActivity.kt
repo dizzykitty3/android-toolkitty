@@ -114,21 +114,27 @@ class AppsActivity : ComponentActivity() {
         setContent {
             val vm: SettingsViewModel = hiltViewModel()
             val settings by vm.settingsState.collectAsStateWithLifecycle()
-            BaseScaffold(dynamicColor = settings.dynamicColor) { InstalledAppsScreen() }
+            BaseScaffold(dynamicColor = settings.dynamicColor) { InstalledAppsScreen(vm) }
         }
     }
 }
 
 @Composable
-private fun InstalledAppsScreen() {
+private fun InstalledAppsScreen(vm: SettingsViewModel) {
+    val savedSettings by vm.persistedSettings.collectAsStateWithLifecycle(initialValue = null)
+    val preferences = savedSettings
+    if (preferences == null) {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { CircularProgressIndicator() }
+        return
+    }
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     var apps by remember { mutableStateOf<List<InstalledApp>?>(null) }
     var failed by remember { mutableStateOf(false) }
     var reload by remember { mutableIntStateOf(0) }
     var query by rememberSaveable { mutableStateOf("") }
-    var filter by rememberSaveable { mutableIntStateOf(0) }
-    var sort by rememberSaveable { mutableStateOf(AppSort.NAME) }
+    val filter = preferences.appsFilter
+    val sort = AppSort.entries.firstOrNull { it.name == preferences.appsSort } ?: AppSort.NAME
     val filterLabels = listOf(R.string.apps_all, R.string.apps_user, R.string.apps_system)
     var filterMenuOpen by remember { mutableStateOf(false) }
     var sortMenuOpen by remember { mutableStateOf(false) }
@@ -176,7 +182,7 @@ private fun InstalledAppsScreen() {
                                 if (filter == index) Icon(Icons.Outlined.Check, contentDescription = null)
                             },
                             onClick = {
-                                filter = index
+                                vm.setAppsFilter(index)
                                 filterMenuOpen = false
                             },
                         )
@@ -195,7 +201,7 @@ private fun InstalledAppsScreen() {
                         DropdownMenuItem(
                             text = { Text(stringResource(option.label)) },
                             onClick = {
-                                sort = option
+                                vm.setAppsSort(option.name)
                                 sortMenuOpen = false
                             },
                         )
