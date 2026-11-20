@@ -331,4 +331,10 @@
     <string name="apps_copy_package">Copy package name</string>
     <string name="apps_system_details">App info</string>
     <string name="apps_details_unavailable">App info is unavailable on this device.</string>
+    <string name="apps_sort_by">Sort: %1$s</string>
+    <string name="apps_sort_name">A–Z</string>
+    <string name="apps_sort_newest">Installed: newest first</string>
+    <string name="apps_sort_oldest">Installed: oldest first</string>
+    <string name="apps_sort_size">APK size: largest first</string>
+    <string name="apps_filter_by">Filter: %1$s</string>
 </resources>

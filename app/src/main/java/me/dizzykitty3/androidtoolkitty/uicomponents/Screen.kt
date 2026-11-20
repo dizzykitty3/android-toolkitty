@@ -164,7 +164,7 @@ fun TopBar(screenTitle: String = "", navController: NavHostController) {
 fun TopBar(@StringRes screenTitle: Int) = TopBar(stringResource(screenTitle))
 
 @Composable
-fun TopBar(screenTitle: String = "") {
+fun TopBar(screenTitle: String = "", actions: @Composable () -> Unit = {}) {
     val haptic = LocalHapticFeedback.current
     val activity = LocalActivity.current
 
@@ -196,6 +196,7 @@ fun TopBar(screenTitle: String = "") {
                 text = screenTitle, style = MaterialTheme.typography.titleLarge
             )
         }
+        actions()
     }
     SpacerPadding()
 }
