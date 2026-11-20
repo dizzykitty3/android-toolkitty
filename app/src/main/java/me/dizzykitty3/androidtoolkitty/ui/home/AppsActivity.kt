@@ -200,6 +200,9 @@ private fun InstalledAppsScreen(vm: SettingsViewModel) {
                     AppSort.entries.forEach { option ->
                         DropdownMenuItem(
                             text = { Text(stringResource(option.label)) },
+                            trailingIcon = {
+                                if (sort == option) Icon(Icons.Outlined.Check, contentDescription = null)
+                            },
                             onClick = {
                                 vm.setAppsSort(option.name)
                                 sortMenuOpen = false
