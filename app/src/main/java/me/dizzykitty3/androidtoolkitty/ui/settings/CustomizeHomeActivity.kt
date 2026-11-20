@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.outlined.Apps
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.Notes
 import androidx.compose.material.icons.automirrored.outlined.VolumeUp
@@ -216,6 +217,7 @@ private fun CustomizeHomeComposable() {
 private val HomeCardId.settingsIcon: ImageVector
     get() = when (this) {
         HomeCardId.YEAR_PROGRESS -> Icons.Outlined.HourglassTop
+        HomeCardId.APPS -> Icons.Outlined.Apps
         HomeCardId.VOLUME -> Icons.AutoMirrored.Outlined.VolumeUp
         HomeCardId.CLIPBOARD -> Icons.Outlined.ContentPasteSearch
         HomeCardId.SEARCH -> Icons.Outlined.Search

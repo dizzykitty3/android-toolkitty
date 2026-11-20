@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import me.dizzykitty3.androidtoolkitty.R
 import me.dizzykitty3.androidtoolkitty.datastore.UserSettings
 import me.dizzykitty3.androidtoolkitty.datastore.normalizedHomeCardOrder
+import me.dizzykitty3.androidtoolkitty.home.Apps
 import me.dizzykitty3.androidtoolkitty.home.BluetoothDevice
 import me.dizzykitty3.androidtoolkitty.home.CharacterCodes
 import me.dizzykitty3.androidtoolkitty.home.Clipboard
@@ -33,6 +34,7 @@ enum class HomeCardId(
     SEARCH("card_webpage", R.string.search_and_visit),
     CLIPBOARD("card_clipboard", R.string.clipboard),
     SYSTEM_SHORTCUTS("card_sys_setting", R.string.system_shortcuts),
+    APPS("card_apps", R.string.apps_title),
     VOLUME("card_volume", R.string.volume),
     BLUETOOTH_DEVICE("card_bluetooth_device", R.string.bluetooth_devices),
     MAPS("card_google_maps", R.string.maps),
@@ -53,6 +55,7 @@ val homeCardDefinitions = listOf(
     HomeCardDefinition(HomeCardId.SEARCH) { Search() },
     HomeCardDefinition(HomeCardId.CLIPBOARD) { Clipboard() },
     HomeCardDefinition(HomeCardId.SYSTEM_SHORTCUTS) { SystemShortcuts() },
+    HomeCardDefinition(HomeCardId.APPS) { Apps() },
     HomeCardDefinition(HomeCardId.VOLUME) { Volume() },
     HomeCardDefinition(HomeCardId.BLUETOOTH_DEVICE) { BluetoothDevice() },
     HomeCardDefinition(HomeCardId.MAPS) { Maps() },

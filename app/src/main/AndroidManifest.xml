@@ -12,6 +12,8 @@
         android:maxSdkVersion="30" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+
     <application
         android:name=".ToolKitty"
         android:allowBackup="true"
@@ -35,6 +37,7 @@
         </activity>
 
         <activity android:name=".ui.home.DateTimeActivity" />
+        <activity android:name=".ui.home.AppsActivity" android:exported="false" />
         <activity android:name=".ui.home.VolumeActivity"></activity>
 
         <activity android:name=".ui.home.VolumeCustomizeActivity"></activity>
