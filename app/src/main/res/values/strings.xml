@@ -337,4 +337,6 @@
     <string name="apps_sort_oldest">Installed: oldest first</string>
     <string name="apps_sort_size">APK size: largest first</string>
     <string name="apps_filter_by">Filter: %1$s</string>
+    <string name="apps_permission_explanation">Allow access to the installed app list to view app names, package names, and details.</string>
+    <string name="apps_permission_settings_hint">If access is still unavailable, check the installed app list permission in App settings. Available options depend on your device.</string>
 </resources>
